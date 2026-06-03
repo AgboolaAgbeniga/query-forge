@@ -4,7 +4,6 @@
  */
 
 import { QueryState, Rule, Group, Schema, RuleOperator } from './types';
-import { MockRecord } from './mock-data';
 
 type RecordValue = string | number | boolean | null | undefined;
 
@@ -15,8 +14,8 @@ type RecordValue = string | number | boolean | null | undefined;
 export function executeQuery(
   state: QueryState,
   schema: Schema,
-  data: MockRecord[]
-): { results: MockRecord[]; executionTimeMs: number } {
+  data: any[]
+): { results: any[]; executionTimeMs: number } {
   const start = performance.now();
 
   const results = data.filter((record) =>
@@ -31,7 +30,7 @@ function evaluateGroup(
   state: QueryState,
   schema: Schema,
   groupId: string,
-  record: MockRecord
+  record: any
 ): boolean {
   const group = state.groups[groupId];
   if (!group || group.children.length === 0) return true; // Empty groups match all
@@ -55,7 +54,7 @@ function evaluateGroup(
 function evaluateRule(
   rule: Rule,
   schema: Schema,
-  record: MockRecord
+  record: any
 ): boolean {
   const fieldSchema = schema[rule.field];
   if (!fieldSchema) return true;
