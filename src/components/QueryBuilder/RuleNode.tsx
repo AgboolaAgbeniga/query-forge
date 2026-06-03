@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useQueryStore } from '@/lib/store';
 import { mockSchema } from '@/lib/schema';
-import { RuleId, RuleOperator, SchemaField } from '@/lib/types';
+import { RuleId, RuleOperator } from '@/lib/types';
 import { GripVertical, Trash2 } from 'lucide-react';
 import { validateRule } from '@/lib/engine';
 import { cn } from '@/lib/utils';
@@ -48,8 +48,11 @@ const operatorsByFieldType: Record<string, { label: string; value: RuleOperator 
   ],
   boolean: [
     { label: 'Equals', value: 'equals' },
-  ]
+  ],
 };
+
+const inputBaseClass =
+  "px-3 py-1.5 bg-zinc-50 dark:bg-zinc-700/50 border border-zinc-200 dark:border-zinc-600 rounded-lg text-sm text-slate-700 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-700";
 
 export function RuleNode({ id, depth }: RuleNodeProps) {
   const { rules, updateRule, removeNode } = useQueryStore();
@@ -69,20 +72,19 @@ export function RuleNode({ id, depth }: RuleNodeProps) {
     transition,
   };
 
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
+  /* ─── Flashlight hover effect ─── */
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+    target.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    target.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  }, []);
 
   if (!rule) return null;
 
   const fieldSchema = mockSchema[rule.field];
   const validOperators = operatorsByFieldType[fieldSchema?.type || 'string'] || operatorsByFieldType['string'];
-  
+
   const error = validateRule(rule, mockSchema);
 
   return (
@@ -90,29 +92,27 @@ export function RuleNode({ id, depth }: RuleNodeProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "relative flex items-center gap-3 p-3 bg-white border rounded-xl shadow-sm group transition-all duration-200",
-        isDragging ? "opacity-50 z-50 border-blue-400 shadow-md scale-[1.02]" : "border-zinc-200 hover:border-zinc-300 hover:shadow-md",
-        error ? "border-red-300" : ""
+        "relative flex items-center gap-3 p-3 rounded-xl shadow-sm group transition-all duration-200 flashlight-card",
+        "bg-white dark:bg-zinc-800 border",
+        isDragging
+          ? "opacity-50 z-50 border-blue-400 dark:border-blue-500 shadow-md scale-[1.02]"
+          : "border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 hover:shadow-md",
+        error && "border-red-300 dark:border-red-500/50"
       )}
       onMouseMove={handleMouseMove}
     >
-      {/* Dynamic Hover Illumination */}
-      <div 
-        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"
-        style={{
-          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(244, 244, 245, 0.5), transparent 40%)`
-        }}
-      />
-
-      <div 
-        {...attributes} 
+      {/* Drag handle */}
+      <div
+        {...attributes}
         {...listeners}
-        className="cursor-grab active:cursor-grabbing p-1 text-zinc-400 hover:text-zinc-600 transition-colors z-10"
+        className="cursor-grab active:cursor-grabbing p-1 text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-all z-10 hover:scale-110 active:scale-95"
       >
         <GripVertical size={18} />
       </div>
 
+      {/* Rule inputs */}
       <div className="flex-1 flex flex-wrap gap-2 z-10 relative">
+        {/* Field selector */}
         <select
           value={rule.field}
           onChange={(e) => {
@@ -120,84 +120,111 @@ export function RuleNode({ id, depth }: RuleNodeProps) {
             const newFieldSchema = mockSchema[newField];
             const newOps = operatorsByFieldType[newFieldSchema.type] || operatorsByFieldType['string'];
             // Reset operator and value if field changes
-            updateRule(id, { 
-              field: newField, 
+            updateRule(id, {
+              field: newField,
               operator: newOps[0].value,
-              value: '' 
+              value: '',
             });
           }}
-          className="px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm font-medium text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all hover:bg-zinc-100"
+          className={cn(inputBaseClass, "font-medium min-w-[130px]")}
         >
           {Object.values(mockSchema).map((f) => (
-            <option key={f.name} value={f.name}>{f.label}</option>
+            <option key={f.name} value={f.name}>
+              {f.label}
+            </option>
           ))}
         </select>
 
+        {/* Operator selector */}
         <select
           value={rule.operator}
           onChange={(e) => updateRule(id, { operator: e.target.value as RuleOperator })}
-          className="px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all hover:bg-zinc-100 min-w-[120px]"
+          className={cn(inputBaseClass, "min-w-[130px]")}
         >
           {validOperators.map((op) => (
-            <option key={op.value} value={op.value}>{op.label}</option>
+            <option key={op.value} value={op.value}>
+              {op.label}
+            </option>
           ))}
         </select>
 
+        {/* Value inputs — context-aware rendering */}
         {rule.operator !== 'isNull' && rule.operator !== 'isNotNull' && (
-          <div className="flex gap-2 flex-1">
+          <div className="flex gap-2 flex-1 min-w-[140px]">
             {fieldSchema.type === 'enum' && fieldSchema.options ? (
               <select
                 value={rule.value}
                 onChange={(e) => updateRule(id, { value: e.target.value })}
-                className="flex-1 px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                className={cn(inputBaseClass, "flex-1")}
               >
                 <option value="">Select an option</option>
-                {fieldSchema.options.map(opt => (
-                  <option key={opt} value={opt}>{opt}</option>
+                {fieldSchema.options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
             ) : fieldSchema.type === 'boolean' ? (
-               <select
-                 value={rule.value}
-                 onChange={(e) => updateRule(id, { value: e.target.value === 'true' })}
-                 className="flex-1 px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-               >
-                 <option value="true">True</option>
-                 <option value="false">False</option>
-               </select>
+              <select
+                value={String(rule.value)}
+                onChange={(e) => updateRule(id, { value: e.target.value === 'true' })}
+                className={cn(inputBaseClass, "flex-1")}
+              >
+                <option value="true">True</option>
+                <option value="false">False</option>
+              </select>
             ) : (
               <input
-                type={fieldSchema.type === 'number' ? 'number' : fieldSchema.type === 'date' ? 'date' : 'text'}
+                type={
+                  fieldSchema.type === 'number'
+                    ? 'number'
+                    : fieldSchema.type === 'date'
+                    ? 'date'
+                    : 'text'
+                }
                 value={rule.value}
                 onChange={(e) => updateRule(id, { value: e.target.value })}
                 placeholder="Enter value..."
-                className="flex-1 px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-zinc-400"
+                className={cn(inputBaseClass, "flex-1 placeholder:text-zinc-400 dark:placeholder:text-zinc-500")}
               />
             )}
-            
+
             {rule.operator === 'between' && (
-              <input
-                type={fieldSchema.type === 'number' ? 'number' : fieldSchema.type === 'date' ? 'date' : 'text'}
-                value={rule.value2 || ''}
-                onChange={(e) => updateRule(id, { value2: e.target.value })}
-                placeholder="And..."
-                className="flex-1 px-3 py-1.5 bg-zinc-50 border border-zinc-200 rounded-lg text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all placeholder:text-zinc-400"
-              />
+              <>
+                <span className="flex items-center text-xs text-zinc-400 font-medium">
+                  AND
+                </span>
+                <input
+                  type={
+                    fieldSchema.type === 'number'
+                      ? 'number'
+                      : fieldSchema.type === 'date'
+                      ? 'date'
+                      : 'text'
+                  }
+                  value={rule.value2 || ''}
+                  onChange={(e) => updateRule(id, { value2: e.target.value })}
+                  placeholder="And..."
+                  className={cn(inputBaseClass, "flex-1 placeholder:text-zinc-400 dark:placeholder:text-zinc-500")}
+                />
+              </>
             )}
           </div>
         )}
       </div>
 
+      {/* Delete button */}
       <button
         onClick={() => removeNode(id)}
-        className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors z-10"
+        className="p-2 text-zinc-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all z-10 hover:scale-105 active:scale-95"
         title="Remove condition"
       >
         <Trash2 size={16} />
       </button>
 
+      {/* Validation error */}
       {error && (
-        <div className="absolute -bottom-5 left-10 text-xs text-red-500 whitespace-nowrap">
+        <div className="absolute -bottom-5 left-10 text-xs text-red-500 dark:text-red-400 whitespace-nowrap z-20">
           {error}
         </div>
       )}
