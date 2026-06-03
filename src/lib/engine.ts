@@ -195,6 +195,7 @@ export const generateSQL = (state: QueryState, schema: Schema): string => {
           return `${field} IN (${formattedList})`;
         case 'isNull': return `${field} IS NULL`;
         case 'isNotNull': return `${field} IS NOT NULL`;
+        case 'regex': return `${field} ~ '${String(rule.value).replace(/'/g, "''")}'`;
         default: return '';
       }
     }).filter(c => c !== '');
@@ -246,6 +247,7 @@ export const generateMongo = (state: QueryState, schema: Schema): string => {
           return { [field]: { $in: formattedList } };
         case 'isNull': return { [field]: null };
         case 'isNotNull': return { [field]: { $ne: null } };
+        case 'regex': return { [field]: { $regex: value, $options: 'i' } };
         default: return null;
       }
     }).filter(Boolean);
@@ -312,6 +314,8 @@ export const generateGraphQL = (state: QueryState, schema: Schema, schemaId: str
           return `${field}: { _is_null: true }`;
         case 'isNotNull':
           return `${field}: { _is_null: false }`;
+        case 'regex':
+          return `${field}: { _iregex: "${value}" }`;
         default:
           return `${field}: { _eq: ${formatVal(value)} }`;
       }
