@@ -210,3 +210,48 @@ export const generateMongo = (state: QueryState, schema: Schema): string => {
   const mongoQuery = processGroup(state.rootGroupId);
   return JSON.stringify(mongoQuery, null, 2);
 };
+
+export const generateGraphQL = (state: QueryState, schema: Schema, schemaId: string = 'users'): string => {
+  const processGroup = (groupId: string): string => {
+    const group = state.groups[groupId];
+    if (!group || group.children.length === 0) return '';
+
+    const conditions = group.children.map(childId => {
+      if (state.groups[childId]) {
+        const nested = processGroup(childId);
+        return nested ? `{\n  ${nested.split('\n').join('\n  ')}\n}` : '';
+      }
+
+      const rule = state.rules[childId];
+      if (!rule) return '';
+
+      const isValid = validateRule(rule, schema) === null;
+      if (!isValid) return '';
+
+      const field = rule.field;
+      const value = rule.value;
+      const fieldSchema = schema[field];
+
+      if (rule.operator === 'greaterThan') {
+        return `${field}: { _gt: ${value} }`;
+      }
+      if (rule.operator === 'lessThan') {
+        return `${field}: { _lt: ${value} }`;
+      }
+      if (rule.operator === 'contains') {
+        return `${field}: { _ilike: "%${value}%" }`;
+      }
+      const isNum = fieldSchema?.type === 'number';
+      const isBool = fieldSchema?.type === 'boolean';
+      const formattedVal = isNum || isBool ? value : `"${value}"`;
+      return `${field}: { _eq: ${formattedVal} }`;
+    }).filter(Boolean);
+
+    if (conditions.length === 0) return '';
+    const op = group.type === 'AND' ? '_and' : '_or';
+    return `${op}: [\n  ${conditions.join(',\n  ').split('\n').join('\n  ')}\n]`;
+  };
+
+  const body = processGroup(state.rootGroupId);
+  return `query {\n  ${schemaId}${body ? ` (where: {\n    ${body.split('\n').join('\n    ')}\n  })` : ''} {\n    id\n    name\n    # ... fields\n  }\n}`;
+};
