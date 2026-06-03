@@ -8,26 +8,26 @@ import { Code2, Database, Braces, Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function PreviewPane() {
-  const store = useQueryStore();
+  const rules = useQueryStore(s => s.rules);
+  const groups = useQueryStore(s => s.groups);
+  const rootGroupId = useQueryStore(s => s.rootGroupId);
+  const activeSchemaId = useQueryStore(s => s.activeSchemaId);
+
   const [activeTab, setActiveTab] = useState<'sql' | 'mongo' | 'graphql'>('sql');
-  const [sqlQuery, setSqlQuery] = useState('');
-  const [mongoQuery, setMongoQuery] = useState('');
-  const [gqlQuery, setGqlQuery] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // Subscribe to changes efficiently by generating queries in an effect
-  useEffect(() => {
+  const activeQuery = useMemo(() => {
     try {
-      const schema = getSchemaById(store.activeSchemaId);
-      setSqlQuery(generateSQL(store, schema));
-      setMongoQuery(generateMongo(store, schema));
-      setGqlQuery(generateGraphQL(store, schema, store.activeSchemaId));
+      const schema = getSchemaById(activeSchemaId);
+      const queryState = { rules, groups, rootGroupId };
+      if (activeTab === 'sql') return generateSQL(queryState, schema);
+      if (activeTab === 'mongo') return generateMongo(queryState, schema);
+      return generateGraphQL(queryState, schema, activeSchemaId);
     } catch (e) {
       console.error(e);
+      return 'Error generating query';
     }
-  }, [store.rules, store.groups, store.rootGroupId, store.activeSchemaId]);
-
-  const activeQuery = activeTab === 'sql' ? sqlQuery : activeTab === 'mongo' ? mongoQuery : gqlQuery;
+  }, [rules, groups, rootGroupId, activeSchemaId, activeTab]);
 
   const handleCopy = async () => {
     try {
