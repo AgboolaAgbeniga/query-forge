@@ -175,8 +175,8 @@ export const generateSQL = (state: QueryState, schema: Schema): string => {
       switch (rule.operator) {
         case 'equals': return `${field} = ${value}`;
         case 'notEquals': return `${field} != ${value}`;
-        case 'contains': return `${field} LIKE '%${rule.value}%'`;
-        case 'startsWith': return `${field} LIKE '${rule.value}%'`;
+        case 'contains': return `${field} LIKE '%${String(rule.value).replace(/'/g, "''")}%'`;
+        case 'startsWith': return `${field} LIKE '${String(rule.value).replace(/'/g, "''")}%'`;
         case 'greaterThan': return `${field} > ${value}`;
         case 'lessThan': return `${field} < ${value}`;
         case 'between': 
