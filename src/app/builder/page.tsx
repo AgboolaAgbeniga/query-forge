@@ -326,6 +326,13 @@ export default function BuilderPage() {
 
         {/* Toolbar Header Buttons */}
         <div className="flex items-center gap-2.5">
+          <Link
+            href="/docs"
+            className="hidden sm:inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
+            id="builder-header-docs-link"
+          >
+            Docs
+          </Link>
           <button
             onClick={() => {
               refreshHistory();

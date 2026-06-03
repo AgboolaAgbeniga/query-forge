@@ -219,7 +219,13 @@ export default function Home() {
               <SVGLogo size={30} />
             </Link>
           </div>
-          <div className="hero-element flex items-center gap-4">
+          <div className="hero-element flex items-center gap-6">
+            <Link
+              href="/docs"
+              className="text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors uppercase tracking-wider font-sans"
+            >
+              Docs
+            </Link>
             <Link
               href="/builder"
               className="pill-button inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-sm font-semibold shadow-md shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
