@@ -445,7 +445,7 @@ export default function Home() {
       <section className="relative z-10 py-12 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCounter target={12} label="Supported operators" />
-          <StatCounter target={3} label="Query Formats" suffix=" (SQL·Mongo·GQL)" />
+          <StatCounter target={3} label="Query Formats"  />
           <StatCounter target="∞" label="Nesting Depth" />
           <StatCounter target={250} label="Mock Dataset Records" suffix="+" />
         </div>

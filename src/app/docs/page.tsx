@@ -32,17 +32,22 @@ import { cn } from '@/lib/utils';
 interface DocSection {
   id: string;
   title: string;
-  category: 'getting-started' | 'concepts' | 'syntax' | 'sharing' | 'reference';
+  category: 'getting-started' | 'concepts' | 'syntax' | 'sharing' | 'reference' | 'faq';
 }
 
 const SECTIONS: DocSection[] = [
   { id: 'introduction', title: 'Introduction', category: 'getting-started' },
   { id: 'quickstart', title: 'Quickstart Guide', category: 'getting-started' },
+  { id: 'schema-fields', title: 'Available Data Sources', category: 'getting-started' },
   { id: 'rules-and-groups', title: 'Rules & Logic Groups', category: 'concepts' },
+  { id: 'drag-and-drop', title: 'Drag & Drop Reordering', category: 'concepts' },
+  { id: 'validation-engine', title: 'Validation Engine', category: 'concepts' },
   { id: 'operators', title: 'Operators Reference', category: 'syntax' },
   { id: 'query-formats', title: 'SQL, MongoDB, & GraphQL', category: 'syntax' },
+  { id: 'execution', title: 'Execution & Results', category: 'syntax' },
   { id: 'schema-sharing', title: 'Presets & JSON Schema', category: 'sharing' },
   { id: 'shortcuts', title: 'Keyboard Shortcuts', category: 'reference' },
+  { id: 'faq', title: 'FAQ & Troubleshooting', category: 'faq' },
 ];
 
 export default function DocsPage() {
@@ -376,6 +381,38 @@ export default function DocsPage() {
                   ))}
               </div>
             </div>
+
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2.5 px-2">
+                Help
+              </div>
+              <div className="flex flex-col gap-1">
+                {filteredSections
+                  .filter((s) => s.category === 'faq')
+                  .map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => scrollToSection(s.id)}
+                      className={cn(
+                        "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
+                        activeSection === s.id
+                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
+                      )}
+                      id={`docs-nav-link-${s.id}`}
+                    >
+                      <span>{s.title}</span>
+                      <ChevronRight
+                        size={12}
+                        className={cn(
+                          "transition-transform duration-200 opacity-0 group-hover:opacity-100",
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                        )}
+                      />
+                    </button>
+                  ))}
+              </div>
+            </div>
           </nav>
         </aside>
 
@@ -462,6 +499,66 @@ export default function DocsPage() {
             </div>
           </div>
 
+          {/* SECTION: Available Data Sources */}
+          <div
+            id="schema-fields"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+          >
+            <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Available Data Sources
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
+              QueryForge ships with three pre-configured datasets, each with a typed schema. The UI automatically adapts input controls to match field types — dropdowns for enums, date pickers for dates, checkboxes for booleans, and number spinners for numeric fields.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
+                  <Database size={16} className="text-blue-500" />
+                  Users
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {[{n:'id',t:'string'},{n:'name',t:'string'},{n:'age',t:'number'},{n:'status',t:'enum'},{n:'country',t:'string'},{n:'createdAt',t:'date'},{n:'isVerified',t:'boolean'}].map(f => (
+                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs">
+                      <span className="font-semibold text-slate-700 dark:text-zinc-200">{f.n}</span>
+                      <span className="ml-1.5 text-zinc-400">({f.t})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
+                  <Database size={16} className="text-emerald-500" />
+                  Products
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {[{n:'sku',t:'string'},{n:'productName',t:'string'},{n:'category',t:'enum'},{n:'price',t:'number'},{n:'stock',t:'number'},{n:'isAvailable',t:'boolean'},{n:'listedAt',t:'date'}].map(f => (
+                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs">
+                      <span className="font-semibold text-slate-700 dark:text-zinc-200">{f.n}</span>
+                      <span className="ml-1.5 text-zinc-400">({f.t})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
+                  <Database size={16} className="text-amber-500" />
+                  Orders
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+                  {[{n:'orderId',t:'string'},{n:'customerName',t:'string'},{n:'total',t:'number'},{n:'orderStatus',t:'enum'},{n:'paymentMethod',t:'enum'},{n:'orderDate',t:'date'},{n:'isPaid',t:'boolean'}].map(f => (
+                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs">
+                      <span className="font-semibold text-slate-700 dark:text-zinc-200">{f.n}</span>
+                      <span className="ml-1.5 text-zinc-400">({f.t})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* SECTION 3: Rules and Groups */}
           <div
             id="rules-and-groups"
@@ -511,6 +608,88 @@ export default function DocsPage() {
             </div>
           </div>
 
+          {/* SECTION: Drag & Drop */}
+          <div
+            id="drag-and-drop"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+          >
+            <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Drag & Drop Reordering
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-4">
+              QueryForge uses <strong>@dnd-kit</strong> to enable full drag-and-drop reordering of rules and groups within the query tree. You can restructure your entire query hierarchy by simply dragging nodes to new positions.
+            </p>
+
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                <ArrowLeftRight className="text-blue-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Reorder within a group</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Drag any rule or sub-group up or down within its parent group to change the order of conditions.</p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                <Layers className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Move between groups</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Drag a rule from one group into another to restructure your logic tree. The query preview updates instantly.</p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                <Shield className="text-red-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Cycle prevention</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Built-in safety ensures a parent group can never be dragged into its own descendant, preventing infinite loops in the query tree.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION: Validation Engine */}
+          <div
+            id="validation-engine"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+          >
+            <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Validation Engine
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
+              QueryForge includes a real-time validation engine that checks your query tree for correctness before execution. Validation runs automatically as you build, and results are displayed in the summary banner at the bottom of the builder.
+            </p>
+
+            <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3">What gets validated:</h3>
+            <div className="grid sm:grid-cols-2 gap-3 mb-4">
+              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Empty values</strong> — Rules with blank inputs are flagged (except <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">isNull</code> and <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">isNotNull</code>)
+              </div>
+              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Type mismatches</strong> — String operators on number fields, or invalid date formats are caught
+              </div>
+              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Range validation</strong> — For <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">between</code> operator: end date/number must be after/greater than start
+              </div>
+              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Empty groups</strong> — Groups with no children rules are detected
+              </div>
+              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Numeric precision</strong> — Non-numeric input on number fields is rejected
+              </div>
+              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Between bounds</strong> — Both boundary values are required when using <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">between</code>
+              </div>
+            </div>
+
+            <div className="p-4 bg-blue-50/50 dark:bg-blue-950/10 border border-blue-100 dark:border-blue-900/20 rounded-2xl text-xs text-slate-650 dark:text-zinc-400">
+              <div className="flex items-center gap-2 font-semibold text-slate-850 dark:text-zinc-350 mb-2">
+                <Zap size={14} className="text-blue-600" />
+                <span>Tip</span>
+              </div>
+              <p className="leading-relaxed">
+                Validation warnings appear softly as you build. You are free to keep adding rules and groups. Execution is only blocked when you click <strong>Execute</strong> while errors exist — giving you full creative freedom while building.
+              </p>
+            </div>
+          </div>
+
           {/* SECTION 4: Operators Reference Table */}
           <div
             id="operators"
@@ -520,7 +699,7 @@ export default function DocsPage() {
               Operators Reference
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge supports 10 distinct, type-aware filtering operators. Below is the mapping matrix of operator keys, their applicable types, and translations across compilers.
+              QueryForge supports 14 distinct, type-aware filtering operators. Below is the mapping matrix of operator keys, their applicable types, and translations across compilers.
             </p>
 
             <div className="overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900">
@@ -564,6 +743,13 @@ export default function DocsPage() {
                     <td className="p-3"><code>_ilike val%</code></td>
                   </tr>
                   <tr>
+                    <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">endsWith</td>
+                    <td className="p-3">string</td>
+                    <td className="p-3"><code>LIKE %val</code></td>
+                    <td className="p-3"><code>$regex: 'val$', 'i'</code></td>
+                    <td className="p-3"><code>_ilike %val</code></td>
+                  </tr>
+                  <tr>
                     <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">greaterThan</td>
                     <td className="p-3">number, date</td>
                     <td className="p-3"><code>&gt; ?</code></td>
@@ -571,11 +757,25 @@ export default function DocsPage() {
                     <td className="p-3"><code>_gt</code></td>
                   </tr>
                   <tr>
+                    <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">greaterThanOrEquals</td>
+                    <td className="p-3">number, date</td>
+                    <td className="p-3"><code>&gt;= ?</code></td>
+                    <td className="p-3"><code>$gte</code></td>
+                    <td className="p-3"><code>_gte</code></td>
+                  </tr>
+                  <tr>
                     <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">lessThan</td>
                     <td className="p-3">number, date</td>
                     <td className="p-3"><code>&lt; ?</code></td>
                     <td className="p-3"><code>$lt</code></td>
                     <td className="p-3"><code>_lt</code></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">lessThanOrEquals</td>
+                    <td className="p-3">number, date</td>
+                    <td className="p-3"><code>&lt;= ?</code></td>
+                    <td className="p-3"><code>$lte</code></td>
+                    <td className="p-3"><code>_lte</code></td>
                   </tr>
                   <tr>
                     <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">between</td>
@@ -604,6 +804,13 @@ export default function DocsPage() {
                     <td className="p-3"><code>IS NOT NULL</code></td>
                     <td className="p-3"><code>$ne: null</code></td>
                     <td className="p-3"><code>_is_null: false</code></td>
+                  </tr>
+                  <tr>
+                    <td className="p-3 font-semibold text-slate-850 dark:text-zinc-200">regex</td>
+                    <td className="p-3">string</td>
+                    <td className="p-3"><code>{`~ 'pattern'`}</code></td>
+                    <td className="p-3"><code>$regex (case-insensitive)</code></td>
+                    <td className="p-3"><code>_iregex</code></td>
                   </tr>
                 </tbody>
               </table>
@@ -792,6 +999,100 @@ export default function DocsPage() {
                 </kbd>
               </div>
 
+            </div>
+          </div>
+
+          {/* SECTION: Execution & Results */}
+          <div
+            id="execution"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+          >
+            <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              Execution & Results
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
+              QueryForge includes an in-memory query execution simulator that runs your filter conditions against mock datasets of 250+ records. No backend required — everything runs instantly in the browser.
+            </p>
+
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                <Play className="text-blue-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Running a query</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Click the <strong>Execute</strong> button (or press <kbd className="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded text-[10px] font-mono">Ctrl+E</kbd>) to run your conditions against the currently selected dataset. The Results tab will open automatically.</p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                <Filter className="text-emerald-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Reading results</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Results are displayed as paginated cards showing the matching records. You can see the total match count, execution time, and sort results by clicking column headers.</p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+                <Shield className="text-amber-500 shrink-0 mt-0.5" size={18} />
+                <div>
+                  <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Validation guard</h4>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">If your query tree contains validation errors, the Results tab will show a detailed error breakdown instead of executing. Fix the highlighted conditions and try again.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION: FAQ */}
+          <div
+            id="faq"
+            className="scroll-mt-24 pb-8"
+          >
+            <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
+              FAQ & Troubleshooting
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
+              Common questions and solutions for new users.
+            </p>
+
+            <div className="flex flex-col gap-4">
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;I see a validation warning as soon as I add a rule&quot;</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  This is expected. A new rule starts with an empty value, and the validation summary shows a soft warning. Simply fill in the value and the warning disappears. You can keep building — execution is only blocked when you click <strong>Execute</strong> with invalid rules.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;How do I nest groups inside other groups?&quot;</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  Click the <strong>+ Group</strong> button on any existing group&apos;s toolbar. The new sub-group appears indented inside the parent. You can also drag and drop groups to rearrange the hierarchy. There is no limit to nesting depth.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;How do I switch between AND and OR?&quot;</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  Click the <strong>AND</strong> / <strong>OR</strong> toggle badge on any group header. It switches the logical conjunction for that specific group and immediately updates the compiled query preview in all three formats.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;Can I save my query and reload it later?&quot;</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  Yes! Use the <strong>Bookmark</strong> icon in the builder toolbar to save your current query as a named preset. Presets are stored in your browser&apos;s LocalStorage. You can also export your query as a JSON file using the Export/Import panel and share it with teammates.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;What is the difference between the Preview and Results tabs?&quot;</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  The <strong>Preview</strong> tab shows the compiled query syntax (SQL, MongoDB, or GraphQL) that your visual conditions generate — this is what you would copy and use in your backend. The <strong>Results</strong> tab shows the actual data records that match your conditions when you run the execution simulator.
+                </p>
+              </div>
+
+              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;Can I use QueryForge with my own database?&quot;</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                  QueryForge currently executes against built-in mock datasets. However, the generated SQL, MongoDB, or GraphQL syntax in the Preview tab is production-ready — you can copy it directly into your backend queries. The JSON export format can also be sent to a backend API to parse and execute.
+                </p>
+              </div>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useQueryStore } from '@/lib/store';
 import { generateSQL, generateMongo, generateGraphQL } from '@/lib/engine';
 import { getSchemaById } from '@/lib/schema';
@@ -41,8 +41,8 @@ export function PreviewPane() {
   return (
     <div className="flex flex-col h-full bg-slate-900 dark:bg-zinc-950 rounded-2xl border border-zinc-800 dark:border-zinc-800 shadow-2xl overflow-hidden text-slate-300">
       {/* Tab bar */}
-      <div className="flex items-center justify-between border-b border-zinc-800 dark:border-zinc-800 p-2 bg-slate-950 dark:bg-black/50">
-        <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between gap-2 border-b border-zinc-800 dark:border-zinc-800 p-2 bg-slate-950 dark:bg-black/50 flex-wrap">
+        <div className="flex items-center gap-1 min-w-0 flex-shrink">
           <button
             onClick={() => setActiveTab('sql')}
             className={cn(
@@ -84,19 +84,13 @@ export function PreviewPane() {
         {/* Copy button */}
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-400 hover:text-white bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95"
+          className="flex items-center justify-center p-1.5 text-slate-400 hover:text-white bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 flex-shrink-0"
           title="Copy query"
         >
           {copied ? (
-            <>
-              <Check size={14} className="text-emerald-400" />
-              <span className="text-emerald-400">Copied</span>
-            </>
+            <Check size={16} className="text-emerald-400" />
           ) : (
-            <>
-              <Copy size={14} />
-              Copy
-            </>
+            <Copy size={16} />
           )}
         </button>
       </div>
@@ -104,11 +98,11 @@ export function PreviewPane() {
       {/* Query output */}
       <div className="flex-1 p-4 overflow-auto font-mono text-sm leading-relaxed whitespace-pre-wrap custom-scrollbar">
         {activeTab === 'sql' ? (
-          <span className="text-blue-300">{sqlQuery}</span>
+          <span className="text-blue-300">{activeQuery}</span>
         ) : activeTab === 'mongo' ? (
-          <span className="text-emerald-300">{mongoQuery}</span>
+          <span className="text-emerald-300">{activeQuery}</span>
         ) : (
-          <span className="text-amber-300">{gqlQuery}</span>
+          <span className="text-amber-300">{activeQuery}</span>
         )}
       </div>
 

@@ -53,7 +53,7 @@ export const validateRule = (rule: Rule, schema: Schema): string | null => {
 
   // 6. Number fields check
   if (fieldSchema.type === 'number') {
-    if (['contains', 'startsWith'].includes(rule.operator)) {
+    if (['contains', 'startsWith', 'endsWith'].includes(rule.operator)) {
       return `Operator "${rule.operator}" is not valid for number fields like "${label}".`;
     }
     if (rule.operator !== 'isNull' && rule.operator !== 'isNotNull') {
@@ -177,8 +177,11 @@ export const generateSQL = (state: QueryState, schema: Schema): string => {
         case 'notEquals': return `${field} != ${value}`;
         case 'contains': return `${field} LIKE '%${String(rule.value).replace(/'/g, "''")}%'`;
         case 'startsWith': return `${field} LIKE '${String(rule.value).replace(/'/g, "''")}%'`;
+        case 'endsWith': return `${field} LIKE '%${String(rule.value).replace(/'/g, "''")}'`;
         case 'greaterThan': return `${field} > ${value}`;
+        case 'greaterThanOrEquals': return `${field} >= ${value}`;
         case 'lessThan': return `${field} < ${value}`;
+        case 'lessThanOrEquals': return `${field} <= ${value}`;
         case 'between': 
           let v2 = rule.value2;
           if (schema[field]?.type === 'string' || schema[field]?.type === 'enum' || schema[field]?.type === 'date') {
@@ -235,8 +238,11 @@ export const generateMongo = (state: QueryState, schema: Schema): string => {
         case 'notEquals': return { [field]: { $ne: value } };
         case 'contains': return { [field]: { $regex: value, $options: 'i' } };
         case 'startsWith': return { [field]: { $regex: `^${value}`, $options: 'i' } };
+        case 'endsWith': return { [field]: { $regex: `${value}$`, $options: 'i' } };
         case 'greaterThan': return { [field]: { $gt: value } };
+        case 'greaterThanOrEquals': return { [field]: { $gte: value } };
         case 'lessThan': return { [field]: { $lt: value } };
+        case 'lessThanOrEquals': return { [field]: { $lte: value } };
         case 'between': 
           let v2 = rule.value2;
           if (schema[field]?.type === 'number') v2 = Number(v2);
@@ -298,10 +304,16 @@ export const generateGraphQL = (state: QueryState, schema: Schema, schemaId: str
           return `${field}: { _ilike: "%${value}%" }`;
         case 'startsWith':
           return `${field}: { _ilike: "${value}%" }`;
+        case 'endsWith':
+          return `${field}: { _ilike: "%${value}" }`;
         case 'greaterThan':
           return `${field}: { _gt: ${value} }`;
+        case 'greaterThanOrEquals':
+          return `${field}: { _gte: ${value} }`;
         case 'lessThan':
           return `${field}: { _lt: ${value} }`;
+        case 'lessThanOrEquals':
+          return `${field}: { _lte: ${value} }`;
         case 'between': {
           const val2 = rule.value2 || '';
           return `${field}: { _gte: ${formatVal(value)}, _lte: ${formatVal(val2)} }`;
