@@ -80,3 +80,7 @@ export function deletePreset(id: string): void {
 export function getPresetById(id: string): QueryPreset | undefined {
   return getPresets().find((p) => p.id === id);
 }
+
+export function clearPresets(): void {
+  savePresets([]);
+}
