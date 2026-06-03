@@ -146,6 +146,7 @@ describe('Query Compiler Engine', () => {
       const mongo = JSON.parse(generateMongo(state, testSchema));
       expect(mongo.$and[0].age).toEqual({ $gte: 18, $lte: 30 });
       expect(mongo.$and[1].age).toEqual({ $in: [20, 21, 22] });
+    });
   });
 
   describe('GraphQL Generator', () => {
