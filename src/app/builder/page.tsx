@@ -6,6 +6,8 @@ import { QueryBuilder } from '@/components/QueryBuilder/QueryBuilder';
 import { PreviewPane } from '@/components/QueryBuilder/PreviewPane';
 import { SchemaSelector } from '@/components/QueryBuilder/SchemaSelector';
 import { ValidationSummary } from '@/components/QueryBuilder/ValidationSummary';
+import { ResultsPane } from '@/components/QueryBuilder/ResultsPane';
+import { HistoryPanel } from '@/components/QueryBuilder/HistoryPanel';
 import { SVGLogo } from '@/components/ui/SVGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
@@ -590,75 +592,7 @@ export default function BuilderPage() {
                     </div>
                   </div>
                 ) : (
-                  <>
-                    <button
-                      onClick={handleExecute}
-                      disabled={isLoadingResults}
-                      className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/10 hover:translate-y-[-1px] transition-all disabled:opacity-60"
-                    >
-                      <Play size={14} fill="currentColor" />
-                      {isLoadingResults ? 'Executing...' : 'Execute Query'}
-                    </button>
-
-                    {isLoadingResults && (
-                      <div className="w-full h-1 bg-blue-100 rounded-full overflow-hidden mt-4">
-                        <div className="h-full bg-blue-600 rounded-full w-2/3 animate-pulse" />
-                      </div>
-                    )}
-
-                    {hasExecuted && !isLoadingResults && (
-                      <>
-                        <div className="flex justify-between items-center mt-4 mb-3">
-                          <span className="text-xs font-bold text-slate-700">
-                            {executionResults.length} results
-                          </span>
-                          <span className="text-[10px] text-zinc-400 font-medium">
-                            of {activeDataset.length} records • {executionTime}ms
-                          </span>
-                        </div>
-
-                        <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-                          {executionResults.length === 0 ? (
-                            <div className="text-center py-10 text-zinc-400">
-                              <Database size={24} className="mx-auto mb-2 opacity-40" />
-                              <p className="text-xs">No records matched your conditions</p>
-                            </div>
-                          ) : (
-                            executionResults.slice(0, 20).map((record, index) => {
-                              const recordKeys = Object.keys(record).slice(0, 5);
-                              return (
-                                <div
-                                  key={record.id || index}
-                                  className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl hover:border-zinc-300 transition-all text-[11px]"
-                                >
-                                  {recordKeys.map((key) => (
-                                    <div key={key} className="flex justify-between py-0.5">
-                                      <span className="text-zinc-400 capitalize">{key}</span>
-                                      <span className="text-slate-700 font-medium truncate max-w-[160px]">
-                                        {String(record[key])}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
-                              );
-                            })
-                          )}
-                          {executionResults.length > 20 && (
-                            <div className="text-center py-2 text-[10px] text-zinc-400 font-mono">
-                              ... and {executionResults.length - 20} more records
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    )}
-
-                    {!hasExecuted && !isLoadingResults && (
-                      <div className="text-center py-16 text-zinc-400 flex flex-col items-center justify-center gap-2">
-                        <Search size={32} className="opacity-40" />
-                        <p className="text-xs">Click Execute Query above to filter data</p>
-                      </div>
-                    )}
-                  </>
+                  <ResultsPane />
                 )}
               </div>
             )}
@@ -666,49 +600,7 @@ export default function BuilderPage() {
             {/* Tab: History query log */}
             {activeRightTab === 'history' && (
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between mb-3.5">
-                  <span className="text-xs font-bold text-slate-500">Execution History</span>
-                  {historyEntries.length > 0 && (
-                    <button
-                      onClick={handleClearHistory}
-                      className="text-[11px] text-red-500 hover:underline font-semibold"
-                    >
-                      Clear Log
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  {historyEntries.length === 0 ? (
-                    <div className="text-center py-16 text-zinc-400">
-                      <Clock size={32} className="mx-auto mb-2 opacity-40" />
-                      <p className="text-xs">No queries executed in this session</p>
-                    </div>
-                  ) : (
-                    historyEntries.map((h) => (
-                      <div
-                        key={h.id}
-                        onClick={() => handleRestoreHistory(h)}
-                        className="group flex items-start justify-between gap-3 p-2.5 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/20 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer text-xs"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-zinc-400 font-medium">
-                            {new Date(h.timestamp).toLocaleTimeString()}
-                          </p>
-                          <p className="font-mono text-[10px] text-slate-700 dark:text-zinc-300 truncate mt-0.5">
-                            {h.label}
-                          </p>
-                        </div>
-                        <button
-                          onClick={(e) => handleRemoveHistory(e, h.id)}
-                          className="p-1 rounded text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
-                        >
-                          <X size={12} />
-                        </button>
-                      </div>
-                    ))
-                  )}
-                </div>
+                <HistoryPanel />
               </div>
             )}
 
