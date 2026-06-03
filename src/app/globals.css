@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-manrope);
+  --font-heading: var(--font-biorhyme);
+  
+  --color-background: var(--color-stone-100);
+  --color-foreground: var(--color-slate-900);
+  
+  --animate-beam: beam 2s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-stone-100);
+    --foreground: var(--color-slate-900);
+  }
+
+  /* Dark mode support if requested later */
+  .dark {
+    --background: var(--color-zinc-900);
+    --foreground: var(--color-zinc-100);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+      linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@keyframes beam {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
