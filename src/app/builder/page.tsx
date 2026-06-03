@@ -48,22 +48,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 export default function BuilderPage() {
   const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
   const [showShortcuts, setShowShortcuts] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [showPresetSaveModal, setShowPresetSaveModal] = useState(false);
-
-  const [importJson, setImportJson] = useState('');
-  const [presetName, setPresetName] = useState('');
-  const [presetDesc, setPresetDesc] = useState('');
-
-  const [presets, setPresets] = useState<QueryPreset[]>([]);
-  const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([]);
-  const [executionResults, setExecutionResults] = useState<any[]>([]);
-  const [executionTime, setExecutionTime] = useState<number>(0);
-  const [isLoadingResults, setIsLoadingResults] = useState(false);
-  const [hasExecuted, setHasExecuted] = useState(false);
-  const [copied, setCopied] = useState(false);
-
   const store = useQueryStore();
   const activeSchema = getSchemaById(store.activeSchemaId);
   const schemaFieldsList = Object.values(activeSchema);
@@ -90,14 +74,8 @@ export default function BuilderPage() {
     {
       key: 'e',
       ctrl: true,
-      description: 'Execute query',
-      action: () => handleExecute(),
-    },
-    {
-      key: 's',
-      ctrl: true,
-      description: 'Save preset',
-      action: () => setShowPresetSaveModal(true),
+      description: 'Switch to Results Tab',
+      action: () => setActiveRightTab('results'),
     },
     {
       key: 'n',
@@ -349,20 +327,7 @@ export default function BuilderPage() {
             <Clock size={16} />
           </button>
           <ThemeToggle />
-          <button
-            onClick={() => setShowImportModal(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
-            title="Import JSON"
-          >
-            <Upload size={16} />
-          </button>
-          <button
-            onClick={() => setShowExportModal(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
-            title="Export JSON"
-          >
-            <Download size={16} />
-          </button>
+
           <button
             onClick={() => setShowShortcuts(true)}
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
@@ -610,138 +575,6 @@ export default function BuilderPage() {
         {showImportModal && (
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-            onClick={() => setShowImportModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Import Query Config
-              </h3>
-              <p className="text-xs text-zinc-400 mb-4">
-                Paste previously exported Query JSON. The active schema and builder layout will update instantly.
-              </p>
-              <textarea
-                value={importJson}
-                onChange={(e) => setImportJson(e.target.value)}
-                placeholder='{"schema": "users", "query": {...}}'
-                className="w-full h-40 p-3 font-mono text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none focus:border-blue-500"
-              />
-              <div className="flex gap-2.5 mt-5">
-                <button
-                  onClick={() => setShowImportModal(false)}
-                  className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleImport}
-                  className="flex-1 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl"
-                >
-                  Import Query
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ─── MODAL: JSON Export ─── */}
-      <AnimatePresence>
-        {showExportModal && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-            onClick={() => setShowExportModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Export Query Config
-              </h3>
-              <p className="text-xs text-zinc-400 mb-4">
-                Copy this JSON representation. You can store it in files or import it later.
-              </p>
-              <textarea
-                value={getExportData()}
-                readOnly
-                className="w-full h-40 p-3 font-mono text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none"
-              />
-              <div className="flex gap-2.5 mt-5">
-                <button
-                  onClick={() => setShowExportModal(false)}
-                  className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={handleCopyExport}
-                  className="flex-1 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center justify-center gap-1.5"
-                >
-                  {copied ? <CheckCircle size={14} /> : <Copy size={14} />}
-                  {copied ? 'Copied' : 'Copy JSON'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ─── MODAL: Save Preset ─── */}
-      <AnimatePresence>
-        {showPresetSaveModal && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-            onClick={() => setShowPresetSaveModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Save Query Preset
-              </h3>
-              <p className="text-xs text-zinc-400 mb-4">
-                Name this preset to quickly reload it in the left sidebar list.
-              </p>
-              <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={presetName}
-                  onChange={(e) => setPresetName(e.target.value)}
-                  placeholder="e.g. Premium Nigerian Users"
-                  className="w-full px-3.5 py-2 text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none focus:border-blue-500"
-                />
-                <input
-                  type="text"
-                  value={presetDesc}
-                  onChange={(e) => setPresetDesc(e.target.value)}
-                  placeholder="Description (optional)..."
-                  className="w-full px-3.5 py-2 text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none focus:border-blue-500"
-                />
-              </div>
-              <div className="flex gap-2.5 mt-5">
-                <button
-                  onClick={() => setShowPresetSaveModal(false)}
-                  className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSavePreset}
-                  disabled={!presetName.trim()}
-                  className="flex-1 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl disabled:opacity-60"
-                >
-                  Save Preset
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
     </main>
   );
 }
