@@ -11,43 +11,93 @@ export const validateRule = (rule: Rule, schema: Schema): string | null => {
   const fieldSchema = schema[rule.field];
   if (!fieldSchema) return `Field "${rule.field}" not found in schema.`;
 
+  const label = fieldSchema.label;
+
+  // 1. Value is required check
   if (rule.value === undefined || rule.value === '') {
     if (rule.operator !== 'isNull' && rule.operator !== 'isNotNull') {
-      return 'Value is required.';
+      return `A value is required for "${label}". Please enter a value to complete the query condition.`;
     }
   }
 
+  // 2. Between bounds check
   if (rule.operator === 'between' && (rule.value2 === undefined || rule.value2 === '')) {
-    return 'Second value is required for "between" operator.';
+    return `Both boundary values are required to filter "${label}" within a range. Please enter the second value.`;
   }
 
-  // Date range validation: value2 must be >= value1
-  if (rule.operator === 'between' && fieldSchema.type === 'date' && rule.value && rule.value2) {
-    if (new Date(String(rule.value2)) < new Date(String(rule.value))) {
-      return 'End date must be after start date.';
+  // 3. Date format validation
+  if (rule.operator !== 'isNull' && rule.operator !== 'isNotNull' && fieldSchema.type === 'date') {
+    if (rule.value && isNaN(Date.parse(String(rule.value)))) {
+      return `The value for "${label}" must be a valid date. Please use a valid format (e.g. YYYY-MM-DD).`;
+    }
+    if (rule.operator === 'between' && rule.value2 && isNaN(Date.parse(String(rule.value2)))) {
+      return `The upper boundary date for "${label}" must be a valid date. Please use a valid format (e.g. YYYY-MM-DD).`;
     }
   }
 
-  // Number range validation for between
+  // 4. Date range limit check
+  if (rule.operator === 'between' && fieldSchema.type === 'date' && rule.value && rule.value2) {
+    if (!isNaN(Date.parse(String(rule.value))) && !isNaN(Date.parse(String(rule.value2)))) {
+      if (new Date(String(rule.value2)) < new Date(String(rule.value))) {
+        return `The end date for "${label}" must be after the start date. Please select a valid date range.`;
+      }
+    }
+  }
+
+  // 5. Number range limit check
   if (rule.operator === 'between' && fieldSchema.type === 'number' && rule.value && rule.value2) {
     if (Number(rule.value2) < Number(rule.value)) {
-      return 'End value must be greater than or equal to start value.';
+      return `The end value for "${label}" must be greater than or equal to the start value. Please enter a valid range.`;
     }
   }
 
+  // 6. Number fields check
   if (fieldSchema.type === 'number') {
     if (['contains', 'startsWith'].includes(rule.operator)) {
-      return `Operator "${rule.operator}" is not valid for number fields.`;
+      return `Operator "${rule.operator}" is not valid for number fields like "${label}".`;
     }
-    if (isNaN(Number(rule.value)) && rule.operator !== 'isNull' && rule.operator !== 'isNotNull' && rule.operator !== 'inList') {
-      return 'Value must be a number.';
+    if (rule.operator !== 'isNull' && rule.operator !== 'isNotNull') {
+      if (rule.operator === 'inList') {
+        const list = String(rule.value).split(',').map(v => v.trim());
+        const invalidItems = list.filter(v => v === '' || isNaN(Number(v)));
+        if (invalidItems.length > 0) {
+          return `All items in the list for "${label}" must be valid numbers separated by commas. Invalid entries: ${invalidItems.join(', ')}.`;
+        }
+      } else {
+        if (isNaN(Number(rule.value))) {
+          return `The value for "${label}" must be a valid number. Please check your input (e.g. 42).`;
+        }
+      }
     }
   }
 
-  // Boolean fields only support equals
+  // 7. Boolean fields check
   if (fieldSchema.type === 'boolean') {
     if (!['equals', 'isNull', 'isNotNull'].includes(rule.operator)) {
-      return `Operator "${rule.operator}" is not valid for boolean fields.`;
+      return `The operator "${rule.operator}" is not valid for boolean fields like "${label}".`;
+    }
+    if (rule.operator === 'equals' && rule.value !== undefined && rule.value !== '') {
+      const coerced = String(rule.value).toLowerCase().trim();
+      if (coerced !== 'true' && coerced !== 'false' && typeof rule.value !== 'boolean') {
+        return `The value for "${label}" must be either "true" or "false".`;
+      }
+    }
+  }
+
+  // 8. Enum options check
+  if (fieldSchema.type === 'enum' && fieldSchema.options) {
+    if (rule.operator !== 'isNull' && rule.operator !== 'isNotNull' && rule.value !== undefined && rule.value !== '') {
+      if (rule.operator === 'inList') {
+        const list = String(rule.value).split(',').map(v => v.trim());
+        const invalidItems = list.filter(item => !fieldSchema.options!.includes(item));
+        if (invalidItems.length > 0) {
+          return `Invalid option(s) for "${label}" detected: "${invalidItems.join(', ')}". Allowed options are: ${fieldSchema.options.join(', ')}.`;
+        }
+      } else if (rule.operator === 'equals' || rule.operator === 'notEquals') {
+        if (!fieldSchema.options.includes(String(rule.value))) {
+          return `The value for "${label}" must be one of the allowed options: ${fieldSchema.options.join(', ')}.`;
+        }
+      }
     }
   }
 
@@ -70,7 +120,7 @@ export function validateQueryTree(state: QueryState, schema: Schema): Validation
       errors.push({
         nodeId: groupId,
         nodeType: 'group',
-        message: 'Empty group — add conditions or remove this group.',
+        message: 'Empty group detected. Please add condition rules or remove this group to ensure the logic runs correctly.',
       });
     }
 
