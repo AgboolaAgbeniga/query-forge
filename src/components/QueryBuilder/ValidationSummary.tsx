@@ -13,18 +13,20 @@ interface ValidationSummaryProps {
 }
 
 export function ValidationSummary({ schema }: ValidationSummaryProps) {
-  const store = useQueryStore();
+  const rules = useQueryStore((s) => s.rules);
+  const groups = useQueryStore((s) => s.groups);
+  const rootGroupId = useQueryStore((s) => s.rootGroupId);
 
   const errors = useMemo(
     () =>
       validateQueryTree(
-        { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId },
+        { groups, rules, rootGroupId },
         schema
       ),
-    [store.groups, store.rules, store.rootGroupId, schema]
+    [groups, rules, rootGroupId, schema]
   );
 
-  const hasRules = Object.keys(store.rules).length > 0;
+  const hasRules = Object.keys(rules).length > 0;
 
   if (!hasRules) return null;
 
@@ -41,7 +43,7 @@ export function ValidationSummary({ schema }: ValidationSummaryProps) {
           <CheckCircle2 size={16} />
           <span className="font-medium">Query is valid</span>
           <span className="text-emerald-500 dark:text-emerald-500 text-xs">
-            — {Object.keys(store.rules).length} rule{Object.keys(store.rules).length !== 1 ? 's' : ''} configured
+            — {Object.keys(rules).length} rule{Object.keys(rules).length !== 1 ? 's' : ''} configured
           </span>
         </motion.div>
       ) : (

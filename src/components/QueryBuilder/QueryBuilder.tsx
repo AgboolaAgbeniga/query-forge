@@ -19,7 +19,10 @@ import { GroupNode } from './GroupNode';
 import { RuleNode } from './RuleNode';
 
 export function QueryBuilder() {
-  const { rootGroupId, groups, rules, moveNode } = useQueryStore();
+  const rootGroupId = useQueryStore(s => s.rootGroupId);
+  const groups = useQueryStore(s => s.groups);
+  const rules = useQueryStore(s => s.rules);
+  const moveNode = useQueryStore(s => s.moveNode);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const sensors = useSensors(

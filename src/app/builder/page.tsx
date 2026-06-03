@@ -6,6 +6,10 @@ import { QueryBuilder } from '@/components/QueryBuilder/QueryBuilder';
 import { PreviewPane } from '@/components/QueryBuilder/PreviewPane';
 import { SchemaSelector } from '@/components/QueryBuilder/SchemaSelector';
 import { ValidationSummary } from '@/components/QueryBuilder/ValidationSummary';
+import { ResultsPane } from '@/components/QueryBuilder/ResultsPane';
+import { HistoryPanel } from '@/components/QueryBuilder/HistoryPanel';
+import { PresetsPanel } from '@/components/QueryBuilder/PresetsPanel';
+import { ExportImport } from '@/components/QueryBuilder/ExportImport';
 import { SVGLogo } from '@/components/ui/SVGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
@@ -44,22 +48,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 export default function BuilderPage() {
   const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
   const [showShortcuts, setShowShortcuts] = useState(false);
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
-  const [showPresetSaveModal, setShowPresetSaveModal] = useState(false);
-
-  const [importJson, setImportJson] = useState('');
-  const [presetName, setPresetName] = useState('');
-  const [presetDesc, setPresetDesc] = useState('');
-
-  const [presets, setPresets] = useState<QueryPreset[]>([]);
-  const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([]);
-  const [executionResults, setExecutionResults] = useState<any[]>([]);
-  const [executionTime, setExecutionTime] = useState<number>(0);
-  const [isLoadingResults, setIsLoadingResults] = useState(false);
-  const [hasExecuted, setHasExecuted] = useState(false);
-  const [copied, setCopied] = useState(false);
-
   const store = useQueryStore();
   const activeSchema = getSchemaById(store.activeSchemaId);
   const schemaFieldsList = Object.values(activeSchema);
@@ -86,14 +74,8 @@ export default function BuilderPage() {
     {
       key: 'e',
       ctrl: true,
-      description: 'Execute query',
-      action: () => handleExecute(),
-    },
-    {
-      key: 's',
-      ctrl: true,
-      description: 'Save preset',
-      action: () => setShowPresetSaveModal(true),
+      description: 'Switch to Results Tab',
+      action: () => setActiveRightTab('results'),
     },
     {
       key: 'n',
@@ -345,20 +327,7 @@ export default function BuilderPage() {
             <Clock size={16} />
           </button>
           <ThemeToggle />
-          <button
-            onClick={() => setShowImportModal(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
-            title="Import JSON"
-          >
-            <Upload size={16} />
-          </button>
-          <button
-            onClick={() => setShowExportModal(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
-            title="Export JSON"
-          >
-            <Download size={16} />
-          </button>
+
           <button
             onClick={() => setShowShortcuts(true)}
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
@@ -414,50 +383,9 @@ export default function BuilderPage() {
             </div>
           </div>
 
-          {/* Saved Presets Section */}
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3 px-1 flex items-center justify-between">
-              <span>Saved Presets</span>
-              <button
-                onClick={() => setShowPresetSaveModal(true)}
-                className="text-[10px] text-blue-600 dark:text-blue-400 hover:underline font-semibold"
-              >
-                + Save Current
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              {presets.map((p) => (
-                <div
-                  key={p.id}
-                  onClick={() => handleLoadPreset(p)}
-                  className="group flex items-center justify-between gap-2 p-2.5 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/50 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer"
-                >
-                  <span className="text-xs text-slate-600 dark:text-zinc-300 font-medium truncate flex items-center gap-1.5">
-                    <Bookmark size={12} className="text-zinc-400" />
-                    {p.name}
-                  </span>
-                  <button
-                    onClick={(e) => handleDeletePreset(e, p.id)}
-                    className="p-1 rounded text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
-                  >
-                    <Trash2 size={12} />
-                  </button>
-                </div>
-              ))}
-
-              {/* Loader Examples */}
-              {examplePresets.map((ep, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleLoadPreset(ep as any)}
-                  className="flex items-center gap-1.5 p-2.5 rounded-xl border border-dashed border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all cursor-pointer text-xs font-medium"
-                >
-                  <Bookmark size={12} />
-                  Example: {ep.name}
-                </div>
-              ))}
-            </div>
+          <PresetsPanel />
+          <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800/50 pt-6">
+            <ExportImport />
           </div>
         </aside>
 
@@ -590,75 +518,7 @@ export default function BuilderPage() {
                     </div>
                   </div>
                 ) : (
-                  <>
-                    <button
-                      onClick={handleExecute}
-                      disabled={isLoadingResults}
-                      className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/10 hover:translate-y-[-1px] transition-all disabled:opacity-60"
-                    >
-                      <Play size={14} fill="currentColor" />
-                      {isLoadingResults ? 'Executing...' : 'Execute Query'}
-                    </button>
-
-                    {isLoadingResults && (
-                      <div className="w-full h-1 bg-blue-100 rounded-full overflow-hidden mt-4">
-                        <div className="h-full bg-blue-600 rounded-full w-2/3 animate-pulse" />
-                      </div>
-                    )}
-
-                    {hasExecuted && !isLoadingResults && (
-                      <>
-                        <div className="flex justify-between items-center mt-4 mb-3">
-                          <span className="text-xs font-bold text-slate-700">
-                            {executionResults.length} results
-                          </span>
-                          <span className="text-[10px] text-zinc-400 font-medium">
-                            of {activeDataset.length} records • {executionTime}ms
-                          </span>
-                        </div>
-
-                        <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-                          {executionResults.length === 0 ? (
-                            <div className="text-center py-10 text-zinc-400">
-                              <Database size={24} className="mx-auto mb-2 opacity-40" />
-                              <p className="text-xs">No records matched your conditions</p>
-                            </div>
-                          ) : (
-                            executionResults.slice(0, 20).map((record, index) => {
-                              const recordKeys = Object.keys(record).slice(0, 5);
-                              return (
-                                <div
-                                  key={record.id || index}
-                                  className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl hover:border-zinc-300 transition-all text-[11px]"
-                                >
-                                  {recordKeys.map((key) => (
-                                    <div key={key} className="flex justify-between py-0.5">
-                                      <span className="text-zinc-400 capitalize">{key}</span>
-                                      <span className="text-slate-700 font-medium truncate max-w-[160px]">
-                                        {String(record[key])}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
-                              );
-                            })
-                          )}
-                          {executionResults.length > 20 && (
-                            <div className="text-center py-2 text-[10px] text-zinc-400 font-mono">
-                              ... and {executionResults.length - 20} more records
-                            </div>
-                          )}
-                        </div>
-                      </>
-                    )}
-
-                    {!hasExecuted && !isLoadingResults && (
-                      <div className="text-center py-16 text-zinc-400 flex flex-col items-center justify-center gap-2">
-                        <Search size={32} className="opacity-40" />
-                        <p className="text-xs">Click Execute Query above to filter data</p>
-                      </div>
-                    )}
-                  </>
+                  <ResultsPane />
                 )}
               </div>
             )}
@@ -666,49 +526,7 @@ export default function BuilderPage() {
             {/* Tab: History query log */}
             {activeRightTab === 'history' && (
               <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between mb-3.5">
-                  <span className="text-xs font-bold text-slate-500">Execution History</span>
-                  {historyEntries.length > 0 && (
-                    <button
-                      onClick={handleClearHistory}
-                      className="text-[11px] text-red-500 hover:underline font-semibold"
-                    >
-                      Clear Log
-                    </button>
-                  )}
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  {historyEntries.length === 0 ? (
-                    <div className="text-center py-16 text-zinc-400">
-                      <Clock size={32} className="mx-auto mb-2 opacity-40" />
-                      <p className="text-xs">No queries executed in this session</p>
-                    </div>
-                  ) : (
-                    historyEntries.map((h) => (
-                      <div
-                        key={h.id}
-                        onClick={() => handleRestoreHistory(h)}
-                        className="group flex items-start justify-between gap-3 p-2.5 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/20 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer text-xs"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] text-zinc-400 font-medium">
-                            {new Date(h.timestamp).toLocaleTimeString()}
-                          </p>
-                          <p className="font-mono text-[10px] text-slate-700 dark:text-zinc-300 truncate mt-0.5">
-                            {h.label}
-                          </p>
-                        </div>
-                        <button
-                          onClick={(e) => handleRemoveHistory(e, h.id)}
-                          className="p-1 rounded text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
-                        >
-                          <X size={12} />
-                        </button>
-                      </div>
-                    ))
-                  )}
-                </div>
+                <HistoryPanel />
               </div>
             )}
 
@@ -757,138 +575,6 @@ export default function BuilderPage() {
         {showImportModal && (
           <div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-            onClick={() => setShowImportModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Import Query Config
-              </h3>
-              <p className="text-xs text-zinc-400 mb-4">
-                Paste previously exported Query JSON. The active schema and builder layout will update instantly.
-              </p>
-              <textarea
-                value={importJson}
-                onChange={(e) => setImportJson(e.target.value)}
-                placeholder='{"schema": "users", "query": {...}}'
-                className="w-full h-40 p-3 font-mono text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none focus:border-blue-500"
-              />
-              <div className="flex gap-2.5 mt-5">
-                <button
-                  onClick={() => setShowImportModal(false)}
-                  className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleImport}
-                  className="flex-1 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl"
-                >
-                  Import Query
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ─── MODAL: JSON Export ─── */}
-      <AnimatePresence>
-        {showExportModal && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-            onClick={() => setShowExportModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-md w-full mx-4 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Export Query Config
-              </h3>
-              <p className="text-xs text-zinc-400 mb-4">
-                Copy this JSON representation. You can store it in files or import it later.
-              </p>
-              <textarea
-                value={getExportData()}
-                readOnly
-                className="w-full h-40 p-3 font-mono text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none"
-              />
-              <div className="flex gap-2.5 mt-5">
-                <button
-                  onClick={() => setShowExportModal(false)}
-                  className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={handleCopyExport}
-                  className="flex-1 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl flex items-center justify-center gap-1.5"
-                >
-                  {copied ? <CheckCircle size={14} /> : <Copy size={14} />}
-                  {copied ? 'Copied' : 'Copy JSON'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* ─── MODAL: Save Preset ─── */}
-      <AnimatePresence>
-        {showPresetSaveModal && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-            onClick={() => setShowPresetSaveModal(false)}
-          >
-            <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-2">
-                Save Query Preset
-              </h3>
-              <p className="text-xs text-zinc-400 mb-4">
-                Name this preset to quickly reload it in the left sidebar list.
-              </p>
-              <div className="flex flex-col gap-3">
-                <input
-                  type="text"
-                  value={presetName}
-                  onChange={(e) => setPresetName(e.target.value)}
-                  placeholder="e.g. Premium Nigerian Users"
-                  className="w-full px-3.5 py-2 text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none focus:border-blue-500"
-                />
-                <input
-                  type="text"
-                  value={presetDesc}
-                  onChange={(e) => setPresetDesc(e.target.value)}
-                  placeholder="Description (optional)..."
-                  className="w-full px-3.5 py-2 text-xs border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl outline-none focus:border-blue-500"
-                />
-              </div>
-              <div className="flex gap-2.5 mt-5">
-                <button
-                  onClick={() => setShowPresetSaveModal(false)}
-                  className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSavePreset}
-                  disabled={!presetName.trim()}
-                  className="flex-1 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl disabled:opacity-60"
-                >
-                  Save Preset
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </AnimatePresence>
-
     </main>
   );
 }

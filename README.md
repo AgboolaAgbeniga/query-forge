@@ -10,9 +10,9 @@ QueryForge is a high-performance, schema-driven visual query builder built with 
 *   **Nested Logical Groups**: Support for unlimited nested AND/OR condition groups, collapsible group states, and guide line animations.
 *   **Query Compilation**: Real-time compile-to-SQL (with SQL-injection escaping) and compile-to-MongoDB filters.
 *   **Query Execution Simulator**: In-memory execution against 250+ mock records for Users, Products, or Orders datasets, featuring column sorting and paginated results.
-*   **History & Presets (CRUD)**: Save query states, view query history logs, undo/redo query adjustments, and import/export queries via validated JSON files.
+*   **History & Presets (CRUD)**: Save query states, view query history logs, and import/export queries via validated JSON files.
 *   **Aesthetic & Interactions**: Built with an elevated material visual style, featuring GSAP cinematic parallax scrolling, interactive card cursor-guided flashlight glow effects, guided entry blur reveals, and premium custom animations.
-*   **Validated & Tested**: Safe schema validation, date/number range verification, and 100% test coverage with Vitest.
+*   **Validated & Tested**: Safe schema validation, date/number range verification, and comprehensive testing with Vitest.
 
 ---
 
@@ -37,7 +37,6 @@ Instead of storing a deeply nested JSON object (which leads to complex recursive
 **Advantages**:
 *   Updating a specific rule's input or field is an `O(1)` state operation, requiring no recursive tree searching.
 *   Moving nodes (using Dnd Kit) is simplified to updating children arrays and parent references in the flat records map.
-*   It enables **Zustand selectors** to hook components to individual node records, preventing parent re-renders when a nested child changes.
 
 ---
 
