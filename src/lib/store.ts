@@ -9,15 +9,21 @@ interface QueryActions {
   updateGroupType: (id: GroupId, type: 'AND' | 'OR') => void;
   moveNode: (id: RuleId | GroupId, targetGroupId: GroupId, insertIndex: number) => void;
   setStoreState: (state: QueryState) => void;
+  resetQuery: () => void;
+  setActiveSchemaId: (id: string) => void;
 }
 
-export type QueryStore = QueryState & QueryActions;
+interface StoreExtras {
+  activeSchemaId: string;
+}
+
+export type QueryStore = QueryState & QueryActions & StoreExtras;
 
 const createId = () => Math.random().toString(36).substring(2, 9);
 
 const initialRootId = createId();
 
-const initialState: QueryState = {
+const initialQueryState: QueryState = {
   rootGroupId: initialRootId,
   groups: {
     [initialRootId]: {
@@ -30,8 +36,25 @@ const initialState: QueryState = {
   rules: {},
 };
 
+function createFreshState(): QueryState {
+  const newRootId = createId();
+  return {
+    rootGroupId: newRootId,
+    groups: {
+      [newRootId]: {
+        id: newRootId,
+        type: 'AND',
+        children: [],
+        parentId: null,
+      },
+    },
+    rules: {},
+  };
+}
+
 export const useQueryStore = create<QueryStore>((set, get) => ({
-  ...initialState,
+  ...initialQueryState,
+  activeSchemaId: 'users',
 
   addRule: (groupId, field = 'id') => set((state) => {
     const newRuleId = `rule_${createId()}`;
@@ -229,4 +252,11 @@ export const useQueryStore = create<QueryStore>((set, get) => ({
   }),
 
   setStoreState: (newState) => set(newState),
+
+  resetQuery: () => set(createFreshState()),
+
+  setActiveSchemaId: (id) => set({
+    activeSchemaId: id,
+    ...createFreshState(),
+  }),
 }));
