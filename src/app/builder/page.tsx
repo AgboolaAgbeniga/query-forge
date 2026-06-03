@@ -8,6 +8,8 @@ import { SchemaSelector } from '@/components/QueryBuilder/SchemaSelector';
 import { ValidationSummary } from '@/components/QueryBuilder/ValidationSummary';
 import { ResultsPane } from '@/components/QueryBuilder/ResultsPane';
 import { HistoryPanel } from '@/components/QueryBuilder/HistoryPanel';
+import { PresetsPanel } from '@/components/QueryBuilder/PresetsPanel';
+import { ExportImport } from '@/components/QueryBuilder/ExportImport';
 import { SVGLogo } from '@/components/ui/SVGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
@@ -416,50 +418,9 @@ export default function BuilderPage() {
             </div>
           </div>
 
-          {/* Saved Presets Section */}
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3 px-1 flex items-center justify-between">
-              <span>Saved Presets</span>
-              <button
-                onClick={() => setShowPresetSaveModal(true)}
-                className="text-[10px] text-blue-600 dark:text-blue-400 hover:underline font-semibold"
-              >
-                + Save Current
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              {presets.map((p) => (
-                <div
-                  key={p.id}
-                  onClick={() => handleLoadPreset(p)}
-                  className="group flex items-center justify-between gap-2 p-2.5 rounded-xl bg-zinc-50/50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/50 hover:bg-zinc-50 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer"
-                >
-                  <span className="text-xs text-slate-600 dark:text-zinc-300 font-medium truncate flex items-center gap-1.5">
-                    <Bookmark size={12} className="text-zinc-400" />
-                    {p.name}
-                  </span>
-                  <button
-                    onClick={(e) => handleDeletePreset(e, p.id)}
-                    className="p-1 rounded text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
-                  >
-                    <Trash2 size={12} />
-                  </button>
-                </div>
-              ))}
-
-              {/* Loader Examples */}
-              {examplePresets.map((ep, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => handleLoadPreset(ep as any)}
-                  className="flex items-center gap-1.5 p-2.5 rounded-xl border border-dashed border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 hover:text-blue-500 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all cursor-pointer text-xs font-medium"
-                >
-                  <Bookmark size={12} />
-                  Example: {ep.name}
-                </div>
-              ))}
-            </div>
+          <PresetsPanel />
+          <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800/50 pt-6">
+            <ExportImport />
           </div>
         </aside>
 
