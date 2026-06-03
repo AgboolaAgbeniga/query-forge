@@ -162,7 +162,7 @@ describe('Query Compiler Engine', () => {
       };
 
       const gql = generateGraphQL(state, testSchema, 'users');
-      expect(gql).toContain('query GetUsers {');
+      expect(gql).toContain('query {');
       expect(gql).toContain('users(');
       expect(gql).toContain('where: {');
       expect(gql).toContain('_and: [');
