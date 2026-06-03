@@ -76,6 +76,20 @@ npm run test
 
 ---
 
+## ⚡ Performance Optimization & Trade-offs
+
+To handle deeply nested queries and guarantee rapid feedback without freezing the UI, several optimizations have been engineered:
+*   **Atomic Zustand Selectors**: Rather than a component subscribing to the whole tree, each `RuleNode` and `GroupNode` selects only its specific `id` state via selectors. This isolation ensures keystrokes do not trigger top-level tree re-renders.
+*   **Component Memoization (`React.memo`)**: Recursive tree nodes skip reconciliations when props do not change, preventing deep diff checks on unmodified branches.
+*   **Lazy Query Generation**: The SQL, MongoDB, and GraphQL parsers compute only the format currently visible in the active `PreviewPane` tab.
+*   **Centralized Validation Computing**: Validation is aggregated top-down dynamically utilizing `useMemo`, computing exactly once per UI update frame.
+
+### Trade-offs
+*   **In-Memory vs Database Executor**: The current simulator executes the rule AST directly against an in-memory JSON array. For truly massive datasets, pushing execution to a proper backend API layer using the generated SQL/Mongo syntax would be necessary. Virtualization is not included for the mock datasets since 250 records render easily.
+*   **Schema Flexibility**: Currently schemas are hard-coded in `lib/schema.ts`. In a fully dynamic app, schemas would be fetched remotely and injected asynchronously.
+
+---
+
 ## 🛠️ Getting Started
 
 ### Prerequisites
