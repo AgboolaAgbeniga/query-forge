@@ -1,62 +1,35 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { Sun, Moon } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+import { Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+export function ThemeToggle({ className }: { className?: string }) {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = stored === 'dark' || (!stored && prefersDark);
-    setIsDark(shouldBeDark);
-    document.documentElement.classList.toggle('dark', shouldBeDark);
-  }, []);
+  // Avoid hydration mismatch
+  useEffect(() => setMounted(true), []);
 
-  const toggle = () => {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('theme', next ? 'dark' : 'light');
-  };
+  if (!mounted) {
+    return <div className={cn("w-9 h-9 rounded-xl", className)} />;
+  }
 
   return (
     <button
-      onClick={toggle}
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
       className={cn(
-        "relative p-2.5 rounded-xl transition-all duration-300",
-        "bg-white/80 dark:bg-zinc-800/80 backdrop-blur-sm",
-        "border border-zinc-200 dark:border-zinc-700",
-        "shadow-sm hover:shadow-md",
-        "text-slate-600 dark:text-zinc-300",
-        "hover:text-slate-900 dark:hover:text-white",
-        "hover:scale-105 active:scale-95"
+        "flex items-center justify-center w-9 h-9 rounded-xl transition-all",
+        "bg-white dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700",
+        "hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-slate-900 dark:hover:text-zinc-200",
+        "shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98]",
+        className
       )}
       aria-label="Toggle theme"
-      title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      title="Toggle theme"
     >
-      <div className="relative w-5 h-5 overflow-hidden">
-        <Sun
-          size={20}
-          className={cn(
-            "absolute inset-0 transition-all duration-300",
-            isDark
-              ? "rotate-0 scale-100 opacity-100"
-              : "-rotate-90 scale-0 opacity-0"
-          )}
-        />
-        <Moon
-          size={20}
-          className={cn(
-            "absolute inset-0 transition-all duration-300",
-            isDark
-              ? "rotate-90 scale-0 opacity-0"
-              : "rotate-0 scale-100 opacity-100"
-          )}
-        />
-      </div>
+      {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
     </button>
   );
 }

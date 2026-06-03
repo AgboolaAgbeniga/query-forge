@@ -14,7 +14,7 @@ describe('Query Validation Engine', () => {
   describe('validateRule', () => {
     it('should validate missing values when required', () => {
       const rule: Rule = { id: 'r1', field: 'name', operator: 'equals', value: '' };
-      expect(validateRule(rule, testSchema)).toBe('Value is required.');
+      expect(validateRule(rule, testSchema)).toBe('A value is required for "Name". Please enter a value to complete the query condition.');
 
       const nullRule: Rule = { id: 'r2', field: 'name', operator: 'isNull', value: '' };
       expect(validateRule(nullRule, testSchema)).toBeNull();
@@ -22,7 +22,7 @@ describe('Query Validation Engine', () => {
 
     it('should validate between operator require value2', () => {
       const rule: Rule = { id: 'r1', field: 'age', operator: 'between', value: 10 };
-      expect(validateRule(rule, testSchema)).toBe('Second value is required for "between" operator.');
+      expect(validateRule(rule, testSchema)).toBe('Both boundary values are required to filter "Age" within a range. Please enter the second value.');
     });
 
     it('should validate date range logic for between', () => {
@@ -42,7 +42,7 @@ describe('Query Validation Engine', () => {
         value: '2025-01-10',
         value2: '2025-01-01',
       };
-      expect(validateRule(ruleBad, testSchema)).toBe('End date must be after start date.');
+      expect(validateRule(ruleBad, testSchema)).toBe('The end date for "Created At" must be after the start date. Please select a valid date range.');
     });
 
     it('should validate number range logic for between', () => {
@@ -50,7 +50,7 @@ describe('Query Validation Engine', () => {
       expect(validateRule(ruleGood, testSchema)).toBeNull();
 
       const ruleBad: Rule = { id: 'r2', field: 'age', operator: 'between', value: 30, value2: 18 };
-      expect(validateRule(ruleBad, testSchema)).toBe('End value must be greater than or equal to start value.');
+      expect(validateRule(ruleBad, testSchema)).toBe('The end value for "Age" must be greater than or equal to the start value. Please enter a valid range.');
     });
 
     it('should block string operators on numeric fields', () => {
@@ -61,6 +61,27 @@ describe('Query Validation Engine', () => {
     it('should block non-equals operators on boolean fields', () => {
       const rule: Rule = { id: 'r1', field: 'isVerified', operator: 'greaterThan', value: true };
       expect(validateRule(rule, testSchema)).toContain('not valid for boolean fields');
+    });
+
+    it('should validate invalid date strings', () => {
+      const rule: Rule = { id: 'r1', field: 'createdAt', operator: 'equals', value: 'invalid-date-string' };
+      expect(validateRule(rule, testSchema)).toContain('must be a valid date');
+    });
+
+    it('should validate numeric list values for inList operator', () => {
+      const ruleBad: Rule = { id: 'r1', field: 'age', operator: 'inList', value: '10, 20, non-number' };
+      expect(validateRule(ruleBad, testSchema)).toContain('must be valid numbers');
+
+      const ruleGood: Rule = { id: 'r2', field: 'age', operator: 'inList', value: '10, 20, 30' };
+      expect(validateRule(ruleGood, testSchema)).toBeNull();
+    });
+
+    it('should validate enum option values', () => {
+      const ruleBad: Rule = { id: 'r1', field: 'status', operator: 'equals', value: 'unknown-status' };
+      expect(validateRule(ruleBad, testSchema)).toContain('must be one of the allowed options');
+
+      const ruleBadList: Rule = { id: 'r2', field: 'status', operator: 'inList', value: 'active, unknown' };
+      expect(validateRule(ruleBadList, testSchema)).toContain('Invalid option(s) for "Status" detected');
     });
   });
 

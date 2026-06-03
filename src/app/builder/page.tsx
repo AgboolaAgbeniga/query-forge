@@ -9,6 +9,7 @@ import { ValidationSummary } from '@/components/QueryBuilder/ValidationSummary';
 import { SVGLogo } from '@/components/ui/SVGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
+
 import { DATA_SOURCES, getSchemaById } from '@/lib/schema';
 import { addToHistory, getHistory, clearHistory, removeFromHistory, HistoryEntry } from '@/lib/history';
 import { getPresets, createPreset, deletePreset, QueryPreset } from '@/lib/presets';
@@ -123,7 +124,7 @@ export default function BuilderPage() {
 
   const handleExecute = () => {
     if (!isValid) {
-      setActiveRightTab('preview');
+      setActiveRightTab('results');
       return;
     }
 
@@ -343,6 +344,7 @@ export default function BuilderPage() {
           >
             <Clock size={16} />
           </button>
+          <ThemeToggle />
           <button
             onClick={() => setShowImportModal(true)}
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
@@ -372,7 +374,6 @@ export default function BuilderPage() {
             <Play size={14} fill="currentColor" />
             Execute
           </button>
-          <ThemeToggle />
         </div>
       </header>
 
@@ -570,73 +571,94 @@ export default function BuilderPage() {
 
             {/* Tab: Results Execution cards list */}
             {activeRightTab === 'results' && (
-              <div className="flex flex-col h-full">
-                <button
-                  onClick={handleExecute}
-                  disabled={isLoadingResults}
-                  className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/10 hover:translate-y-[-1px] transition-all disabled:opacity-60"
-                >
-                  <Play size={14} fill="currentColor" />
-                  {isLoadingResults ? 'Executing...' : 'Execute Query'}
-                </button>
-
-                {isLoadingResults && (
-                  <div className="w-full h-1 bg-blue-100 dark:bg-blue-950/40 rounded-full overflow-hidden mt-4">
-                    <div className="h-full bg-blue-600 dark:bg-blue-500 rounded-full w-2/3 animate-pulse" />
+              <div className="flex flex-col h-full gap-4">
+                {!isValid ? (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-2xl flex flex-col gap-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-red-750">
+                      <AlertTriangle size={16} />
+                      <span>Query Execution Blocked</span>
+                    </div>
+                    <p className="text-xs text-red-600 leading-relaxed">
+                      The active query tree contains validation errors. Please correct the highlighted conditions in the query builder before running the execution.
+                    </p>
+                    <div className="flex flex-col gap-1.5 border-t border-red-150 pt-3">
+                      {validationErrors.map((err, idx) => (
+                        <div key={idx} className="text-[10.5px] text-red-600 font-medium">
+                          • <strong>{err.field || 'General'}:</strong> {err.message}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                )}
-
-                {hasExecuted && !isLoadingResults && (
+                ) : (
                   <>
-                    <div className="flex justify-between items-center mt-4 mb-3">
-                      <span className="text-xs font-bold text-slate-700 dark:text-zinc-300">
-                        {executionResults.length} results
-                      </span>
-                      <span className="text-[10px] text-zinc-400 font-medium">
-                        of {activeDataset.length} records • {executionTime}ms
-                      </span>
-                    </div>
+                    <button
+                      onClick={handleExecute}
+                      disabled={isLoadingResults}
+                      className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm flex items-center justify-center gap-1.5 shadow-md shadow-blue-500/10 hover:translate-y-[-1px] transition-all disabled:opacity-60"
+                    >
+                      <Play size={14} fill="currentColor" />
+                      {isLoadingResults ? 'Executing...' : 'Execute Query'}
+                    </button>
 
-                    <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto custom-scrollbar">
-                      {executionResults.length === 0 ? (
-                        <div className="text-center py-10 text-zinc-400">
-                          <Database size={24} className="mx-auto mb-2 opacity-40" />
-                          <p className="text-xs">No records matched your conditions</p>
+                    {isLoadingResults && (
+                      <div className="w-full h-1 bg-blue-100 rounded-full overflow-hidden mt-4">
+                        <div className="h-full bg-blue-600 rounded-full w-2/3 animate-pulse" />
+                      </div>
+                    )}
+
+                    {hasExecuted && !isLoadingResults && (
+                      <>
+                        <div className="flex justify-between items-center mt-4 mb-3">
+                          <span className="text-xs font-bold text-slate-700">
+                            {executionResults.length} results
+                          </span>
+                          <span className="text-[10px] text-zinc-400 font-medium">
+                            of {activeDataset.length} records • {executionTime}ms
+                          </span>
                         </div>
-                      ) : (
-                        executionResults.slice(0, 20).map((record, index) => {
-                          const recordKeys = Object.keys(record).slice(0, 5);
-                          return (
-                            <div
-                              key={record.id || index}
-                              className="p-3 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-800/80 rounded-xl hover:border-zinc-300 dark:hover:border-zinc-700 transition-all text-[11px]"
-                            >
-                              {recordKeys.map((key) => (
-                                <div key={key} className="flex justify-between py-0.5">
-                                  <span className="text-zinc-400 capitalize">{key}</span>
-                                  <span className="text-slate-700 dark:text-zinc-300 font-medium truncate max-w-[160px]">
-                                    {String(record[key])}
-                                  </span>
-                                </div>
-                              ))}
+
+                        <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto custom-scrollbar">
+                          {executionResults.length === 0 ? (
+                            <div className="text-center py-10 text-zinc-400">
+                              <Database size={24} className="mx-auto mb-2 opacity-40" />
+                              <p className="text-xs">No records matched your conditions</p>
                             </div>
-                          );
-                        })
-                      )}
-                      {executionResults.length > 20 && (
-                        <div className="text-center py-2 text-[10px] text-zinc-400 font-mono">
-                          ... and {executionResults.length - 20} more records
+                          ) : (
+                            executionResults.slice(0, 20).map((record, index) => {
+                              const recordKeys = Object.keys(record).slice(0, 5);
+                              return (
+                                <div
+                                  key={record.id || index}
+                                  className="p-3 bg-zinc-50 border border-zinc-200 rounded-xl hover:border-zinc-300 transition-all text-[11px]"
+                                >
+                                  {recordKeys.map((key) => (
+                                    <div key={key} className="flex justify-between py-0.5">
+                                      <span className="text-zinc-400 capitalize">{key}</span>
+                                      <span className="text-slate-700 font-medium truncate max-w-[160px]">
+                                        {String(record[key])}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              );
+                            })
+                          )}
+                          {executionResults.length > 20 && (
+                            <div className="text-center py-2 text-[10px] text-zinc-400 font-mono">
+                              ... and {executionResults.length - 20} more records
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </>
-                )}
+                      </>
+                    )}
 
-                {!hasExecuted && !isLoadingResults && (
-                  <div className="text-center py-16 text-zinc-400 flex flex-col items-center justify-center gap-2">
-                    <Search size={32} className="opacity-40" />
-                    <p className="text-xs">Click Execute Query above to filter data</p>
-                  </div>
+                    {!hasExecuted && !isLoadingResults && (
+                      <div className="text-center py-16 text-zinc-400 flex flex-col items-center justify-center gap-2">
+                        <Search size={32} className="opacity-40" />
+                        <p className="text-xs">Click Execute Query above to filter data</p>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             )}
