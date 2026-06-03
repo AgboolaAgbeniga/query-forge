@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { useSortable, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useQueryStore } from '@/lib/store';
@@ -13,9 +13,13 @@ interface GroupNodeProps {
   depth: number;
 }
 
-export function GroupNode({ id, depth }: GroupNodeProps) {
-  const { groups, updateGroupType, addRule, addGroup, removeNode, rootGroupId } = useQueryStore();
-  const group = groups[id];
+export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) {
+  const group = useQueryStore((s) => s.groups[id]);
+  const updateGroupType = useQueryStore((s) => s.updateGroupType);
+  const addRule = useQueryStore((s) => s.addRule);
+  const addGroup = useQueryStore((s) => s.addGroup);
+  const removeNode = useQueryStore((s) => s.removeNode);
+  const rootGroupId = useQueryStore((s) => s.rootGroupId);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const {
@@ -180,4 +184,4 @@ export function GroupNode({ id, depth }: GroupNodeProps) {
       </AnimatePresence>
     </div>
   );
-}
+});
