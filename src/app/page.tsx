@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { QueryBuilder } from '@/components/QueryBuilder/QueryBuilder';
 import { PreviewPane } from '@/components/QueryBuilder/PreviewPane';
+import { ResultsPane } from '@/components/QueryBuilder/ResultsPane';
 import { SVGLogo } from '@/components/ui/SVGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import {
@@ -377,6 +378,28 @@ export default function Home() {
           </div>
         </section>
       </div>
+
+      {/* ─── Results Execution Section ─── */}
+      <section className="relative z-10 px-4 md:px-8 pb-20 max-w-[1600px] mx-auto">
+        <div className="flashlight-card surface-elevated rounded-[2rem] p-6 md:p-10" onMouseMove={handleFlashlightMove}>
+          <div className="flex items-center gap-4 mb-8 relative z-10">
+            <div className="p-3 bg-emerald-600 dark:bg-emerald-500 rounded-xl text-white shadow-lg shadow-emerald-500/20">
+              <Database size={24} />
+            </div>
+            <div>
+              <h2 className="heading text-[24px] md:text-[28px] text-slate-900 dark:text-white">
+                Query Execution
+              </h2>
+              <p className="text-slate-500 dark:text-zinc-400 text-[14px]">
+                Run queries against the mock dataset and inspect results
+              </p>
+            </div>
+          </div>
+          <div className="relative z-10">
+            <ResultsPane />
+          </div>
+        </div>
+      </section>
 
       {/* ─── Footer ─── */}
       <footer className="relative z-10 py-12 px-6 border-t border-zinc-200/50 dark:border-zinc-800">
