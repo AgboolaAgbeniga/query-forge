@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateSQL, generateMongo } from '../engine';
+import { generateSQL, generateMongo, generateGraphQL } from '../engine';
 import { QueryState, Schema } from '../types';
 
 const testSchema: Schema = {
@@ -146,6 +146,49 @@ describe('Query Compiler Engine', () => {
       const mongo = JSON.parse(generateMongo(state, testSchema));
       expect(mongo.$and[0].age).toEqual({ $gte: 18, $lte: 30 });
       expect(mongo.$and[1].age).toEqual({ $in: [20, 21, 22] });
+    });
+  });
+
+  describe('GraphQL Generator', () => {
+    it('should generate basic GraphQL where clause', () => {
+      const state: QueryState = {
+        rootGroupId: 'root',
+        groups: {
+          root: { id: 'root', type: 'AND', children: ['rule1'], parentId: null },
+        },
+        rules: {
+          rule1: { id: 'rule1', field: 'name', operator: 'equals', value: 'John' },
+        },
+      };
+
+      const gql = generateGraphQL(state, testSchema, 'users');
+      expect(gql).toContain('query GetUsers {');
+      expect(gql).toContain('users(');
+      expect(gql).toContain('where: {');
+      expect(gql).toContain('_and: [');
+      expect(gql).toContain('name: { _eq: "John" }');
+    });
+
+    it('should handle complex nested groups', () => {
+      const state: QueryState = {
+        rootGroupId: 'root',
+        groups: {
+          root: { id: 'root', type: 'AND', children: ['rule1', 'group1'], parentId: null },
+          group1: { id: 'group1', type: 'OR', children: ['rule2', 'rule3'], parentId: 'root' },
+        },
+        rules: {
+          rule1: { id: 'rule1', field: 'age', operator: 'greaterThan', value: 21 },
+          rule2: { id: 'rule2', field: 'status', operator: 'equals', value: 'active' },
+          rule3: { id: 'rule3', field: 'isVerified', operator: 'equals', value: true },
+        },
+      };
+
+      const gql = generateGraphQL(state, testSchema, 'users');
+      expect(gql).toContain('_and: [');
+      expect(gql).toContain('age: { _gt: 21 }');
+      expect(gql).toContain('_or: [');
+      expect(gql).toContain('status: { _eq: "active" }');
+      expect(gql).toContain('isVerified: { _eq: true }');
     });
   });
 });

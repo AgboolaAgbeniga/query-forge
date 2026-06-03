@@ -9,26 +9,12 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
 interface ValidationSummaryProps {
-  schema: Schema;
+  errors: ValidationError[];
+  rulesCount: number;
 }
 
-export function ValidationSummary({ schema }: ValidationSummaryProps) {
-  const rules = useQueryStore((s) => s.rules);
-  const groups = useQueryStore((s) => s.groups);
-  const rootGroupId = useQueryStore((s) => s.rootGroupId);
-
-  const errors = useMemo(
-    () =>
-      validateQueryTree(
-        { groups, rules, rootGroupId },
-        schema
-      ),
-    [groups, rules, rootGroupId, schema]
-  );
-
-  const hasRules = Object.keys(rules).length > 0;
-
-  if (!hasRules) return null;
+export function ValidationSummary({ errors, rulesCount }: ValidationSummaryProps) {
+  if (rulesCount === 0) return null;
 
   return (
     <AnimatePresence>
@@ -43,7 +29,7 @@ export function ValidationSummary({ schema }: ValidationSummaryProps) {
           <CheckCircle2 size={16} />
           <span className="font-medium">Query is valid</span>
           <span className="text-emerald-500 dark:text-emerald-500 text-xs">
-            — {Object.keys(rules).length} rule{Object.keys(rules).length !== 1 ? 's' : ''} configured
+            — {rulesCount} rule{rulesCount !== 1 ? 's' : ''} configured
           </span>
         </motion.div>
       ) : (

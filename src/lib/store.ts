@@ -108,19 +108,8 @@ export const useQueryStore = create<QueryStore>((set, get) => ({
 
   removeNode: (id) => set((state) => {
     if (id === state.rootGroupId) {
-      // Cannot remove root group, maybe reset it?
-      return {
-        ...state,
-        groups: {
-          ...state.groups,
-          [state.rootGroupId]: {
-            ...state.groups[state.rootGroupId],
-            children: [],
-          }
-        },
-        // We probably should clean up orphaned rules/groups here, but keeping it simple for now.
-        // A full cleanup would recursively delete from `rules` and `groups`.
-      };
+      // Reset the entire tree to clean up all orphaned rules/groups
+      return createFreshState();
     }
 
     const newState = { ...state };

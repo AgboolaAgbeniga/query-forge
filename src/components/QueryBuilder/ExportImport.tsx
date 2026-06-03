@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
  * Validates imported JSON as a valid QueryState.
  * Prevents malformed recursive structures.
  */
-function validateQueryJSON(data: unknown): { valid: boolean; error?: string; state?: QueryState } {
+export function validateQueryJSON(data: unknown): { valid: boolean; error?: string; state?: QueryState } {
   if (!data || typeof data !== 'object') {
     return { valid: false, error: 'Invalid JSON: expected an object.' };
   }

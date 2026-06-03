@@ -444,9 +444,9 @@ export default function BuilderPage() {
           <div className="flex-1">
             <QueryBuilder />
           </div>
-
-          <div className="mt-8">
-            <ValidationSummary schema={activeSchema} />
+          {/* Validation banner */}
+          <div className="mb-4">
+            <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
           </div>
         </section>
 
