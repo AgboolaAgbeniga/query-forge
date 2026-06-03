@@ -117,10 +117,17 @@ function evaluateRule(
     }
 
     case 'inList': {
-      const list = String(ruleValue)
+      const rawList = String(rule.value || '')
         .split(',')
-        .map((v) => v.trim().toLowerCase());
-      return list.includes(String(coercedRecordValue ?? '').toLowerCase());
+        .map((v) => v.trim());
+      
+      if (fieldSchema.type === 'number') {
+        const numList = rawList.map(Number);
+        return numList.includes(Number(coercedRecordValue));
+      }
+      
+      const lowerList = rawList.map((v) => v.toLowerCase());
+      return lowerList.includes(String(coercedRecordValue ?? '').toLowerCase());
     }
 
     default:

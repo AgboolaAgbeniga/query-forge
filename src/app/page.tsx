@@ -5,8 +5,8 @@ import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { SVGLogo } from '@/components/ui/SVGLogo';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import {
+
   Shield,
   Zap,
   Layers,
@@ -232,7 +232,6 @@ export default function Home() {
             >
               Launch Builder
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </nav>

@@ -7,8 +7,8 @@ import { PreviewPane } from '@/components/QueryBuilder/PreviewPane';
 import { SchemaSelector } from '@/components/QueryBuilder/SchemaSelector';
 import { ValidationSummary } from '@/components/QueryBuilder/ValidationSummary';
 import { SVGLogo } from '@/components/ui/SVGLogo';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
+
 import { DATA_SOURCES, getSchemaById } from '@/lib/schema';
 import { addToHistory, getHistory, clearHistory, removeFromHistory, HistoryEntry } from '@/lib/history';
 import { getPresets, createPreset, deletePreset, QueryPreset } from '@/lib/presets';
@@ -372,7 +372,6 @@ export default function BuilderPage() {
             <Play size={14} fill="currentColor" />
             Execute
           </button>
-          <ThemeToggle />
         </div>
       </header>
 

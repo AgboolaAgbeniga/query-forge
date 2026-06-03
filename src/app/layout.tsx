@@ -37,6 +37,14 @@ export default function RootLayout({
           src="https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js"
           strategy="beforeInteractive"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.documentElement.classList.remove('dark');
+              try { localStorage.removeItem('theme'); } catch (_) {}
+            `,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden selection:bg-blue-200 dark:selection:bg-blue-900">
         {children}

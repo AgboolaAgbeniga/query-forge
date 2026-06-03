@@ -3,8 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { SVGLogo } from '@/components/ui/SVGLogo';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import {
+
   BookOpen,
   Terminal,
   Settings,
@@ -193,7 +193,6 @@ export default function DocsPage() {
               Launch Builder
               <ArrowRight size={14} />
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </nav>
