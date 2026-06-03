@@ -19,6 +19,7 @@ const operatorsByFieldType: Record<string, { label: string; value: RuleOperator 
     { label: 'Not Equals', value: 'notEquals' },
     { label: 'Contains', value: 'contains' },
     { label: 'Starts With', value: 'startsWith' },
+    { label: 'Regex', value: 'regex' },
     { label: 'In List', value: 'inList' },
     { label: 'Is Null', value: 'isNull' },
     { label: 'Is Not Null', value: 'isNotNull' },

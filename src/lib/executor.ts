@@ -130,6 +130,15 @@ function evaluateRule(
       return lowerList.includes(String(coercedRecordValue ?? '').toLowerCase());
     }
 
+    case 'regex': {
+      try {
+        const regex = new RegExp(String(ruleValue), 'i');
+        return regex.test(String(coercedRecordValue ?? ''));
+      } catch {
+        return false; // Invalid regex matches nothing
+      }
+    }
+
     default:
       return true;
   }

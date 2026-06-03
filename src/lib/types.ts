@@ -8,7 +8,8 @@ export type RuleOperator =
   | 'between'
   | 'inList'
   | 'isNull'
-  | 'isNotNull';
+  | 'isNotNull'
+  | 'regex';
 
 export type FieldType = 'string' | 'number' | 'date' | 'boolean' | 'enum';
 

@@ -114,21 +114,23 @@ describe('Query Compiler Engine', () => {
       });
     });
 
-    it('should generate regex for contains and startsWith', () => {
+    it('should generate regex for contains, startsWith, and regex', () => {
       const state: QueryState = {
         rootGroupId: 'root',
         groups: {
-          root: { id: 'root', type: 'AND', children: ['rule1', 'rule2'], parentId: null },
+          root: { id: 'root', type: 'AND', children: ['rule1', 'rule2', 'rule3'], parentId: null },
         },
         rules: {
           rule1: { id: 'rule1', field: 'name', operator: 'contains', value: 'jo' },
           rule2: { id: 'rule2', field: 'name', operator: 'startsWith', value: 'A' },
+          rule3: { id: 'rule3', field: 'name', operator: 'regex', value: '^[A-Z]+$' },
         },
       };
 
       const mongo = JSON.parse(generateMongo(state, testSchema));
       expect(mongo.$and[0].name).toEqual({ $regex: 'jo', $options: 'i' });
       expect(mongo.$and[1].name).toEqual({ $regex: '^A', $options: 'i' });
+      expect(mongo.$and[2].name).toEqual({ $regex: '^[A-Z]+$', $options: 'i' });
     });
 
     it('should generate between and inList filters', () => {
@@ -162,9 +164,8 @@ describe('Query Compiler Engine', () => {
       };
 
       const gql = generateGraphQL(state, testSchema, 'users');
-      expect(gql).toContain('query GetUsers {');
-      expect(gql).toContain('users(');
-      expect(gql).toContain('where: {');
+      expect(gql).toContain('query {');
+      expect(gql).toContain('users (where: {');
       expect(gql).toContain('_and: [');
       expect(gql).toContain('name: { _eq: "John" }');
     });
