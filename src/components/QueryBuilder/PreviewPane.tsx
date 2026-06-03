@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQueryStore } from '@/lib/store';
 import { generateSQL, generateMongo } from '@/lib/engine';
-import { mockSchema } from '@/lib/schema';
+import { getSchemaById } from '@/lib/schema';
 import { Code2, Database, Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -17,12 +17,13 @@ export function PreviewPane() {
   // Subscribe to changes efficiently by generating queries in an effect
   useEffect(() => {
     try {
-      setSqlQuery(generateSQL(store, mockSchema));
-      setMongoQuery(generateMongo(store, mockSchema));
+      const schema = getSchemaById(store.activeSchemaId);
+      setSqlQuery(generateSQL(store, schema));
+      setMongoQuery(generateMongo(store, schema));
     } catch (e) {
       console.error(e);
     }
-  }, [store.rules, store.groups, store.rootGroupId]);
+  }, [store.rules, store.groups, store.rootGroupId, store.activeSchemaId]);
 
   const activeQuery = activeTab === 'sql' ? sqlQuery : mongoQuery;
 

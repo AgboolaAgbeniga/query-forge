@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useQueryStore } from '@/lib/store';
-import { mockSchema } from '@/lib/schema';
+import { getSchemaById } from '@/lib/schema';
 import { RuleId, RuleOperator } from '@/lib/types';
 import { GripVertical, Trash2 } from 'lucide-react';
 import { validateRule } from '@/lib/engine';
@@ -55,8 +55,9 @@ const inputBaseClass =
   "px-3 py-1.5 bg-zinc-50 dark:bg-zinc-700/50 border border-zinc-200 dark:border-zinc-600 rounded-lg text-sm text-slate-700 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-700";
 
 export function RuleNode({ id, depth }: RuleNodeProps) {
-  const { rules, updateRule, removeNode } = useQueryStore();
+  const { rules, updateRule, removeNode, activeSchemaId } = useQueryStore();
   const rule = rules[id];
+  const schema = getSchemaById(activeSchemaId);
 
   const {
     attributes,
@@ -82,10 +83,10 @@ export function RuleNode({ id, depth }: RuleNodeProps) {
 
   if (!rule) return null;
 
-  const fieldSchema = mockSchema[rule.field];
+  const fieldSchema = schema[rule.field];
   const validOperators = operatorsByFieldType[fieldSchema?.type || 'string'] || operatorsByFieldType['string'];
 
-  const error = validateRule(rule, mockSchema);
+  const error = validateRule(rule, schema);
 
   return (
     <div
@@ -117,7 +118,7 @@ export function RuleNode({ id, depth }: RuleNodeProps) {
           value={rule.field}
           onChange={(e) => {
             const newField = e.target.value;
-            const newFieldSchema = mockSchema[newField];
+            const newFieldSchema = schema[newField];
             const newOps = operatorsByFieldType[newFieldSchema.type] || operatorsByFieldType['string'];
             // Reset operator and value if field changes
             updateRule(id, {
@@ -128,7 +129,7 @@ export function RuleNode({ id, depth }: RuleNodeProps) {
           }}
           className={cn(inputBaseClass, "font-medium min-w-[130px]")}
         >
-          {Object.values(mockSchema).map((f) => (
+          {Object.values(schema).map((f) => (
             <option key={f.name} value={f.name}>
               {f.label}
             </option>

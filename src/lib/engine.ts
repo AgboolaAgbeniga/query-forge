@@ -1,8 +1,15 @@
 import { QueryState, Rule, Group, Schema, RuleOperator } from './types';
 
+export interface ValidationError {
+  nodeId: string;
+  nodeType: 'rule' | 'group';
+  field?: string;
+  message: string;
+}
+
 export const validateRule = (rule: Rule, schema: Schema): string | null => {
   const fieldSchema = schema[rule.field];
-  if (!fieldSchema) return `Field ${rule.field} not found in schema.`;
+  if (!fieldSchema) return `Field "${rule.field}" not found in schema.`;
 
   if (rule.value === undefined || rule.value === '') {
     if (rule.operator !== 'isNull' && rule.operator !== 'isNotNull') {
@@ -14,6 +21,20 @@ export const validateRule = (rule: Rule, schema: Schema): string | null => {
     return 'Second value is required for "between" operator.';
   }
 
+  // Date range validation: value2 must be >= value1
+  if (rule.operator === 'between' && fieldSchema.type === 'date' && rule.value && rule.value2) {
+    if (new Date(String(rule.value2)) < new Date(String(rule.value))) {
+      return 'End date must be after start date.';
+    }
+  }
+
+  // Number range validation for between
+  if (rule.operator === 'between' && fieldSchema.type === 'number' && rule.value && rule.value2) {
+    if (Number(rule.value2) < Number(rule.value)) {
+      return 'End value must be greater than or equal to start value.';
+    }
+  }
+
   if (fieldSchema.type === 'number') {
     if (['contains', 'startsWith'].includes(rule.operator)) {
       return `Operator "${rule.operator}" is not valid for number fields.`;
@@ -23,8 +44,58 @@ export const validateRule = (rule: Rule, schema: Schema): string | null => {
     }
   }
 
+  // Boolean fields only support equals
+  if (fieldSchema.type === 'boolean') {
+    if (!['equals', 'isNull', 'isNotNull'].includes(rule.operator)) {
+      return `Operator "${rule.operator}" is not valid for boolean fields.`;
+    }
+  }
+
   return null; // Valid
 };
+
+/**
+ * Validates the entire query tree, collecting all errors.
+ * Used by ValidationSummary component.
+ */
+export function validateQueryTree(state: QueryState, schema: Schema): ValidationError[] {
+  const errors: ValidationError[] = [];
+
+  function validateGroup(groupId: string) {
+    const group = state.groups[groupId];
+    if (!group) return;
+
+    // Check for empty nested groups (root can be empty)
+    if (group.parentId !== null && group.children.length === 0) {
+      errors.push({
+        nodeId: groupId,
+        nodeType: 'group',
+        message: 'Empty group — add conditions or remove this group.',
+      });
+    }
+
+    for (const childId of group.children) {
+      if (state.groups[childId]) {
+        validateGroup(childId);
+      } else if (state.rules[childId]) {
+        const rule = state.rules[childId];
+        const error = validateRule(rule, schema);
+        if (error) {
+          const fieldSchema = schema[rule.field];
+          errors.push({
+            nodeId: childId,
+            nodeType: 'rule',
+            field: fieldSchema?.label || rule.field,
+            message: error,
+          });
+        }
+      }
+    }
+  }
+
+  validateGroup(state.rootGroupId);
+  return errors;
+}
 
 export const generateSQL = (state: QueryState, schema: Schema): string => {
   const processGroup = (groupId: string): string => {

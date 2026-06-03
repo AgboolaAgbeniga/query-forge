@@ -3,8 +3,8 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useQueryStore } from '@/lib/store';
 import { executeQuery } from '@/lib/executor';
-import { MOCK_DATA, MockRecord } from '@/lib/mock-data';
-import { mockSchema } from '@/lib/schema';
+import { MOCK_DATASETS, MOCK_USERS } from '@/lib/mock-data';
+import { getSchemaById } from '@/lib/schema';
 import {
   Play,
   ChevronLeft,
@@ -24,13 +24,13 @@ import { cn } from '@/lib/utils';
 const PAGE_SIZES = [10, 25, 50, 100];
 
 type SortConfig = {
-  field: keyof MockRecord;
+  field: string;
   direction: 'asc' | 'desc';
 } | null;
 
 export function ResultsPane() {
   const store = useQueryStore();
-  const [results, setResults] = useState<MockRecord[]>([]);
+  const [results, setResults] = useState<any[]>([]);
   const [executionTime, setExecutionTime] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasExecuted, setHasExecuted] = useState(false);
@@ -38,7 +38,18 @@ export function ResultsPane() {
   const [pageSize, setPageSize] = useState(10);
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
-  // Reset page on new execution
+  const schema = getSchemaById(store.activeSchemaId);
+  const activeDataset = MOCK_DATASETS[store.activeSchemaId] || MOCK_USERS;
+
+  // Reset page and results when schema changes
+  useEffect(() => {
+    setResults([]);
+    setHasExecuted(false);
+    setSortConfig(null);
+    setPage(1);
+  }, [store.activeSchemaId]);
+
+  // Reset page on new execution results
   useEffect(() => {
     setPage(1);
   }, [results]);
@@ -51,14 +62,14 @@ export function ResultsPane() {
     setTimeout(() => {
       const { results: queryResults, executionTimeMs } = executeQuery(
         { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId },
-        mockSchema,
-        MOCK_DATA
+        schema,
+        activeDataset
       );
       setResults(queryResults);
       setExecutionTime(executionTimeMs);
       setIsLoading(false);
     }, 300);
-  }, [store.groups, store.rules, store.rootGroupId]);
+  }, [store.groups, store.rules, store.rootGroupId, schema, activeDataset]);
 
   // Sort results
   const sortedResults = useMemo(() => {
@@ -94,7 +105,7 @@ export function ResultsPane() {
   );
 
   const handleSort = useCallback(
-    (field: keyof MockRecord) => {
+    (field: string) => {
       setSortConfig((prev) => {
         if (prev?.field === field) {
           if (prev.direction === 'asc') return { field, direction: 'desc' };
@@ -106,20 +117,91 @@ export function ResultsPane() {
     []
   );
 
-  const columns: { key: keyof MockRecord; label: string; width?: string }[] = [
-    { key: 'id', label: 'ID', width: 'w-[100px]' },
-    { key: 'name', label: 'Name', width: 'min-w-[160px]' },
-    { key: 'age', label: 'Age', width: 'w-[70px]' },
-    { key: 'status', label: 'Status', width: 'w-[100px]' },
-    { key: 'country', label: 'Country', width: 'min-w-[120px]' },
-    { key: 'createdAt', label: 'Created At', width: 'w-[120px]' },
-    { key: 'isVerified', label: 'Verified', width: 'w-[90px]' },
-  ];
+  // Derive columns dynamically from schema
+  const columns = useMemo(() => {
+    return Object.values(schema).map((field) => {
+      let width = 'min-w-[120px]';
+      if (field.name === 'id' || field.name === 'sku' || field.name === 'orderId') {
+        width = 'w-[120px]';
+      } else if (field.name === 'age' || field.name === 'stock') {
+        width = 'w-[85px]';
+      } else if (field.name === 'status' || field.name === 'category' || field.name === 'orderStatus' || field.name === 'paymentMethod') {
+        width = 'w-[140px]';
+      } else if (field.name === 'isVerified' || field.name === 'isAvailable' || field.name === 'isPaid') {
+        width = 'w-[100px]';
+      } else if (field.name === 'createdAt' || field.name === 'listedAt' || field.name === 'orderDate') {
+        width = 'w-[130px]';
+      }
+      return {
+        key: field.name,
+        label: field.label,
+        width,
+      };
+    });
+  }, [schema]);
 
-  const SortIcon = ({ field }: { field: keyof MockRecord }) => {
+  const SortIcon = ({ field }: { field: string }) => {
     if (sortConfig?.field !== field) return <ArrowUpDown size={12} className="text-zinc-400" />;
     if (sortConfig.direction === 'asc') return <ArrowUp size={12} className="text-blue-500" />;
     return <ArrowDown size={12} className="text-blue-500" />;
+  };
+
+  const renderCell = (value: any, type: string, key: string) => {
+    if (value === null || value === undefined) return <span className="text-zinc-400">—</span>;
+
+    if (type === 'boolean') {
+      return (
+        <span
+          className={cn(
+            'inline-flex w-5 h-5 rounded-full items-center justify-center text-[10px] font-bold',
+            value
+              ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
+              : 'bg-zinc-100 dark:bg-zinc-700 text-zinc-400'
+          )}
+        >
+          {value ? '✓' : '—'}
+        </span>
+      );
+    }
+
+    if (type === 'enum') {
+      const displayVal = String(value);
+      return (
+        <span
+          className={cn(
+            'inline-flex px-2 py-0.5 rounded-full text-xs font-medium uppercase tracking-wider text-[10px]',
+            (displayVal === 'active' || displayVal === 'delivered' || displayVal === 'shipped' || displayVal === 'electronics') &&
+              'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400',
+            (displayVal === 'pending' || displayVal === 'processing' || displayVal === 'placed' || displayVal === 'clothing' || displayVal === 'credit_card' || displayVal === 'paypal') &&
+              'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400',
+            (displayVal === 'suspended' || displayVal === 'cancelled' || displayVal === 'refunded' || displayVal === 'sports') &&
+              'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400',
+            (displayVal === 'inactive' || displayVal === 'books' || displayVal === 'home' || displayVal === 'food' || displayVal === 'debit_card' || displayVal === 'bank_transfer' || displayVal === 'crypto') &&
+              'bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
+          )}
+        >
+          {displayVal.replace('_', ' ')}
+        </span>
+      );
+    }
+
+    if (type === 'date') {
+      return <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{value}</span>;
+    }
+
+    if (key === 'id' || key === 'sku' || key === 'orderId') {
+      return <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400 font-semibold">{value}</span>;
+    }
+
+    if (type === 'number') {
+      if (key === 'price' || key === 'total') {
+        return <span className="font-medium text-slate-700 dark:text-zinc-200">${Number(value).toFixed(2)}</span>;
+      }
+      return <span className="font-medium text-slate-700 dark:text-zinc-200">{value}</span>;
+    }
+
+    // Default text representation
+    return <span className="font-medium text-slate-700 dark:text-zinc-200">{String(value)}</span>;
   };
 
   return (
@@ -157,7 +239,7 @@ export function ResultsPane() {
             </span>
             <span className="inline-flex items-center gap-1.5">
               <Database size={14} />
-              <strong className="text-slate-700 dark:text-zinc-200">{MOCK_DATA.length}</strong> total
+              <strong className="text-slate-700 dark:text-zinc-200">{activeDataset.length}</strong> total
             </span>
           </div>
         )}
@@ -241,57 +323,30 @@ export function ResultsPane() {
                   </tr>
                 </thead>
                 <tbody>
-                  {paginatedResults.map((record, idx) => (
-                    <tr
-                      key={record.id}
-                      className={cn(
-                        'border-b border-zinc-100 dark:border-zinc-800 last:border-0 transition-colors',
-                        'hover:bg-zinc-50/80 dark:hover:bg-zinc-800/30',
-                        idx % 2 === 0 ? 'bg-white dark:bg-zinc-900' : 'bg-zinc-50/30 dark:bg-zinc-900/50'
-                      )}
-                    >
-                      <td className="px-4 py-2.5 font-mono text-xs text-zinc-500 dark:text-zinc-400">
-                        {record.id}
-                      </td>
-                      <td className="px-4 py-2.5 font-medium text-slate-700 dark:text-zinc-200">
-                        {record.name}
-                      </td>
-                      <td className="px-4 py-2.5 text-slate-600 dark:text-zinc-300">
-                        {record.age}
-                      </td>
-                      <td className="px-4 py-2.5">
-                        <span
-                          className={cn(
-                            'inline-flex px-2 py-0.5 rounded-full text-xs font-medium',
-                            record.status === 'active' && 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400',
-                            record.status === 'inactive' && 'bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400',
-                            record.status === 'pending' && 'bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400',
-                            record.status === 'suspended' && 'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400'
-                          )}
-                        >
-                          {record.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-2.5 text-slate-600 dark:text-zinc-300">
-                        {record.country}
-                      </td>
-                      <td className="px-4 py-2.5 text-slate-500 dark:text-zinc-400 font-mono text-xs">
-                        {record.createdAt}
-                      </td>
-                      <td className="px-4 py-2.5">
-                        <span
-                          className={cn(
-                            'inline-flex w-5 h-5 rounded-full items-center justify-center text-[10px] font-bold',
-                            record.isVerified
-                              ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
-                              : 'bg-zinc-100 dark:bg-zinc-700 text-zinc-400'
-                          )}
-                        >
-                          {record.isVerified ? '✓' : '—'}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {paginatedResults.map((record, idx) => {
+                    const rowKey = record.id || record.sku || record.orderId || idx;
+                    return (
+                      <tr
+                        key={rowKey}
+                        className={cn(
+                          'border-b border-zinc-100 dark:border-zinc-800 last:border-0 transition-colors',
+                          'hover:bg-zinc-50/80 dark:hover:bg-zinc-800/30',
+                          idx % 2 === 0 ? 'bg-white dark:bg-zinc-900' : 'bg-zinc-50/30 dark:bg-zinc-900/50'
+                        )}
+                      >
+                        {columns.map((col) => {
+                          const val = record[col.key];
+                          const fieldSchema = schema[col.key];
+                          const fieldType = fieldSchema ? fieldSchema.type : 'string';
+                          return (
+                            <td key={col.key} className="px-4 py-2.5">
+                              {renderCell(val, fieldType, col.key)}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
