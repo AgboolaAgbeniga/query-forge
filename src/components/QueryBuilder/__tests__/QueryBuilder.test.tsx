@@ -32,12 +32,10 @@ describe('QueryBuilder Integration', () => {
     expect(screen.queryByText('No conditions yet')).not.toBeInTheDocument();
 
     // Default field for Users is User ID (id), let's check if it exists
-    const fieldSelect = screen.getByRole('combobox', { value: 'id' });
-    expect(fieldSelect).toBeInTheDocument();
-
-    // Default operator should be Equals
-    const operatorSelect = screen.getAllByRole('combobox')[1];
-    expect(operatorSelect.value).toBe('equals');
+    const selects = screen.getAllByRole('combobox');
+    expect(selects.length).toBe(2);
+    expect(selects[0]).toHaveValue('id');
+    expect(selects[1]).toHaveValue('equals');
   });
 
   it('can add a nested subgroup and toggle its operator', () => {
