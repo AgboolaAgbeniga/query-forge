@@ -7,6 +7,7 @@ import { PreviewPane } from '@/components/QueryBuilder/PreviewPane';
 import { SchemaSelector } from '@/components/QueryBuilder/SchemaSelector';
 import { ValidationSummary } from '@/components/QueryBuilder/ValidationSummary';
 import { SVGLogo } from '@/components/ui/SVGLogo';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
 
 import { DATA_SOURCES, getSchemaById } from '@/lib/schema';
@@ -343,6 +344,7 @@ export default function BuilderPage() {
           >
             <Clock size={16} />
           </button>
+          <ThemeToggle />
           <button
             onClick={() => setShowImportModal(true)}
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"

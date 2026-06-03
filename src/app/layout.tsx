@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     "Build complex database and API queries through an intuitive graphical interface. Zero syntax required. Enterprise-grade execution.",
 };
 
+import { ThemeProvider } from 'next-themes';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,17 +39,11 @@ export default function RootLayout({
           src="https://cdn.jsdelivr.net/npm/iconify-icon@2/dist/iconify-icon.min.js"
           strategy="beforeInteractive"
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              document.documentElement.classList.remove('dark');
-              try { localStorage.removeItem('theme'); } catch (_) {}
-            `,
-          }}
-        />
       </head>
       <body className="min-h-full flex flex-col font-sans bg-[var(--background)] text-[var(--foreground)] overflow-x-hidden selection:bg-blue-200 dark:selection:bg-blue-900">
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
