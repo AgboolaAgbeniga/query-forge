@@ -232,19 +232,39 @@ export const generateGraphQL = (state: QueryState, schema: Schema, schemaId: str
       const value = rule.value;
       const fieldSchema = schema[field];
 
-      if (rule.operator === 'greaterThan') {
-        return `${field}: { _gt: ${value} }`;
+      const formatVal = (v: any) => {
+        const isNumOrBool = fieldSchema?.type === 'number' || fieldSchema?.type === 'boolean';
+        return isNumOrBool ? v : `"${String(v).replace(/"/g, '\\"')}"`;
+      };
+
+      switch (rule.operator) {
+        case 'equals':
+          return `${field}: { _eq: ${formatVal(value)} }`;
+        case 'notEquals':
+          return `${field}: { _neq: ${formatVal(value)} }`;
+        case 'contains':
+          return `${field}: { _ilike: "%${value}%" }`;
+        case 'startsWith':
+          return `${field}: { _ilike: "${value}%" }`;
+        case 'greaterThan':
+          return `${field}: { _gt: ${value} }`;
+        case 'lessThan':
+          return `${field}: { _lt: ${value} }`;
+        case 'between': {
+          const val2 = rule.value2 || '';
+          return `${field}: { _gte: ${formatVal(value)}, _lte: ${formatVal(val2)} }`;
+        }
+        case 'inList': {
+          const list = String(value).split(',').map(v => formatVal(v.trim())).join(', ');
+          return `${field}: { _in: [${list}] }`;
+        }
+        case 'isNull':
+          return `${field}: { _is_null: true }`;
+        case 'isNotNull':
+          return `${field}: { _is_null: false }`;
+        default:
+          return `${field}: { _eq: ${formatVal(value)} }`;
       }
-      if (rule.operator === 'lessThan') {
-        return `${field}: { _lt: ${value} }`;
-      }
-      if (rule.operator === 'contains') {
-        return `${field}: { _ilike: "%${value}%" }`;
-      }
-      const isNum = fieldSchema?.type === 'number';
-      const isBool = fieldSchema?.type === 'boolean';
-      const formattedVal = isNum || isBool ? value : `"${value}"`;
-      return `${field}: { _eq: ${formattedVal} }`;
     }).filter(Boolean);
 
     if (conditions.length === 0) return '';
