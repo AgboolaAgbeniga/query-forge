@@ -34,6 +34,7 @@ export function GroupNode({ id, depth }: GroupNodeProps) {
 
   /* ─── Flashlight hover effect ─── */
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     const target = e.currentTarget;
     const rect = target.getBoundingClientRect();
     target.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);

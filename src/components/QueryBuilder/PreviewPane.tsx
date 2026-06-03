@@ -2,16 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { useQueryStore } from '@/lib/store';
-import { generateSQL, generateMongo } from '@/lib/engine';
+import { generateSQL, generateMongo, generateGraphQL } from '@/lib/engine';
 import { getSchemaById } from '@/lib/schema';
-import { Code2, Database, Copy, Check } from 'lucide-react';
+import { Code2, Database, Braces, Copy, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export function PreviewPane() {
   const store = useQueryStore();
-  const [activeTab, setActiveTab] = useState<'sql' | 'mongo'>('sql');
+  const [activeTab, setActiveTab] = useState<'sql' | 'mongo' | 'graphql'>('sql');
   const [sqlQuery, setSqlQuery] = useState('');
   const [mongoQuery, setMongoQuery] = useState('');
+  const [gqlQuery, setGqlQuery] = useState('');
   const [copied, setCopied] = useState(false);
 
   // Subscribe to changes efficiently by generating queries in an effect
@@ -20,12 +21,13 @@ export function PreviewPane() {
       const schema = getSchemaById(store.activeSchemaId);
       setSqlQuery(generateSQL(store, schema));
       setMongoQuery(generateMongo(store, schema));
+      setGqlQuery(generateGraphQL(store, schema, store.activeSchemaId));
     } catch (e) {
       console.error(e);
     }
   }, [store.rules, store.groups, store.rootGroupId, store.activeSchemaId]);
 
-  const activeQuery = activeTab === 'sql' ? sqlQuery : mongoQuery;
+  const activeQuery = activeTab === 'sql' ? sqlQuery : activeTab === 'mongo' ? mongoQuery : gqlQuery;
 
   const handleCopy = async () => {
     try {
@@ -45,26 +47,38 @@ export function PreviewPane() {
           <button
             onClick={() => setActiveTab('sql')}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+              "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
               activeTab === 'sql'
                 ? "bg-slate-800 dark:bg-zinc-800 text-white shadow-sm"
                 : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-zinc-800/50"
             )}
           >
-            <Database size={16} />
+            <Database size={14} />
             SQL
           </button>
           <button
             onClick={() => setActiveTab('mongo')}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+              "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
               activeTab === 'mongo'
                 ? "bg-slate-800 dark:bg-zinc-800 text-white shadow-sm"
                 : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-zinc-800/50"
             )}
           >
-            <Code2 size={16} />
+            <Code2 size={14} />
             MongoDB
+          </button>
+          <button
+            onClick={() => setActiveTab('graphql')}
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
+              activeTab === 'graphql'
+                ? "bg-slate-800 dark:bg-zinc-800 text-white shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-zinc-800/50"
+            )}
+          >
+            <Braces size={14} />
+            GraphQL
           </button>
         </div>
 
@@ -92,15 +106,17 @@ export function PreviewPane() {
       <div className="flex-1 p-4 overflow-auto font-mono text-sm leading-relaxed whitespace-pre-wrap custom-scrollbar">
         {activeTab === 'sql' ? (
           <span className="text-blue-300">{sqlQuery}</span>
-        ) : (
+        ) : activeTab === 'mongo' ? (
           <span className="text-emerald-300">{mongoQuery}</span>
+        ) : (
+          <span className="text-amber-300">{gqlQuery}</span>
         )}
       </div>
 
       {/* Status bar */}
       <div className="flex items-center justify-between px-4 py-2 border-t border-zinc-800 dark:border-zinc-800 bg-slate-950/50 dark:bg-black/30">
         <span className="text-[11px] text-zinc-500 font-mono">
-          {activeTab === 'sql' ? 'SQL' : 'MongoDB'} • {activeQuery.length} chars
+          {activeTab === 'sql' ? 'SQL' : activeTab === 'mongo' ? 'MongoDB' : 'GraphQL'} • {activeQuery.length} chars
         </span>
         <div className="flex items-center gap-1.5">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />

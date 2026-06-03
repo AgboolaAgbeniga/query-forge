@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QueryCraft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BioRhyme:wght@400;700;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --stone-50:#fafaf9;--stone-100:#f5f5f4;--stone-200:#e7e5e4;--stone-300:#d6d3d1;
+  --stone-400:#a8a29e;--stone-500:#78716c;--stone-600:#57534e;--stone-700:#44403c;
+  --stone-800:#292524;--stone-900:#1c1917;
+  --zinc-100:#f4f4f5;--zinc-200:#e4e4e7;--zinc-300:#d4d4d8;--zinc-400:#a1a1aa;
+  --zinc-500:#71717a;--zinc-600:#52525b;--zinc-800:#27272a;--zinc-900:#18181b;
+  --accent:#1d4ed8;--accent-light:#3b82f6;--accent-ultra:#dbeafe;
+  --success:#16a34a;--warning:#d97706;--danger:#dc2626;
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05);
+  --radius:8px;--radius-lg:12px;--radius-xl:16px;--radius-pill:9999px;
+  --font-head:'BioRhyme',serif;--font-body:'Manrope',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--stone-100);color:var(--stone-800);font-size:15px;line-height:1.6;overflow-x:hidden}
+
+/* LANDING PAGE */
+#landing{min-height:100vh;background:var(--stone-100)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,245,244,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--zinc-200);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:var(--font-head);font-weight:700;font-size:20px;color:var(--stone-800);letter-spacing:-0.02em}
+.nav-logo svg{width:32px;height:32px}
+.nav-links{display:flex;align-items:center;gap:1.5rem}
+.nav-link{font-size:14px;font-weight:500;color:var(--stone-600);text-decoration:none;letter-spacing:0.01em;transition:color 0.2s}
+.nav-link:hover{color:var(--stone-900)}
+.btn-pill{display:inline-flex;align-items:center;gap:8px;padding:9px 22px;border-radius:var(--radius-pill);font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;text-decoration:none;letter-spacing:0.02em;position:relative;overflow:hidden}
+.btn-primary{background:var(--stone-800);color:#fff}
+.btn-primary:hover{background:var(--stone-900);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-outline{background:transparent;color:var(--stone-700);border:1px solid var(--zinc-200);position:relative;overflow:visible}
+.btn-outline::after{content:'';position:absolute;inset:-2px;border-radius:calc(var(--radius-pill) + 2px);border:1.5px solid transparent;pointer-events:none;transition:all 0.3s}
+.btn-outline:hover::after{border-color:var(--accent-light);animation:beamBorder 1.5s linear infinite}
+
+@keyframes beamBorder{
+  0%{clip-path:inset(0 100% 0 0)}
+  50%{clip-path:inset(0 0 0 0)}
+  100%{clip-path:inset(0 0 0 100%)}
+}
+
+.hero{padding:140px 2rem 80px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-ultra);color:var(--accent);padding:5px 14px;border-radius:var(--radius-pill);font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-badge span{width:6px;height:6px;border-radius:50%;background:var(--accent-light);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+.hero h1{font-family:var(--font-head);font-size:clamp(36px,5vw,56px);font-weight:800;line-height:1.1;letter-spacing:-0.03em;color:var(--stone-900);margin-bottom:1.25rem}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{font-size:17px;color:var(--stone-500);line-height:1.7;margin-bottom:2rem;max-width:460px;font-weight:400}
+.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.hero-visual{position:relative}
+.hero-card{background:#fff;border:1px solid var(--zinc-200);border-radius:var(--radius-xl);padding:1.5rem;box-shadow:var(--shadow-lg);animation:floatCard 4s ease-in-out infinite}
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.query-rule{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--stone-100);border:1px solid var(--zinc-200);border-radius:var(--radius);margin-bottom:8px;font-size:13px}
+.rule-chip{padding:3px 10px;border-radius:var(--radius-pill);font-size:11px;font-weight:600;letter-spacing:0.04em}
+.chip-field{background:#dbeafe;color:#1e40af}
+.chip-op{background:#fef3c7;color:#92400e}
+.chip-val{background:#d1fae5;color:#065f46}
+.query-output{background:var(--stone-900);border-radius:var(--radius);padding:1rem;font-family:monospace;font-size:12px;color:#86efac;margin-top:12px;line-height:1.8}
+.query-output .q-keyword{color:#93c5fd}
+.query-output .q-string{color:#fca5a5}
+.query-output .q-number{color:#fbbf24}
+
+/* VERTICAL CONTAINER LINES */
+.container-lines{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:1200px;pointer-events:none;z-index:0}
+.v-line{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--zinc-200) 15%,var(--zinc-200) 85%,transparent);opacity:0.6}
+.v-line:nth-child(1){left:0}
+.v-line:nth-child(2){left:33.33%}
+.v-line:nth-child(3){left:66.66%}
+.v-line:nth-child(4){right:0}
+.v-line-beam{position:absolute;width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--accent-light),transparent);animation:beamSlide 3s ease-in-out infinite}
+.v-line:nth-child(1) .v-line-beam{animation-delay:0s}
+.v-line:nth-child(2) .v-line-beam{animation-delay:0.75s}
+.v-line:nth-child(3) .v-line-beam{animation-delay:1.5s}
+.v-line:nth-child(4) .v-line-beam{animation-delay:2.25s}
+@keyframes beamSlide{0%{top:-80px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:100%;opacity:0}}
+
+/* SECTIONS */
+.section{padding:80px 2rem;max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.section-tag{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.section-title{font-family:var(--font-head);font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-0.02em;color:var(--stone-900);margin-bottom:1rem}
+.section-sub{font-size:16px;color:var(--stone-500);max-width:560px;line-height:1.7}
+
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.feature-card{background:#fff;border:1px solid var(--zinc-200);border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-md);transition:all 0.3s;position:relative;overflow:hidden;cursor:default}
+.feature-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(59,130,246,0.06) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none}
+.feature-card:hover::before{opacity:1}
+.feature-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--zinc-300)}
+.feature-icon{width:40px;height:40px;border-radius:var(--radius);background:var(--accent-ultra);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;color:var(--accent);font-size:18px}
+.feature-title{font-family:var(--font-head);font-size:17px;font-weight:700;color:var(--stone-800);margin-bottom:6px;letter-spacing:-0.01em}
+.feature-desc{font-size:13.5px;color:var(--stone-500);line-height:1.6}
+
+/* LOGOS STRIP */
+.logos-section{background:#fff;border-top:1px solid var(--zinc-200);border-bottom:1px solid var(--zinc-200);padding:2.5rem 2rem}
+.logos-inner{max-width:1200px;margin:0 auto}
+.logos-label{text-align:center;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone-400);margin-bottom:1.5rem}
+.logos-track{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap}
+.logo-item{display:flex;align-items:center;justify-content:center;width:64px;height:64px;opacity:0.35;transition:opacity 0.2s;filter:grayscale(1)}
+.logo-item:hover{opacity:0.7;filter:grayscale(0)}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+.stat-card{background:#fff;border:1px solid var(--zinc-200);border-radius:var(--radius-lg);padding:1.5rem;text-align:center}
+.stat-num{font-family:var(--font-head);font-size:36px;font-weight:800;color:var(--stone-900);letter-spacing:-0.03em;margin-bottom:4px}
+.stat-label{font-size:13px;color:var(--stone-500);font-weight:500}
+
+/* CTA SECTION */
+.cta-section{background:var(--stone-900);color:#fff;text-align:center;padding:80px 2rem}
+.cta-section h2{font-family:var(--font-head);font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-0.02em;margin-bottom:1rem}
+.cta-section p{font-size:16px;color:var(--stone-400);margin-bottom:2rem}
+.btn-white{background:#fff;color:var(--stone-900);padding:12px 28px;border-radius:var(--radius-pill);font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s;border:none;text-decoration:none}
+.btn-white:hover{background:var(--stone-100);transform:translateY(-2px)}
+
+/* BUILDER PAGE */
+#builder{display:none;min-height:100vh;background:var(--stone-100)}
+.builder-header{background:#fff;border-bottom:1px solid var(--zinc-200);padding:0 1.5rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.builder-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:700;font-size:18px;color:var(--stone-800);cursor:pointer}
+.builder-actions{display:flex;align-items:center;gap:10px}
+.icon-btn{width:36px;height:36px;border-radius:var(--radius);border:1px solid var(--zinc-200);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--stone-500);font-size:15px;transition:all 0.15s}
+.icon-btn:hover{background:var(--stone-100);color:var(--stone-800);border-color:var(--zinc-300)}
+.badge-sm{padding:3px 10px;border-radius:var(--radius-pill);font-size:11px;font-weight:700;letter-spacing:0.05em}
+.badge-blue{background:var(--accent-ultra);color:var(--accent)}
+.badge-green{background:#dcfce7;color:#166534}
+.badge-amber{background:#fef3c7;color:#92400e}
+
+.builder-layout{display:grid;grid-template-columns:240px 1fr 340px;gap:0;height:calc(100vh - 60px)}
+
+/* SIDEBAR */
+.sidebar{background:#fff;border-right:1px solid var(--zinc-200);overflow-y:auto;padding:1rem}
+.sidebar-section{margin-bottom:1.5rem}
+.sidebar-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--stone-400);margin-bottom:8px;padding:0 4px}
+.schema-field{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius);cursor:pointer;transition:all 0.15s;border:1px solid transparent}
+.schema-field:hover{background:var(--stone-100);border-color:var(--zinc-200)}
+.schema-field.active{background:var(--accent-ultra);border-color:#bfdbfe}
+.field-type{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:0.05em;min-width:40px;text-align:center}
+.type-string{background:#f3e8ff;color:#7e22ce}
+.type-number{background:#fff7ed;color:#c2410c}
+.type-date{background:#ecfdf5;color:#065f46}
+.type-enum{background:#fef9c3;color:#854d0e}
+.type-bool{background:#ffe4e6;color:#9f1239}
+.field-name{font-size:13px;font-weight:500;color:var(--stone-700)}
+
+.preset-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius);cursor:pointer;transition:all 0.15s;font-size:13px;color:var(--stone-600);border:1px solid transparent}
+.preset-item:hover{background:var(--stone-100);border-color:var(--zinc-200);color:var(--stone-800)}
+.preset-item i{font-size:14px;color:var(--stone-400)}
+
+/* MAIN BUILDER */
+.builder-main{overflow-y:auto;padding:1.5rem}
+.builder-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.schema-select{padding:7px 12px;border:1px solid var(--zinc-200);border-radius:var(--radius);font-family:var(--font-body);font-size:13px;background:#fff;color:var(--stone-700);cursor:pointer;outline:none}
+.schema-select:focus{border-color:var(--accent-light)}
+.btn-sm{padding:7px 14px;border-radius:var(--radius);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s;border:none}
+.btn-sm-primary{background:var(--stone-800);color:#fff}
+.btn-sm-primary:hover{background:var(--stone-900)}
+.btn-sm-outline{background:#fff;color:var(--stone-700);border:1px solid var(--zinc-200)}
+.btn-sm-outline:hover{background:var(--stone-100);border-color:var(--zinc-300)}
+.btn-sm-danger{background:#fff;color:var(--danger);border:1px solid #fca5a5}
+.btn-sm-danger:hover{background:#fff1f2}
+.btn-sm-success{background:#fff;color:var(--success);border:1px solid #86efac}
+.btn-sm-success:hover{background:#f0fdf4}
+
+/* CONDITION GROUP */
+.group-container{background:#fff;border:1px solid var(--zinc-200);border-radius:var(--radius-lg);margin-bottom:1rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.group-header{padding:10px 14px;background:var(--stone-100);border-bottom:1px solid var(--zinc-200);display:flex;align-items:center;gap:10px}
+.logic-toggle{display:flex;gap:2px;background:var(--zinc-200);border-radius:var(--radius-pill);padding:2px}
+.logic-btn{padding:4px 12px;border-radius:var(--radius-pill);font-size:11px;font-weight:700;letter-spacing:0.06em;border:none;cursor:pointer;transition:all 0.15s;background:transparent;color:var(--stone-500)}
+.logic-btn.active-and{background:#fff;color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.logic-btn.active-or{background:#fff;color:#7c3aed;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+.group-label{font-size:11px;font-weight:700;color:var(--stone-400);letter-spacing:0.05em;text-transform:uppercase}
+.group-body{padding:12px 14px}
+.condition-row{display:grid;grid-template-columns:1fr 160px 1fr auto;gap:8px;align-items:center;padding:8px;background:var(--stone-100);border:1px solid var(--zinc-200);border-radius:var(--radius);margin-bottom:8px;transition:all 0.15s;cursor:grab;position:relative}
+.condition-row:hover{border-color:var(--zinc-300);box-shadow:0 2px 6px rgba(0,0,0,0.06);background:#fff}
+.condition-row.dragging{opacity:0.5;transform:scale(0.98)}
+.cond-select{padding:6px 10px;border:1px solid var(--zinc-200);border-radius:var(--radius);font-family:var(--font-body);font-size:12px;background:#fff;color:var(--stone-700);outline:none;width:100%;cursor:pointer}
+.cond-select:focus{border-color:var(--accent-light)}
+.cond-input{padding:6px 10px;border:1px solid var(--zinc-200);border-radius:var(--radius);font-family:var(--font-body);font-size:12px;background:#fff;color:var(--stone-700);outline:none;width:100%}
+.cond-input:focus{border-color:var(--accent-light)}
+.cond-input.error{border-color:var(--danger);background:#fff1f2}
+.delete-btn{width:28px;height:28px;border-radius:var(--radius);border:1px solid #fca5a5;background:#fff;color:var(--danger);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s}
+.delete-btn:hover{background:#fff1f2}
+.drag-handle{color:var(--stone-300);font-size:13px;cursor:grab;padding:0 4px}
+.drag-handle:hover{color:var(--stone-500)}
+.add-row{display:flex;gap:8px;margin-top:4px}
+.nested-group{margin-top:10px;border-left:3px solid var(--accent-ultra);padding-left:12px}
+.error-text{font-size:11px;color:var(--danger);margin-top:2px}
+.validation-banner{padding:10px 14px;background:#fff1f2;border:1px solid #fca5a5;border-radius:var(--radius);margin-bottom:12px;font-size:13px;color:var(--danger);display:flex;align-items:center;gap:8px}
+
+/* RIGHT PANEL */
+.right-panel{background:#fff;border-left:1px solid var(--zinc-200);display:flex;flex-direction:column;overflow:hidden}
+.panel-tabs{display:flex;border-bottom:1px solid var(--zinc-200)}
+.panel-tab{flex:1;padding:12px 8px;font-size:12px;font-weight:600;text-align:center;cursor:pointer;border:none;background:transparent;color:var(--stone-400);transition:all 0.15s;border-bottom:2px solid transparent}
+.panel-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.panel-content{flex:1;overflow-y:auto;padding:1rem}
+.query-preview-box{background:var(--stone-900);border-radius:var(--radius);padding:1rem;font-family:monospace;font-size:12px;color:#e5e7eb;line-height:1.8;white-space:pre-wrap;word-break:break-all}
+.q-keyword{color:#93c5fd}
+.q-operator{color:#fca5a5}
+.q-value{color:#86efac}
+.q-punct{color:#6b7280}
+.q-field{color:#fde68a}
+.q-comment{color:#6b7280;font-style:italic}
+.format-toggle{display:flex;gap:4px;margin-bottom:12px;background:var(--zinc-100);border-radius:var(--radius);padding:3px}
+.format-btn{flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:600;border:none;cursor:pointer;transition:all 0.15s;background:transparent;color:var(--stone-400)}
+.format-btn.active{background:#fff;color:var(--stone-800);box-shadow:0 1px 2px rgba(0,0,0,0.08)}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.results-count{font-size:12px;font-weight:600;color:var(--stone-500)}
+.result-card{background:var(--stone-100);border:1px solid var(--zinc-200);border-radius:var(--radius);padding:10px 12px;margin-bottom:8px;font-size:12px;position:relative;overflow:hidden;transition:all 0.15s;cursor:default}
+.result-card:hover{border-color:var(--zinc-300);background:#fff}
+.result-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(59,130,246,0.08) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none}
+.result-card:hover::before{opacity:1}
+.result-row{display:flex;justify-content:space-between;margin-bottom:3px}
+.result-key{color:var(--stone-400);font-size:11px}
+.result-val{color:var(--stone-700);font-weight:500;font-size:11px}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--stone-400)}
+.empty-state i{font-size:32px;margin-bottom:12px;display:block}
+.empty-state p{font-size:13px}
+.exec-btn{width:100%;padding:11px;border-radius:var(--radius);background:var(--accent);color:#fff;font-family:var(--font-body);font-weight:600;font-size:14px;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;margin-bottom:1rem}
+.exec-btn:hover{background:#1d40b0;transform:translateY(-1px)}
+.exec-btn.loading{background:var(--stone-400);cursor:not-allowed}
+.loading-bar{height:3px;background:var(--accent-ultra);border-radius:2px;overflow:hidden;margin-bottom:1rem}
+.loading-fill{height:100%;background:var(--accent);border-radius:2px;animation:loadFill 1.2s ease-in-out}
+@keyframes loadFill{0%{width:0}80%{width:85%}100%{width:100%}}
+
+/* HISTORY */
+.history-item{padding:8px 10px;background:var(--stone-100);border:1px solid var(--zinc-200);border-radius:var(--radius);margin-bottom:8px;cursor:pointer;transition:all 0.15s;font-size:12px}
+.history-item:hover{background:#fff;border-color:var(--zinc-300)}
+.history-time{font-size:10px;color:var(--stone-400);margin-bottom:2px}
+.history-summary{color:var(--stone-700);font-family:monospace}
+
+/* KEYBOARD SHORTCUTS */
+.kbd{padding:2px 6px;border:1px solid var(--zinc-300);border-radius:4px;background:var(--stone-100);font-size:10px;font-family:monospace;color:var(--stone-600)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);animation:fadeIn 0.2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:var(--radius-xl);padding:1.5rem;width:90%;max-width:480px;box-shadow:0 20px 40px rgba(0,0,0,0.15);animation:slideUp 0.25s ease}
+@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal h3{font-family:var(--font-head);font-size:20px;font-weight:700;margin-bottom:6px;color:var(--stone-900)}
+.modal p{font-size:13px;color:var(--stone-500);margin-bottom:1rem}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end}
+textarea.json-area{width:100%;height:180px;border:1px solid var(--zinc-200);border-radius:var(--radius);padding:10px;font-family:monospace;font-size:12px;resize:vertical;outline:none;color:var(--stone-700);background:var(--stone-100)}
+textarea.json-area:focus{border-color:var(--accent-light)}
+
+/* BLUR ANIMATION on page load */
+.blur-in{animation:blurIn 0.6s ease forwards}
+@keyframes blurIn{from{filter:blur(8px);opacity:0;transform:translateY(12px)}to{filter:blur(0);opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .hero-visual{display:none}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .builder-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr auto}
+  .sidebar{display:none}
+  .right-panel{height:300px}
+}
+@media(max-width:640px){
+  .nav-links{display:none}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .condition-row{grid-template-columns:1fr auto;grid-template-rows:auto auto}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--zinc-300);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--zinc-400)}
+
+/* Tooltip */
+[data-tip]{position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--stone-900);color:#fff;font-size:11px;padding:4px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;z-index:99}
+</style>
+</head>
+<body>
+
+<div class="container-lines" aria-hidden="true">
+  <div class="v-line"><div class="v-line-beam"></div></div>
+  <div class="v-line"><div class="v-line-beam"></div></div>
+  <div class="v-line"><div class="v-line-beam"></div></div>
+  <div class="v-line"><div class="v-line-beam"></div></div>
+</div>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#1c1917"/>
+        <path d="M8 10h4v12H8z" fill="#3b82f6" rx="2"/>
+        <path d="M14 14h4v8h-4z" fill="#60a5fa" rx="2"/>
+        <path d="M20 8h4v14h-4z" fill="#93c5fd" rx="2"/>
+        <circle cx="10" cy="10" r="2" fill="#fff" opacity="0.9"/>
+        <circle cx="16" cy="14" r="2" fill="#fff" opacity="0.9"/>
+        <circle cx="22" cy="8" r="2" fill="#fff" opacity="0.9"/>
+        <path d="M10 10 L16 14 L22 8" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none"/>
+      </svg>
+      QueryCraft
+    </div>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#how-it-works" class="nav-link">How It Works</a>
+      <a href="#" class="nav-link">Docs</a>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn-pill btn-outline" onclick="openBuilder()">Launch Builder <i class="fa-solid fa-arrow-right" style="font-size:12px"></i></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="blur-in" style="animation-delay:0.1s">
+      <div class="hero-badge"><span></span> Visual Query Builder</div>
+      <h1>Build <em>complex queries</em><br>without writing code</h1>
+      <p class="hero-sub">Construct powerful database filters, nested conditions, and dynamic queries through an intuitive drag-and-drop interface. No SQL required.</p>
+      <div class="hero-actions">
+        <button class="btn-pill btn-primary" onclick="openBuilder()" style="font-size:15px;padding:12px 28px">
+          <i class="fa-solid fa-play" style="font-size:12px"></i> Open Builder
+        </button>
+        <button class="btn-pill btn-outline" style="font-size:14px">
+          <i class="fa-brands fa-github" style="font-size:14px"></i> View on GitHub
+        </button>
+      </div>
+      <p style="font-size:12px;color:var(--stone-400);margin-top:1.25rem;display:flex;align-items:center;gap:12px">
+        <span><kbd class="kbd">⌘K</kbd> Quick search</span>
+        <span><kbd class="kbd">⌘E</kbd> Execute query</span>
+        <span><kbd class="kbd">⌘Z</kbd> Undo</span>
+      </p>
+    </div>
+    <div class="hero-visual blur-in" style="animation-delay:0.3s">
+      <div class="hero-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <span style="font-size:12px;font-weight:700;color:var(--stone-400);letter-spacing:0.05em;text-transform:uppercase">Live Preview</span>
+          <span class="badge-sm badge-blue">SQL</span>
+        </div>
+        <div class="query-rule">
+          <span class="rule-chip chip-field">age</span>
+          <span class="rule-chip chip-op">&gt; greater than</span>
+          <span class="rule-chip chip-val">18</span>
+        </div>
+        <div class="query-rule">
+          <span class="rule-chip chip-field">country</span>
+          <span class="rule-chip chip-op">= equals</span>
+          <span class="rule-chip chip-val">"Nigeria"</span>
+        </div>
+        <div style="padding:6px 10px;background:var(--accent-ultra);border-radius:var(--radius);margin-bottom:8px;font-size:12px;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:6px">
+          <i class="fa-solid fa-layer-group" style="font-size:11px"></i> OR Group
+        </div>
+        <div class="query-rule" style="margin-left:16px;border-left:3px solid var(--accent-light)">
+          <span class="rule-chip chip-field">status</span>
+          <span class="rule-chip chip-op">= equals</span>
+          <span class="rule-chip chip-val">"active"</span>
+        </div>
+        <div class="query-output">
+<span class="q-keyword">SELECT</span> * <span class="q-keyword">FROM</span> users
+<span class="q-keyword">WHERE</span> (<span class="q-keyword">age</span> &gt; <span class="q-number">18</span>
+  <span class="q-keyword">AND</span> country = <span class="q-string">'Nigeria'</span>)
+<span class="q-keyword">OR</span> status = <span class="q-string">'active'</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+          <span style="font-size:12px;color:var(--stone-400)"><i class="fa-solid fa-circle-check" style="color:var(--success)"></i> 3 rules · 2 groups</span>
+          <span class="badge-sm badge-green">42 results</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGOS -->
+  <div class="logos-section">
+    <div class="logos-inner">
+      <div class="logos-label">Trusted in engineering workflows at</div>
+      <div class="logos-track">
+        <div class="logo-item" data-tip="NASA">
+          <iconify-icon icon="simple-icons:nasa" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="SpaceX">
+          <iconify-icon icon="simple-icons:spacex" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Uber">
+          <iconify-icon icon="simple-icons:uber" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Visa">
+          <iconify-icon icon="simple-icons:visa" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Grab">
+          <iconify-icon icon="simple-icons:grab" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Bose">
+          <iconify-icon icon="simple-icons:bose" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Discover">
+          <iconify-icon icon="simple-icons:discover" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="DJI">
+          <iconify-icon icon="simple-icons:dji" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Nikon">
+          <iconify-icon icon="simple-icons:nikon" width="64" height="64"></iconify-icon>
+        </div>
+        <div class="logo-item" data-tip="Sony">
+          <iconify-icon icon="simple-icons:sony" width="64" height="64"></iconify-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div style="max-width:580px">
+      <div class="section-tag">Capabilities</div>
+      <h2 class="section-title">Everything you need to query with confidence</h2>
+      <p class="section-sub">From simple filters to deeply nested logic trees — built for engineers who value precision and speed.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" id="fc1">
+        <div class="feature-icon"><i class="fa-solid fa-sitemap"></i></div>
+        <div class="feature-title">Nested Conditions</div>
+        <p class="feature-desc">Build unlimited nesting depth with AND/OR logic groups. Collapse, reorder, and drag conditions freely.</p>
+      </div>
+      <div class="feature-card" id="fc2">
+        <div class="feature-icon"><i class="fa-solid fa-code"></i></div>
+        <div class="feature-title">Live Query Preview</div>
+        <p class="feature-desc">See SQL, MongoDB, and GraphQL output update in real time as you construct your filter tree.</p>
+      </div>
+      <div class="feature-card" id="fc3">
+        <div class="feature-icon"><i class="fa-solid fa-database"></i></div>
+        <div class="feature-title">Schema-Driven UI</div>
+        <p class="feature-desc">Adapts automatically to your data schema — date pickers, dropdowns, number ranges — all context-aware.</p>
+      </div>
+      <div class="feature-card" id="fc4">
+        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="feature-title">Validation Engine</div>
+        <p class="feature-desc">Prevents invalid queries before execution. Catches type mismatches, empty groups, and broken ranges.</p>
+      </div>
+      <div class="feature-card" id="fc5">
+        <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+        <div class="feature-title">Simulated Execution</div>
+        <p class="feature-desc">Run queries against a mock dataset and inspect filtered results with pagination and sorting.</p>
+      </div>
+      <div class="feature-card" id="fc6">
+        <div class="feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+        <div class="feature-title">Query History</div>
+        <p class="feature-desc">Full history of executed queries with timestamps. Save presets and export/import as JSON.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how-it-works" style="background:none">
+    <div style="text-align:center;max-width:580px;margin:0 auto 3rem">
+      <div class="section-tag">Workflow</div>
+      <h2 class="section-title">How it works</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem">
+      <div style="text-align:center;padding:2rem 1rem">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--stone-800);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:20px;font-family:var(--font-head);font-weight:800">1</div>
+        <h3 style="font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:8px;color:var(--stone-800)">Choose Schema</h3>
+        <p style="font-size:14px;color:var(--stone-500)">Select a data source or paste your custom schema to get started.</p>
+      </div>
+      <div style="text-align:center;padding:2rem 1rem">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--stone-800);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:20px;font-family:var(--font-head);font-weight:800">2</div>
+        <h3 style="font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:8px;color:var(--stone-800)">Build Query</h3>
+        <p style="font-size:14px;color:var(--stone-500)">Add conditions, group rules, nest logic with drag-and-drop ease.</p>
+      </div>
+      <div style="text-align:center;padding:2rem 1rem">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--stone-800);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:20px;font-family:var(--font-head);font-weight:800">3</div>
+        <h3 style="font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:8px;color:var(--stone-800)">Preview Output</h3>
+        <p style="font-size:14px;color:var(--stone-500)">Watch SQL, Mongo, or GraphQL syntax generate in real time.</p>
+      </div>
+      <div style="text-align:center;padding:2rem 1rem">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--stone-800);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:20px;font-family:var(--font-head);font-weight:800">4</div>
+        <h3 style="font-family:var(--font-head);font-size:18px;font-weight:700;margin-bottom:8px;color:var(--stone-800)">Execute & Inspect</h3>
+        <p style="font-size:14px;color:var(--stone-500)">Run the query, inspect results, export to JSON or copy to clipboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="section" style="padding-top:0">
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card"><div class="stat-num" data-target="12">0</div><div class="stat-label">Supported operators</div></div>
+      <div class="stat-card"><div class="stat-num" data-target="3">0</div><div class="stat-label">Query formats (SQL · Mongo · GQL)</div></div>
+      <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">Nesting depth</div></div>
+      <div class="stat-card"><div class="stat-num" data-target="1000">0</div><div class="stat-label">Mock dataset records</div></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to query smarter?</h2>
+    <p>Open the builder and construct your first query in under 60 seconds.</p>
+    <a href="#" class="btn-white" onclick="openBuilder();return false">
+      <i class="fa-solid fa-play" style="font-size:12px"></i> Launch QueryCraft
+    </a>
+  </div>
+
+  <footer style="background:var(--stone-900);padding:2rem;text-align:center;color:var(--stone-500);font-size:13px;border-top:1px solid var(--stone-800)">
+    Built with Next.js · TypeScript · Tailwind CSS — Frontend Wizards Stage 8
+    <span style="margin:0 1rem;opacity:0.3">|</span>
+    <span style="color:var(--stone-400)">QueryCraft © 2025</span>
+  </footer>
+</div>
+
+<!-- BUILDER PAGE -->
+<div id="builder">
+  <header class="builder-header">
+    <div class="builder-logo" onclick="closeBuider()">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+        <rect width="24" height="24" rx="6" fill="#1c1917"/>
+        <path d="M6 8h3v8H6zM10.5 11h3v5h-3zM15 6h3v10h-3z" fill="#3b82f6"/>
+      </svg>
+      QueryCraft
+      <span class="badge-sm badge-blue" style="margin-left:4px">Builder</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span id="schema-indicator" style="font-size:12px;color:var(--stone-400)"><i class="fa-solid fa-circle" style="color:var(--success);font-size:8px"></i> Users Schema</span>
+      <span id="validation-status" class="badge-sm badge-green">Valid</span>
+    </div>
+    <div class="builder-actions">
+      <button class="icon-btn" data-tip="Query History (H)" onclick="showPanel('history')"><i class="fa-solid fa-clock-rotate-left"></i></button>
+      <button class="icon-btn" data-tip="Import JSON" onclick="showImport()"><i class="fa-solid fa-file-import"></i></button>
+      <button class="icon-btn" data-tip="Export JSON" onclick="exportQuery()"><i class="fa-solid fa-file-export"></i></button>
+      <button class="icon-btn" data-tip="Keyboard Shortcuts" onclick="showShortcuts()"><i class="fa-solid fa-keyboard"></i></button>
+      <button class="btn-sm btn-sm-primary" onclick="executeQuery()"><i class="fa-solid fa-play" style="font-size:11px"></i> Execute</button>
+    </div>
+  </header>
+
+  <div class="builder-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Schema Fields</div>
+        <div id="schema-fields"></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Saved Presets</div>
+        <div id="presets-list">
+          <div class="preset-item" onclick="loadPreset('active_adult')"><i class="fa-solid fa-bookmark"></i> Active Adults</div>
+          <div class="preset-item" onclick="loadPreset('recent_buyers')"><i class="fa-solid fa-bookmark"></i> Recent Buyers</div>
+          <div class="preset-item" onclick="loadPreset('premium_users')"><i class="fa-solid fa-bookmark"></i> Premium Users</div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Shortcuts</div>
+        <div style="font-size:11px;color:var(--stone-400);line-height:2">
+          <div><kbd class="kbd">⌘E</kbd> Execute</div>
+          <div><kbd class="kbd">⌘Z</kbd> Undo</div>
+          <div><kbd class="kbd">⌘S</kbd> Save preset</div>
+          <div><kbd class="kbd">⌘D</kbd> Duplicate rule</div>
+          <div><kbd class="kbd">Del</kbd> Remove rule</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN AREA -->
+    <main class="builder-main" id="builder-main">
+      <div class="builder-toolbar">
+        <div class="toolbar-left">
+          <select class="schema-select" id="schema-select" onchange="switchSchema(this.value)">
+            <option value="users">Users</option>
+            <option value="orders">Orders</option>
+            <option value="products">Products</option>
+          </select>
+          <button class="btn-sm btn-sm-outline" onclick="addCondition(null)"><i class="fa-solid fa-plus"></i> Add Rule</button>
+          <button class="btn-sm btn-sm-outline" onclick="addGroup(null)"><i class="fa-solid fa-layer-group"></i> Add Group</button>
+          <button class="btn-sm btn-sm-danger" onclick="clearAll()"><i class="fa-solid fa-trash"></i> Clear</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span id="rule-count" style="font-size:12px;color:var(--stone-400)">0 rules</span>
+        </div>
+      </div>
+
+      <div id="validation-banner" style="display:none" class="validation-banner">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span id="validation-msg">Validation error</span>
+      </div>
+
+      <div id="query-tree"></div>
+
+      <div id="empty-builder" style="text-align:center;padding:4rem 2rem;color:var(--stone-400)">
+        <i class="fa-solid fa-filter" style="font-size:40px;margin-bottom:1rem;display:block;opacity:0.3"></i>
+        <p style="font-size:15px;font-weight:500;margin-bottom:6px;color:var(--stone-500)">No conditions yet</p>
+        <p style="font-size:13px;margin-bottom:1.5rem">Add a rule or group to start building your query</p>
+        <button class="btn-sm btn-sm-primary" onclick="loadPreset('active_adult')"><i class="fa-solid fa-wand-magic-sparkles"></i> Load Example</button>
+      </div>
+    </main>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel">
+      <div class="panel-tabs">
+        <button class="panel-tab active" onclick="switchTab('preview')" id="tab-preview">Preview</button>
+        <button class="panel-tab" onclick="switchTab('results')" id="tab-results">Results</button>
+        <button class="panel-tab" onclick="switchTab('history')" id="tab-history">History</button>
+      </div>
+
+      <div class="panel-content" id="panel-preview">
+        <div class="format-toggle">
+          <button class="format-btn active" onclick="setFormat('sql',this)">SQL</button>
+          <button class="format-btn" onclick="setFormat('mongo',this)">Mongo</button>
+          <button class="format-btn" onclick="setFormat('graphql',this)">GraphQL</button>
+        </div>
+        <div class="query-preview-box" id="query-preview-box"><span class="q-comment">-- Add conditions to see your query</span></div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="btn-sm btn-sm-outline" style="flex:1" onclick="copyQuery()"><i class="fa-solid fa-copy"></i> Copy</button>
+          <button class="btn-sm btn-sm-outline" style="flex:1" onclick="saveAsPreset()"><i class="fa-solid fa-bookmark"></i> Save</button>
+        </div>
+      </div>
+
+      <div class="panel-content" id="panel-results" style="display:none">
+        <button class="exec-btn" id="exec-btn" onclick="executeQuery()">
+          <i class="fa-solid fa-play" style="font-size:12px"></i> Execute Query
+        </button>
+        <div id="loading-bar" style="display:none" class="loading-bar"><div class="loading-fill"></div></div>
+        <div class="results-header">
+          <span class="results-count" id="results-count">No results yet</span>
+          <span id="results-meta" style="font-size:11px;color:var(--stone-400)"></span>
+        </div>
+        <div id="results-list"><div class="empty-state"><i class="fa-solid fa-magnifying-glass"></i><p>Execute a query to see results</p></div></div>
+      </div>
+
+      <div class="panel-content" id="panel-history" style="display:none">
+        <div style="font-size:12px;font-weight:600;color:var(--stone-500);margin-bottom:10px">Query History</div>
+        <div id="history-list"><div class="empty-state"><i class="fa-solid fa-clock"></i><p>No queries executed yet</p></div></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-overlay" class="modal-overlay" style="display:none" onclick="closeModal(event)">
+  <div class="modal" id="modal-box">
+    <h3 id="modal-title">Modal</h3>
+    <p id="modal-desc"></p>
+    <div id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.0.0/dist/iconify-icon.min.js"></script>
+<script>
+// ============================================================
+//  DATA MODEL
+// ============================================================
+const SCHEMAS = {
+  users: [
+    {name:'name',type:'string'},{name:'age',type:'number'},{name:'email',type:'string'},
+    {name:'country',type:'string'},{name:'status',type:'enum',options:['active','inactive','pending','banned']},
+    {name:'createdAt',type:'date'},{name:'purchases',type:'number'},{name:'isPremium',type:'bool'},
+    {name:'plan',type:'enum',options:['free','pro','enterprise']}
+  ],
+  orders: [
+    {name:'orderId',type:'string'},{name:'total',type:'number'},{name:'currency',type:'string'},
+    {name:'status',type:'enum',options:['pending','shipped','delivered','cancelled']},
+    {name:'createdAt',type:'date'},{name:'userId',type:'string'},{name:'itemCount',type:'number'},
+    {name:'isPaid',type:'bool'}
+  ],
+  products: [
+    {name:'sku',type:'string'},{name:'title',type:'string'},{name:'price',type:'number'},
+    {name:'category',type:'enum',options:['electronics','clothing','food','books','tools']},
+    {name:'stock',type:'number'},{name:'inStock',type:'bool'},{name:'createdAt',type:'date'},
+    {name:'rating',type:'number'}
+  ]
+};
+
+const OPS_BY_TYPE = {
+  string:['equals','not_equals','contains','starts_with','ends_with','in_array'],
+  number:['equals','not_equals','greater_than','less_than','between','is_null'],
+  date:['equals','before','after','between','is_null'],
+  enum:['equals','not_equals','in_array'],
+  bool:['equals']
+};
+
+const OP_LABELS = {
+  equals:'= Equals',not_equals:'≠ Not Equals',contains:'⊂ Contains',starts_with:'Starts With',
+  ends_with:'Ends With',in_array:'In Array',greater_than:'> Greater Than',less_than:'< Less Than',
+  between:'↔ Between',is_null:'Is Null',before:'Before',after:'After'
+};
+
+const MOCK_DATASET = generateMockData(100);
+
+const PRESETS = {
+  active_adult:{
+    logic:'AND',conditions:[
+      {id:uid(),field:'age',operator:'greater_than',value:'18'},
+      {id:uid(),field:'status',operator:'equals',value:'active'}
+    ],groups:[]
+  },
+  recent_buyers:{
+    logic:'AND',conditions:[
+      {id:uid(),field:'purchases',operator:'greater_than',value:'0'},
+      {id:uid(),field:'createdAt',operator:'after',value:'2024-01-01'}
+    ],groups:[]
+  },
+  premium_users:{
+    logic:'AND',conditions:[
+      {id:uid(),field:'isPremium',operator:'equals',value:'true'},
+      {id:uid(),field:'plan',operator:'in_array',value:'pro,enterprise'}
+    ],groups:[]
+  }
+};
+
+let state = {
+  schema:'users',
+  rootGroup:createGroup(),
+  format:'sql',
+  history:[],
+  results:[]
+};
+
+let undoStack = [];
+
+function uid(){return Math.random().toString(36).slice(2,9)}
+function createGroup(logic='AND'){return{id:uid(),logic,conditions:[],groups:[]}}
+function createCondition(field='',op='equals',val=''){return{id:uid(),field,operator:op,value:val,error:null}}
+
+function generateMockData(n){
+  const names=['Alice','Bob','Carlos','Diana','Emeka','Fiona','George','Hana','Ivan','Jess'];
+  const countries=['Nigeria','USA','UK','Germany','France','India','Brazil','Japan','Canada','Ghana'];
+  const statuses=['active','inactive','pending','banned'];
+  const plans=['free','pro','enterprise'];
+  return Array.from({length:n},(_,i)=>({
+    id:i+1,
+    name:names[i%names.length]+' '+(i+1),
+    age:18+Math.floor(Math.random()*50),
+    email:`user${i+1}@example.com`,
+    country:countries[i%countries.length],
+    status:statuses[i%statuses.length],
+    createdAt:new Date(Date.now()-Math.random()*3e10).toISOString().slice(0,10),
+    purchases:Math.floor(Math.random()*50),
+    isPremium:Math.random()>0.6,
+    plan:plans[i%plans.length]
+  }));
+}
+
+// ============================================================
+//  RENDER
+// ============================================================
+function render(){
+  const tree=document.getElementById('query-tree');
+  const empty=document.getElementById('empty-builder');
+  const count=document.getElementById('rule-count');
+  const rcount=countRules(state.rootGroup);
+  count.textContent=`${rcount} rule${rcount!==1?'s':''}`;
+  if(rcount===0){tree.innerHTML='';empty.style.display='block';return}
+  empty.style.display='none';
+  tree.innerHTML=renderGroup(state.rootGroup,true);
+  updatePreview();
+  renderSchemaFields();
+  attachDragHandlers();
+}
+
+function countRules(g){
+  return g.conditions.length+g.groups.reduce((s,sg)=>s+countRules(sg),0);
+}
+
+function renderGroup(g,isRoot=false){
+  const conds=g.conditions.map(c=>renderCondition(c,g.id)).join('');
+  const grps=g.groups.map(sg=>`<div class="nested-group">${renderGroup(sg)}</div>`).join('');
+  const logicBtns=['AND','OR'].map(l=>`<button class="logic-btn ${g.logic===l?(l==='AND'?'active-and':'active-or'):''}" onclick="toggleLogic('${g.id}','${l}')">${l}</button>`).join('');
+  const removeBtn=isRoot?'':'<button class="icon-btn" style="margin-left:auto" onclick="removeGroup(\''+g.id+'\')"><i class="fa-solid fa-xmark"></i></button>';
+  return`<div class="group-container" data-gid="${g.id}">
+    <div class="group-header">
+      <span class="group-label">${isRoot?'Root Group':'Nested Group'}</span>
+      <div class="logic-toggle">${logicBtns}</div>
+      ${removeBtn}
+    </div>
+    <div class="group-body" id="gb-${g.id}">
+      ${conds}${grps}
+      <div class="add-row">
+        <button class="btn-sm btn-sm-outline" onclick="addCondition('${g.id}')"><i class="fa-solid fa-plus"></i> Rule</button>
+        <button class="btn-sm btn-sm-outline" onclick="addGroup('${g.id}')"><i class="fa-solid fa-layer-group"></i> Group</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCondition(c,gid){
+  const schema=SCHEMAS[state.schema];
+  const fieldOpts=schema.map(f=>`<option value="${f.name}" ${c.field===f.name?'selected':''}>${f.name}</option>`).join('');
+  const fieldDef=schema.find(f=>f.name===c.field);
+  const type=fieldDef?fieldDef.type:'string';
+  const ops=(OPS_BY_TYPE[type]||OPS_BY_TYPE.string).map(op=>`<option value="${op}" ${c.operator===op?'selected':''}>${OP_LABELS[op]||op}</option>`).join('');
+  const valInput=buildValueInput(c,fieldDef);
+  const errTxt=c.error?`<div class="error-text"><i class="fa-solid fa-triangle-exclamation"></i> ${c.error}</div>`:'';
+  return`<div class="condition-row" draggable="true" data-cid="${c.id}" data-gid="${gid}">
+    <i class="fa-solid fa-grip-vertical drag-handle" aria-hidden="true"></i>
+    <select class="cond-select" onchange="updateCondField('${c.id}','${gid}',this.value)"><option value="">-- Field --</option>${fieldOpts}</select>
+    <select class="cond-select" onchange="updateCondOp('${c.id}','${gid}',this.value)">${ops}</select>
+    ${valInput}
+    <button class="delete-btn" onclick="removeCondition('${c.id}','${gid}')"><i class="fa-solid fa-xmark"></i></button>
+    ${errTxt}
+  </div>`;
+}
+
+function buildValueInput(c,fieldDef){
+  if(!fieldDef) return`<input class="cond-input ${c.error?'error':''}" value="${c.value||''}" onchange="updateCondVal('${c.id}',this.value)" placeholder="Value">`;
+  const t=fieldDef.type;
+  if(c.operator==='is_null') return`<span style="font-size:12px;color:var(--stone-400);padding:6px">— no value needed —</span>`;
+  if(t==='enum'&&c.operator!=='in_array') return`<select class="cond-select ${c.error?'error':''}" onchange="updateCondVal('${c.id}',this.value)">${(fieldDef.options||[]).map(o=>`<option value="${o}" ${c.value===o?'selected':''}>${o}</option>`).join('')}</select>`;
+  if(t==='bool') return`<select class="cond-select" onchange="updateCondVal('${c.id}',this.value)"><option value="true" ${c.value==='true'?'selected':''}>true</option><option value="false" ${c.value==='false'?'selected':''}>false</option></select>`;
+  if(t==='date') return`<input type="date" class="cond-input ${c.error?'error':''}" value="${c.value||''}" onchange="updateCondVal('${c.id}',this.value)">`;
+  if(t==='number') return`<input type="number" class="cond-input ${c.error?'error':''}" value="${c.value||''}" onchange="updateCondVal('${c.id}',this.value)" placeholder="${c.operator==='between'?'e.g. 18,65':'Number'}">`;
+  return`<input class="cond-input ${c.error?'error':''}" value="${c.value||''}" onchange="updateCondVal('${c.id}',this.value)" placeholder="${c.operator==='in_array'?'val1,val2':'Value'}">`;
+}
+
+function renderSchemaFields(){
+  const el=document.getElementById('schema-fields');
+  if(!el)return;
+  el.innerHTML=SCHEMAS[state.schema].map(f=>`<div class="schema-field"><span class="field-type type-${f.type}">${f.type.toUpperCase()}</span><span class="field-name">${f.name}</span></div>`).join('');
+}
+
+// ============================================================
+//  STATE MUTATIONS
+// ============================================================
+function pushUndo(){undoStack.push(JSON.parse(JSON.stringify(state.rootGroup)));if(undoStack.length>30)undoStack.shift()}
+
+function findGroup(g,id){if(g.id===id)return g;for(const sg of g.groups){const r=findGroup(sg,id);if(r)return r;}return null}
+
+function addCondition(gid){
+  pushUndo();
+  const g=gid?findGroup(state.rootGroup,gid):state.rootGroup;
+  if(g){
+    const schema=SCHEMAS[state.schema];
+    g.conditions.push(createCondition(schema[0]?.name||'','equals',''));
+  }
+  render();
+}
+
+function addGroup(gid){
+  pushUndo();
+  const g=gid?findGroup(state.rootGroup,gid):state.rootGroup;
+  if(g) g.groups.push(createGroup());
+  render();
+}
+
+function removeCondition(cid,gid){
+  pushUndo();
+  const g=findGroup(state.rootGroup,gid);
+  if(g) g.conditions=g.conditions.filter(c=>c.id!==cid);
+  render();
+}
+
+function removeGroup(gid){
+  pushUndo();
+  removeGroupRecursive(state.rootGroup,gid);
+  render();
+}
+
+function removeGroupRecursive(g,targetId){
+  g.groups=g.groups.filter(sg=>sg.id!==targetId);
+  g.groups.forEach(sg=>removeGroupRecursive(sg,targetId));
+}
+
+function toggleLogic(gid,logic){
+  pushUndo();
+  const g=findGroup(state.rootGroup,gid);
+  if(g) g.logic=logic;
+  render();
+}
+
+function updateCondField(cid,gid,val){
+  pushUndo();
+  const g=findGroup(state.rootGroup,gid);
+  if(g){
+    const c=g.conditions.find(x=>x.id===cid);
+    if(c){c.field=val;c.value='';c.error=null;const schema=SCHEMAS[state.schema];const fd=schema.find(f=>f.name===val);const ops=OPS_BY_TYPE[fd?.type||'string'];c.operator=ops[0];}
+  }
+  render();
+}
+
+function updateCondOp(cid,gid,val){
+  const g=findGroup(state.rootGroup,gid);
+  if(g){const c=g.conditions.find(x=>x.id===cid);if(c){c.operator=val;c.value='';c.error=null;}}
+  render();
+}
+
+function updateCondVal(cid,val){
+  findCondition(state.rootGroup,cid,c=>{c.value=val;c.error=null;});
+  updatePreview();
+}
+
+function findCondition(g,cid,cb){
+  const c=g.conditions.find(x=>x.id===cid);
+  if(c){cb(c);return;}
+  g.groups.forEach(sg=>findCondition(sg,cid,cb));
+}
+
+function clearAll(){pushUndo();state.rootGroup=createGroup();render();}
+
+function switchSchema(s){
+  pushUndo();
+  state.schema=s;
+  state.rootGroup=createGroup();
+  document.getElementById('schema-indicator').innerHTML=`<i class="fa-solid fa-circle" style="color:var(--success);font-size:8px"></i> ${s.charAt(0).toUpperCase()+s.slice(1)} Schema`;
+  render();
+}
+
+// ============================================================
+//  VALIDATION
+// ============================================================
+function validateGroup(g){
+  let valid=true;
+  g.conditions.forEach(c=>{
+    c.error=null;
+    if(!c.field){c.error='Field required';valid=false;return}
+    if(c.operator==='is_null')return;
+    if(!c.value&&c.value!==0){c.error='Value required';valid=false;return}
+    const schema=SCHEMAS[state.schema];
+    const fd=schema.find(f=>f.name===c.field);
+    if(fd){
+      if(fd.type==='number'&&isNaN(parseFloat(c.value))){c.error='Must be a number';valid=false}
+      if(c.operator==='between'){const parts=c.value.split(',');if(parts.length!==2||parts.some(p=>p.trim()===''))c.error='Format: min,max'}
+    }
+  });
+  g.groups.forEach(sg=>{if(!validateGroup(sg))valid=false;});
+  return valid;
+}
+
+function runValidation(){
+  const valid=validateGroup(state.rootGroup);
+  const banner=document.getElementById('validation-banner');
+  const vstat=document.getElementById('validation-status');
+  if(!valid){
+    banner.style.display='flex';
+    document.getElementById('validation-msg').textContent='Some conditions have errors. Please fix before executing.';
+    vstat.className='badge-sm badge-amber';vstat.textContent='Invalid';
+  }else{
+    banner.style.display='none';
+    vstat.className='badge-sm badge-green';vstat.textContent='Valid';
+  }
+  return valid;
+}
+
+// ============================================================
+//  QUERY PREVIEW
+// ============================================================
+function updatePreview(){
+  const box=document.getElementById('query-preview-box');
+  if(!box)return;
+  const total=countRules(state.rootGroup);
+  if(total===0){box.innerHTML='<span class="q-comment">-- Add conditions to see your query</span>';return}
+  if(state.format==='sql') box.innerHTML=generateSQL(state.rootGroup);
+  else if(state.format==='mongo') box.innerHTML=generateMongo(state.rootGroup);
+  else box.innerHTML=generateGraphQL(state.rootGroup);
+}
+
+function generateSQL(g,depth=0){
+  const indent='  '.repeat(depth);
+  const parts=[];
+  g.conditions.forEach(c=>{
+    if(!c.field) return;
+    let expr='';
+    const isStr=typeof c.value==='string'&&c.operator!=='is_null'&&isNaN(c.value);
+    if(c.operator==='equals') expr=`<span class="q-field">${c.field}</span> <span class="q-operator">=</span> ${isStr?`<span class="q-value">'${c.value}'</span>`:`<span class="q-value">${c.value}</span>`}`;
+    else if(c.operator==='not_equals') expr=`<span class="q-field">${c.field}</span> <span class="q-operator">!=</span> ${isStr?`<span class="q-value">'${c.value}'</span>`:`<span class="q-value">${c.value}</span>`}`;
+    else if(c.operator==='greater_than') expr=`<span class="q-field">${c.field}</span> <span class="q-operator">></span> <span class="q-value">${c.value}</span>`;
+    else if(c.operator==='less_than') expr=`<span class="q-field">${c.field}</span> <span class="q-operator"><</span> <span class="q-value">${c.value}</span>`;
+    else if(c.operator==='contains') expr=`<span class="q-field">${c.field}</span> <span class="q-keyword">LIKE</span> <span class="q-value">'%${c.value}%'</span>`;
+    else if(c.operator==='starts_with') expr=`<span class="q-field">${c.field}</span> <span class="q-keyword">LIKE</span> <span class="q-value">'${c.value}%'</span>`;
+    else if(c.operator==='ends_with') expr=`<span class="q-field">${c.field}</span> <span class="q-keyword">LIKE</span> <span class="q-value">'%${c.value}'</span>`;
+    else if(c.operator==='is_null') expr=`<span class="q-field">${c.field}</span> <span class="q-keyword">IS NULL</span>`;
+    else if(c.operator==='in_array'){const vals=(c.value||'').split(',').map(v=>`<span class="q-value">'${v.trim()}'</span>`).join(', ');expr=`<span class="q-field">${c.field}</span> <span class="q-keyword">IN</span> <span class="q-punct">(</span>${vals}<span class="q-punct">)</span>`;}
+    else if(c.operator==='between'){const[a,b]=(c.value||',').split(',');expr=`<span class="q-field">${c.field}</span> <span class="q-keyword">BETWEEN</span> <span class="q-value">${a||'?'}</span> <span class="q-keyword">AND</span> <span class="q-value">${b||'?'}</span>`;}
+    else if(c.operator==='before') expr=`<span class="q-field">${c.field}</span> <span class="q-operator"><</span> <span class="q-value">'${c.value}'</span>`;
+    else if(c.operator==='after') expr=`<span class="q-field">${c.field}</span> <span class="q-operator">></span> <span class="q-value">'${c.value}'</span>`;
+    else expr=`<span class="q-field">${c.field}</span> ${c.operator} <span class="q-value">${c.value}</span>`;
+    parts.push(indent+'  '+expr);
+  });
+  g.groups.forEach(sg=>{
+    const sub=generateSQL(sg,depth+1);
+    parts.push(`${indent}  <span class="q-punct">(</span>\n${sub}\n${indent}  <span class="q-punct">)</span>`);
+  });
+  if(parts.length===0) return'';
+  const joiner=`\n${indent}  <span class="q-keyword">${g.logic}</span> `;
+  const body=parts.join(joiner);
+  if(depth===0) return`<span class="q-keyword">SELECT</span> * <span class="q-keyword">FROM</span> ${state.schema}\n<span class="q-keyword">WHERE</span> ${body.trim()}`;
+  return body;
+}
+
+function generateMongo(g,depth=0){
+  const op=g.logic==='AND'?'$and':'$or';
+  const conds=g.conditions.filter(c=>c.field).map(c=>{
+    let v=c.value;
+    const fd=SCHEMAS[state.schema].find(f=>f.name===c.field);
+    const isNum=fd&&fd.type==='number';
+    if(isNum&&!isNaN(v)) v=parseFloat(v);
+    const indent='  '.repeat(depth+2);
+    if(c.operator==='equals') return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-value">${JSON.stringify(v)}</span><span class="q-punct">}</span>`;
+    if(c.operator==='not_equals') return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">"$ne"</span><span class="q-punct">:</span> <span class="q-value">${JSON.stringify(v)}</span><span class="q-punct">}}</span>`;
+    if(c.operator==='greater_than') return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">"$gt"</span><span class="q-punct">:</span> <span class="q-value">${JSON.stringify(v)}</span><span class="q-punct">}}</span>`;
+    if(c.operator==='less_than') return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">"$lt"</span><span class="q-punct">:</span> <span class="q-value">${JSON.stringify(v)}</span><span class="q-punct">}}</span>`;
+    if(c.operator==='contains') return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">"$regex"</span><span class="q-punct">:</span> <span class="q-value">"${c.value}"</span><span class="q-punct">}}</span>`;
+    if(c.operator==='in_array'){const arr=(c.value||'').split(',').map(x=>JSON.stringify(x.trim()));return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">"$in"</span><span class="q-punct">:</span> [${arr.join(', ')}]<span class="q-punct">}}</span>`;}
+    if(c.operator==='is_null') return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-value">null</span><span class="q-punct">}</span>`;
+    return`${indent}<span class="q-punct">{</span><span class="q-field">"${c.field}"</span><span class="q-punct">:</span> <span class="q-value">${JSON.stringify(c.value)}</span><span class="q-punct">}</span>`;
+  });
+  const nested=g.groups.map(sg=>generateMongo(sg,depth+1));
+  const all=[...conds,...nested].join(',\n');
+  const ind='  '.repeat(depth+1);
+  if(depth===0) return`<span class="q-punct">{</span>\n${ind}<span class="q-keyword">"${op}"</span><span class="q-punct">:</span> [\n${all}\n${ind}]\n<span class="q-punct">}</span>`;
+  return`${ind}<span class="q-punct">{</span>\n${'  '.repeat(depth+1)}<span class="q-keyword">"${op}"</span><span class="q-punct">:</span> [\n${all}\n${'  '.repeat(depth+1)}]\n${ind}<span class="q-punct">}</span>`;
+}
+
+function generateGraphQL(g){
+  const parts=g.conditions.filter(c=>c.field).map(c=>{
+    if(c.operator==='greater_than') return`    <span class="q-field">${c.field}</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">_gt</span><span class="q-punct">:</span> <span class="q-value">${c.value}</span><span class="q-punct">}</span>`;
+    if(c.operator==='less_than') return`    <span class="q-field">${c.field}</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">_lt</span><span class="q-punct">:</span> <span class="q-value">${c.value}</span><span class="q-punct">}</span>`;
+    if(c.operator==='contains') return`    <span class="q-field">${c.field}</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">_ilike</span><span class="q-punct">:</span> <span class="q-value">"%${c.value}%"</span><span class="q-punct">}</span>`;
+    return`    <span class="q-field">${c.field}</span><span class="q-punct">:</span> <span class="q-punct">{</span><span class="q-keyword">_eq</span><span class="q-punct">:</span> <span class="q-value">"${c.value}"</span><span class="q-punct">}</span>`;
+  });
+  const op=g.logic==='AND'?'_and':'_or';
+  return`<span class="q-keyword">query</span> <span class="q-punct">{</span>\n  ${state.schema} <span class="q-punct">(</span><span class="q-keyword">where</span><span class="q-punct">:</span> <span class="q-punct">{</span>\n    <span class="q-keyword">${op}</span><span class="q-punct">:</span> <span class="q-punct">[{</span>\n${parts.join('\n')}\n    <span class="q-punct">}]</span>\n  <span class="q-punct">})</span> <span class="q-punct">{</span>\n    id name <span class="q-comment"># ... fields</span>\n  <span class="q-punct">}</span>\n<span class="q-punct">}</span>`;
+}
+
+// ============================================================
+//  EXECUTION
+// ============================================================
+function executeQuery(){
+  if(!runValidation())return;
+  render();
+  const valid=runValidation();
+  if(!valid)return;
+  const btn=document.getElementById('exec-btn');
+  const loadBar=document.getElementById('loading-bar');
+  btn.classList.add('loading');btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Running...';
+  loadBar.style.display='block';
+  switchTab('results');
+  setTimeout(()=>{
+    const results=filterDataset(state.rootGroup,MOCK_DATASET);
+    state.results=results;
+    addHistory(results.length);
+    renderResults(results);
+    btn.classList.remove('loading');btn.innerHTML='<i class="fa-solid fa-play" style="font-size:12px"></i> Execute Query';
+    loadBar.style.display='none';
+  },1000);
+}
+
+function filterDataset(g,data){
+  let filtered=data.filter(row=>filterRow(g,row));
+  return filtered;
+}
+
+function filterRow(g,row){
+  const condResults=g.conditions.map(c=>evalCondition(c,row));
+  const grpResults=g.groups.map(sg=>filterRow(sg,row));
+  const all=[...condResults,...grpResults];
+  if(all.length===0) return true;
+  return g.logic==='AND'?all.every(Boolean):all.some(Boolean);
+}
+
+function evalCondition(c,row){
+  if(!c.field||!row.hasOwnProperty(c.field)) return true;
+  const rv=row[c.field];
+  const cv=c.value;
+  if(c.operator==='equals') return String(rv).toLowerCase()===String(cv).toLowerCase();
+  if(c.operator==='not_equals') return String(rv).toLowerCase()!==String(cv).toLowerCase();
+  if(c.operator==='contains') return String(rv).toLowerCase().includes(String(cv).toLowerCase());
+  if(c.operator==='starts_with') return String(rv).toLowerCase().startsWith(String(cv).toLowerCase());
+  if(c.operator==='ends_with') return String(rv).toLowerCase().endsWith(String(cv).toLowerCase());
+  if(c.operator==='greater_than') return parseFloat(rv)>parseFloat(cv);
+  if(c.operator==='less_than') return parseFloat(rv)<parseFloat(cv);
+  if(c.operator==='after') return new Date(rv)>new Date(cv);
+  if(c.operator==='before') return new Date(rv)<new Date(cv);
+  if(c.operator==='is_null') return rv==null||rv==='';
+  if(c.operator==='in_array'){const arr=cv.split(',').map(x=>x.trim().toLowerCase());return arr.includes(String(rv).toLowerCase());}
+  if(c.operator==='between'){const[a,b]=cv.split(',');return parseFloat(rv)>=parseFloat(a)&&parseFloat(rv)<=parseFloat(b);}
+  return true;
+}
+
+function renderResults(results){
+  const el=document.getElementById('results-list');
+  const cnt=document.getElementById('results-count');
+  const meta=document.getElementById('results-meta');
+  cnt.textContent=`${results.length} result${results.length!==1?'s':''}`;
+  meta.textContent=`of ${MOCK_DATASET.length} records`;
+  if(results.length===0){el.innerHTML='<div class="empty-state"><i class="fa-solid fa-magnifying-glass"></i><p>No records match your query</p></div>';return}
+  el.innerHTML=results.slice(0,20).map(r=>{
+    const keys=Object.keys(r).slice(0,5);
+    const rows=keys.map(k=>`<div class="result-row"><span class="result-key">${k}</span><span class="result-val">${String(r[k])}</span></div>`).join('');
+    return`<div class="result-card" onmousemove="cardFlash(this,event)">${rows}</div>`;
+  }).join('');
+  if(results.length>20) el.innerHTML+=`<div style="text-align:center;padding:12px;font-size:12px;color:var(--stone-400)">... and ${results.length-20} more records</div>`;
+}
+
+function cardFlash(el,e){
+  const rect=el.getBoundingClientRect();
+  el.style.setProperty('--mx',((e.clientX-rect.left)/rect.width*100)+'%');
+  el.style.setProperty('--my',((e.clientY-rect.top)/rect.height*100)+'%');
+}
+
+// ============================================================
+//  HISTORY
+// ============================================================
+function addHistory(count){
+  const now=new Date();
+  const summary=generatePlainSQL();
+  state.history.unshift({time:now.toLocaleTimeString(),summary:summary.slice(0,80),count});
+  if(state.history.length>20) state.history.pop();
+  renderHistory();
+}
+
+function generatePlainSQL(){
+  const conds=state.rootGroup.conditions.filter(c=>c.field).map(c=>`${c.field} ${c.operator} ${c.value||'?'}`);
+  return conds.length>0?`WHERE ${conds.join(` ${state.rootGroup.logic} `)}`:' (empty)';
+}
+
+function renderHistory(){
+  const el=document.getElementById('history-list');
+  if(!el)return;
+  if(state.history.length===0){el.innerHTML='<div class="empty-state"><i class="fa-solid fa-clock"></i><p>No queries executed yet</p></div>';return}
+  el.innerHTML=state.history.map(h=>`<div class="history-item"><div class="history-time">${h.time} · ${h.count} results</div><div class="history-summary">${h.summary}...</div></div>`).join('');
+}
+
+// ============================================================
+//  PRESETS
+// ============================================================
+function loadPreset(name){
+  pushUndo();
+  const p=PRESETS[name];
+  if(!p)return;
+  state.rootGroup={...createGroup(),...JSON.parse(JSON.stringify(p))};
+  render();
+  showToast('Preset loaded');
+}
+
+// ============================================================
+//  DRAG & DROP
+// ============================================================
+let dragSrc=null;
+function attachDragHandlers(){
+  document.querySelectorAll('.condition-row').forEach(el=>{
+    el.addEventListener('dragstart',e=>{dragSrc=el;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    el.addEventListener('dragend',e=>{el.classList.remove('dragging');dragSrc=null;});
+    el.addEventListener('dragover',e=>{e.preventDefault();e.dataTransfer.dropEffect='move';});
+    el.addEventListener('drop',e=>{
+      e.preventDefault();
+      if(dragSrc&&dragSrc!==el){
+        const fromCid=dragSrc.dataset.cid,fromGid=dragSrc.dataset.gid;
+        const toCid=el.dataset.cid,toGid=el.dataset.gid;
+        if(fromGid===toGid){
+          const g=findGroup(state.rootGroup,fromGid);
+          if(g){
+            const fi=g.conditions.findIndex(c=>c.id===fromCid);
+            const ti=g.conditions.findIndex(c=>c.id===toCid);
+            if(fi!==-1&&ti!==-1){const[item]=g.conditions.splice(fi,1);g.conditions.splice(ti,0,item);}
+          }
+        }
+        render();
+      }
+    });
+  });
+}
+
+// ============================================================
+//  IMPORT / EXPORT
+// ============================================================
+function exportQuery(){
+  const data=JSON.stringify({schema:state.schema,query:state.rootGroup},null,2);
+  showModal('Export Query','Copy the JSON below to save your query config',
+    `<textarea class="json-area" readonly>${data}</textarea>`,
+    [{label:'Copy & Close',cls:'btn-sm-primary',fn:()=>{navigator.clipboard?.writeText(data);closeModalNow();showToast('Copied!')}}]
+  );
+}
+
+function showImport(){
+  showModal('Import Query','Paste a previously exported query JSON',
+    `<textarea class="json-area" id="import-area" placeholder='{"schema":"users","query":{...}}'></textarea>`,
+    [
+      {label:'Import',cls:'btn-sm-primary',fn:()=>{
+        try{
+          const raw=document.getElementById('import-area').value;
+          const parsed=JSON.parse(raw);
+          if(!parsed.query) throw new Error('Missing query field');
+          state.schema=parsed.schema||'users';
+          state.rootGroup=parsed.query;
+          document.getElementById('schema-select').value=state.schema;
+          closeModalNow();render();showToast('Query imported!');
+        }catch(e){showToast('Invalid JSON: '+e.message,true);}
+      }},
+      {label:'Cancel',cls:'btn-sm-outline',fn:closeModalNow}
+    ]
+  );
+}
+
+// ============================================================
+//  UI HELPERS
+// ============================================================
+function switchTab(name){
+  ['preview','results','history'].forEach(t=>{
+    document.getElementById('panel-'+t).style.display=t===name?'block':'none';
+    document.getElementById('tab-'+t).classList.toggle('active',t===name);
+  });
+  if(name==='history') renderHistory();
+}
+
+function setFormat(f,btn){
+  state.format=f;
+  document.querySelectorAll('.format-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  updatePreview();
+}
+
+function showPanel(p){switchTab(p);}
+
+function openBuilder(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('builder').style.display='block';
+  renderSchemaFields();
+  render();
+  document.getElementById('query-tree').innerHTML='';
+  document.getElementById('empty-builder').style.display='block';
+}
+
+function closeBuider(){
+  document.getElementById('builder').style.display='none';
+  document.getElementById('landing').style.display='block';
+}
+
+function copyQuery(){
+  const box=document.getElementById('query-preview-box');
+  const text=box.innerText||box.textContent;
+  navigator.clipboard?.writeText(text);
+  showToast('Copied to clipboard!');
+}
+
+function saveAsPreset(){
+  showModal('Save Preset','Give this query a name',
+    `<input class="cond-input" id="preset-name" placeholder="e.g. Active Nigerian Users" style="width:100%;padding:8px 12px;font-size:14px">`,
+    [
+      {label:'Save',cls:'btn-sm-primary',fn:()=>{
+        const name=document.getElementById('preset-name')?.value?.trim();
+        if(!name){showToast('Please enter a name',true);return}
+        const key=name.toLowerCase().replace(/\s+/g,'_');
+        PRESETS[key]=JSON.parse(JSON.stringify(state.rootGroup));
+        const list=document.getElementById('presets-list');
+        const div=document.createElement('div');div.className='preset-item';
+        div.innerHTML=`<i class="fa-solid fa-bookmark"></i> ${name}`;
+        div.onclick=()=>loadPreset(key);
+        list.appendChild(div);
+        closeModalNow();showToast('Preset saved!');
+      }},
+      {label:'Cancel',cls:'btn-sm-outline',fn:closeModalNow}
+    ]
+  );
+}
+
+function showShortcuts(){
+  showModal('Keyboard Shortcuts','',
+    `<table style="width:100%;font-size:13px;border-collapse:collapse">
+      <tr style="border-bottom:1px solid var(--zinc-200)"><td style="padding:8px 0;color:var(--stone-500)">Execute query</td><td style="text-align:right"><kbd class="kbd">⌘E</kbd></td></tr>
+      <tr style="border-bottom:1px solid var(--zinc-200)"><td style="padding:8px 0;color:var(--stone-500)">Undo last action</td><td style="text-align:right"><kbd class="kbd">⌘Z</kbd></td></tr>
+      <tr style="border-bottom:1px solid var(--zinc-200)"><td style="padding:8px 0;color:var(--stone-500)">Save preset</td><td style="text-align:right"><kbd class="kbd">⌘S</kbd></td></tr>
+      <tr style="border-bottom:1px solid var(--zinc-200)"><td style="padding:8px 0;color:var(--stone-500)">Add new rule</td><td style="text-align:right"><kbd class="kbd">⌘↵</kbd></td></tr>
+      <tr><td style="padding:8px 0;color:var(--stone-500)">Clear all rules</td><td style="text-align:right"><kbd class="kbd">⌘Del</kbd></td></tr>
+    </table>`,
+    [{label:'Close',cls:'btn-sm-outline',fn:closeModalNow}]
+  );
+}
+
+// ============================================================
+//  MODAL SYSTEM
+// ============================================================
+function showModal(title,desc,body,actions){
+  document.getElementById('modal-title').textContent=title;
+  document.getElementById('modal-desc').textContent=desc;
+  document.getElementById('modal-body').innerHTML=body;
+  document.getElementById('modal-actions').innerHTML=actions.map(a=>`<button class="btn-sm ${a.cls}" id="mact-${a.label.replace(/\s/g,'')}">${a.label}</button>`).join('');
+  actions.forEach(a=>{
+    const btn=document.getElementById('mact-'+a.label.replace(/\s/g,''));
+    if(btn) btn.onclick=a.fn;
+  });
+  document.getElementById('modal-overlay').style.display='flex';
+}
+
+function closeModal(e){if(e.target.id==='modal-overlay') closeModalNow();}
+function closeModalNow(){document.getElementById('modal-overlay').style.display='none';}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg,error=false){
+  const t=document.createElement('div');
+  t.style.cssText=`position:fixed;bottom:24px;right:24px;z-index:999;background:${error?'var(--danger)':'var(--stone-900)'};color:#fff;padding:10px 18px;border-radius:var(--radius-pill);font-size:13px;font-weight:500;font-family:var(--font-body);box-shadow:var(--shadow-lg);animation:blurIn 0.3s ease`;
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300)},2000);
+}
+
+// ============================================================
+//  KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('builder').style.display==='none') return;
+  const isMod=e.metaKey||e.ctrlKey;
+  if(isMod&&e.key==='e'){e.preventDefault();executeQuery();}
+  if(isMod&&e.key==='z'){e.preventDefault();if(undoStack.length>0){state.rootGroup=undoStack.pop();render();showToast('Undo')}}
+  if(isMod&&e.key==='s'){e.preventDefault();saveAsPreset();}
+  if(isMod&&(e.key==='Enter')){e.preventDefault();addCondition(null);}
+  if(isMod&&e.key==='Delete'){e.preventDefault();clearAll();}
+});
+
+// ============================================================
+//  GSAP SCROLL ANIMATIONS (LANDING)
+// ============================================================
+window.addEventListener('load',()=>{
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('.feature-card',{
+    scrollTrigger:{trigger:'.features-grid',start:'top 80%'},
+    y:40,opacity:0,stagger:0.1,duration:0.6,ease:'power2.out'
+  });
+  gsap.from('.stat-card',{
+    scrollTrigger:{trigger:'.stats-row',start:'top 85%'},
+    y:30,opacity:0,stagger:0.1,duration:0.5,ease:'power2.out',
+    onComplete:()=>animateCounters()
+  });
+  document.querySelectorAll('.feature-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      card.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+      card.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+    });
+  });
+});
+
+function animateCounters(){
+  document.querySelectorAll('[data-target]').forEach(el=>{
+    const target=parseInt(el.dataset.target);
+    let current=0;
+    const step=Math.ceil(target/30);
+    const timer=setInterval(()=>{
+      current=Math.min(current+step,target);
+      el.textContent=target>=1000?current.toLocaleString():current;
+      if(current>=target) clearInterval(timer);
+    },40);
+  });
+}
+
+// INITIAL RENDER
+renderSchemaFields();
+</script>
+</body>
+</html>
