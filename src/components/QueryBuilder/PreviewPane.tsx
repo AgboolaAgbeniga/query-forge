@@ -24,7 +24,6 @@ export function PreviewPane() {
       if (activeTab === 'mongo') return generateMongo(queryState, schema);
       return generateGraphQL(queryState, schema, activeSchemaId);
     } catch (e) {
-      console.error(e);
       return 'Error generating query';
     }
   }, [rules, groups, rootGroupId, activeSchemaId, activeTab]);

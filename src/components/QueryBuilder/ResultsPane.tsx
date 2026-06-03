@@ -29,7 +29,7 @@ type SortConfig = {
 } | null;
 
 export function ResultsPane() {
-  const store = useQueryStore();
+  const activeSchemaId = useQueryStore(s => s.activeSchemaId);
   const [results, setResults] = useState<any[]>([]);
   const [executionTime, setExecutionTime] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,8 +38,8 @@ export function ResultsPane() {
   const [pageSize, setPageSize] = useState(10);
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
-  const schema = getSchemaById(store.activeSchemaId);
-  const activeDataset = MOCK_DATASETS[store.activeSchemaId] || MOCK_USERS;
+  const schema = getSchemaById(activeSchemaId);
+  const activeDataset = MOCK_DATASETS[activeSchemaId] || MOCK_USERS;
 
   // Reset page and results when schema changes
   useEffect(() => {
@@ -47,7 +47,7 @@ export function ResultsPane() {
     setHasExecuted(false);
     setSortConfig(null);
     setPage(1);
-  }, [store.activeSchemaId]);
+  }, [activeSchemaId]);
 
   // Reset page on new execution results
   useEffect(() => {
@@ -60,8 +60,9 @@ export function ResultsPane() {
 
     // Simulate a brief loading state for UX
     setTimeout(() => {
+      const state = useQueryStore.getState();
       const { results: queryResults, executionTimeMs } = executeQuery(
-        { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId },
+        { groups: state.groups, rules: state.rules, rootGroupId: state.rootGroupId },
         schema,
         activeDataset
       );
@@ -69,7 +70,7 @@ export function ResultsPane() {
       setExecutionTime(executionTimeMs);
       setIsLoading(false);
     }, 300);
-  }, [store.groups, store.rules, store.rootGroupId, schema, activeDataset]);
+  }, [schema, activeDataset]);
 
   // Sort results
   const sortedResults = useMemo(() => {
