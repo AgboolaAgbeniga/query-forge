@@ -215,12 +215,11 @@ export default function BuilderPage() {
         </div>
       </header>
 
-      {/* ─── 3-Column Workspace Layout ─── */}
-      <div className="relative z-10 flex-1 flex flex-col lg:grid lg:grid-cols-[260px_1fr_360px] overflow-y-auto lg:overflow-hidden h-[calc(100vh-64px)]">
+      {/* ─── Spatial Canvas Workspace ─── */}
+      <div className="relative z-10 flex-1 w-full overflow-hidden bg-zinc-50/50 dark:bg-black bg-dot-pattern flex flex-col h-[calc(100vh-64px)]">
         
-        {/* COLUMN 1: Schema Fields + Presets (Sidebar Left) */}
-        <aside className="hidden lg:flex flex-col bg-white/50 dark:bg-black/40 backdrop-blur-xl border-r border-zinc-200 dark:border-white/5 overflow-y-auto p-4 custom-scrollbar">
-          
+        {/* FLOATING LEFT PANEL (Schema & Presets) */}
+        <aside className="hidden lg:flex flex-col absolute top-6 left-6 w-[280px] max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl overflow-y-auto custom-scrollbar z-40 p-5">
           {/* Schema fields Section */}
           <div className="mb-6">
             <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3 px-1">
@@ -230,8 +229,7 @@ export default function BuilderPage() {
               {schemaFieldsList.map((field) => (
                 <div
                   key={field.name}
-                  className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:bg-zinc-50 dark:hover:bg-white/10 hover:border-zinc-150 dark:hover:border-white/20/80 transition-all cursor-default"
-                >
+                  className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:bg-zinc-50 dark:hover:bg-white/10 hover:border-zinc-150 dark:hover:border-white/20 transition-all cursor-default">
                   <span
                     className={cn(
                       "text-[9px] font-bold px-1.5 py-0.5 rounded-md min-w-[50px] text-center tracking-wide uppercase",
@@ -262,84 +260,61 @@ export default function BuilderPage() {
           </div>
         </aside>
 
-        {/* COLUMN 2: Main Query Editor (Center) */}
-        <section className="flex flex-col overflow-y-auto p-4 md:p-6 bg-[var(--surface-muted)] border-r border-zinc-200 dark:border-white/5 custom-scrollbar relative">
-          
-          {/* Builder Toolbar Controls */}
-          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
-            <div className="flex items-center flex-wrap gap-3">
-              <div className="hidden sm:block">
-                <SchemaSelector
-                  activeSchemaId={store.activeSchemaId}
-                  onSelect={(src) => store.setActiveSchemaId(src.id)}
-                />
-              </div>
-              
-              {/* Mobile Data Source Display (Read Only) */}
-              <button
-                onClick={() => setIsMobileSidebarOpen(true)}
-                className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-white/10 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm hover:bg-zinc-50 active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200"
-              >
-                <Database size={14} className="text-blue-500 dark:text-blue-400" />
-                {store.activeSchemaId.toUpperCase()}
-              </button>
-              <div className="flex items-center gap-2 bg-white dark:bg-white/10 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
-                <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
-                <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
-                  {isValid ? 'Valid Setup' : 'Invalid Setup'}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center flex-wrap gap-2">
-              <button
-                onClick={() => store.addRule(store.rootGroupId)}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl hover:bg-zinc-50 dark:hover:bg-white/20 transition-all hover:scale-105 active:scale-95"
-              >
-                <Plus size={14} /> Rule
-              </button>
-              <button
-                onClick={() => store.addGroup(store.rootGroupId)}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl hover:bg-zinc-50 dark:hover:bg-white/20 transition-all hover:scale-105 active:scale-95"
-              >
-                <Layers size={14} /> Group
-              </button>
-              <button
-                onClick={() => setShowClearAllConfirm(true)}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-red-400 bg-white dark:bg-white/10 border border-red-200 dark:border-red-500/20 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-all hover:scale-105 active:scale-95"
-              >
-                <Trash2 size={14} /> Clear All
-              </button>
-            </div>
+        {/* TOP-LEFT STATUS PILLS (Mobile overlay or Float) */}
+        <div className="absolute top-6 left-6 lg:left-[320px] flex items-center gap-3 z-30">
+          <div className="hidden sm:block">
+            <SchemaSelector
+              activeSchemaId={store.activeSchemaId}
+              onSelect={(src) => store.setActiveSchemaId(src.id)}
+            />
           </div>
-
-          {/* The visual builder tree */}
-          <div className="flex-1">
-            <ErrorBoundary>
-              <QueryBuilder />
-            </ErrorBoundary>
+          <button
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200">
+            <Database size={14} className="text-blue-500 dark:text-blue-400" />
+            {store.activeSchemaId.toUpperCase()}
+          </button>
+          <div className="flex items-center gap-2 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
+            <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
+            <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
+              {isValid ? 'Valid Setup' : 'Invalid Setup'}
+            </span>
           </div>
-          {/* Validation banner */}
-          <div className="mb-4 mt-4">
-            <ErrorBoundary>
-              <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
-            </ErrorBoundary>
-          </div>
-        </section>
+        </div>
 
-        {/* COLUMN 3: Live Preview / Results / History (Sidebar Right) */}
-        <aside className="bg-white dark:bg-[#0a0a0a] border-l border-zinc-200 dark:border-white/10 flex flex-col overflow-hidden min-w-0">
-          
+        {/* BOTTOM FLOATING COMMAND DOCK */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl z-50">
+          <button
+            onClick={() => store.addRule(store.rootGroupId)}
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95">
+            <Plus size={14} /> Add Rule
+          </button>
+          <div className="w-px h-6 bg-zinc-200 dark:bg-white/10" />
+          <button
+            onClick={() => store.addGroup(store.rootGroupId)}
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95">
+            <Layers size={14} /> Add Group
+          </button>
+          <div className="w-px h-6 bg-zinc-200 dark:bg-white/10" />
+          <button
+            onClick={() => setShowClearAllConfirm(true)}
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-600 dark:text-red-400 bg-transparent hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-all active:scale-95">
+            <Trash2 size={14} /> Clear All
+          </button>
+        </div>
+
+        {/* FLOATING RIGHT PANEL (Preview & Results) */}
+        <aside className="hidden lg:flex flex-col absolute top-6 right-6 w-[380px] max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl overflow-hidden z-40">
           {/* Tab buttons */}
-          <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-white/5">
+          <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-transparent">
             {(['preview', 'results', 'history'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveRightTab(tab)}
                 className={cn(
-                  "flex-1 py-3 text-center text-xs font-semibold uppercase tracking-wider transition-all border-b-2",
+                  "flex-1 py-3 text-center text-[11px] font-bold uppercase tracking-wider transition-all border-b-2",
                   activeRightTab === tab
-                    ? "color-accent border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white dark:bg-[#0a0a0a]"
+                    ? "border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white/50 dark:bg-white/5"
                     : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200 border-transparent"
                 )}
               >
@@ -349,7 +324,7 @@ export default function BuilderPage() {
           </div>
 
           {/* Tab contents */}
-          <div className="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
             {activeRightTab === 'preview' && (
               <div className="h-full flex flex-col">
                 <div className="flex-1 min-h-[400px]">
@@ -358,37 +333,30 @@ export default function BuilderPage() {
                   </ErrorBoundary>
                 </div>
                 <div className="flex gap-2.5 mt-3 mb-3">
-                  <button
-                    onClick={() => {/* Use active tab or export module */}}
-                    className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-white/20 border border-zinc-200 dark:border-white/10 rounded-xl transition-all"
-                  >
+                  <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all">
                     Share JSON
                   </button>
-                  <button
-                    onClick={() => {/* Use active tab or preset module */}}
-                    className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-white/20 border border-zinc-200 dark:border-white/10 rounded-xl transition-all"
-                  >
+                  <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all">
                     Save Preset
                   </button>
                 </div>
               </div>
             )}
 
-            {/* Tab: Results Execution cards list */}
             {activeRightTab === 'results' && (
               <div className="flex flex-col h-full gap-4">
                 {!isValid ? (
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-2xl flex flex-col gap-3">
-                    <div className="flex items-center gap-2 text-xs font-bold text-red-750">
+                  <div className="p-4 bg-red-50/80 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-2xl flex flex-col gap-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-red-700 dark:text-red-400">
                       <AlertTriangle size={16} />
-                      <span>Query Execution Blocked</span>
+                      <span>Execution Blocked</span>
                     </div>
-                    <p className="text-xs text-red-600 leading-relaxed">
-                      The active query tree contains validation errors. Please correct the highlighted conditions in the query builder before running the execution.
+                    <p className="text-xs text-red-600 dark:text-red-300 leading-relaxed">
+                      The query tree contains errors. Please correct the highlighted conditions.
                     </p>
-                    <div className="flex flex-col gap-1.5 border-t border-red-150 pt-3">
+                    <div className="flex flex-col gap-1.5 border-t border-red-200/50 dark:border-red-500/20 pt-3">
                       {validationErrors.map((err, idx) => (
-                        <div key={idx} className="text-[10.5px] text-red-600 font-medium">
+                        <div key={idx} className="text-[10.5px] text-red-600 dark:text-red-400 font-medium">
                           • <strong>{err.field || 'General'}:</strong> {err.message}
                         </div>
                       ))}
@@ -407,7 +375,6 @@ export default function BuilderPage() {
               </div>
             )}
 
-            {/* Tab: History query log */}
             {activeRightTab === 'history' && (
               <div className="flex flex-col h-full">
                 <ErrorBoundary>
@@ -415,9 +382,23 @@ export default function BuilderPage() {
                 </ErrorBoundary>
               </div>
             )}
-
           </div>
         </aside>
+
+        {/* THE MAIN CANVAS (Query Tree) */}
+        <div className="w-full h-full overflow-auto pt-24 pb-32 px-4 lg:px-[340px] custom-scrollbar flex justify-center">
+          <div className="max-w-4xl w-full">
+            <div className="mb-6 flex justify-center">
+              <ErrorBoundary>
+                <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
+              </ErrorBoundary>
+            </div>
+            <ErrorBoundary>
+              <QueryBuilder />
+            </ErrorBoundary>
+          </div>
+        </div>
+
       </div>
 
       {/* ─── MODAL: Shortcuts help ─── */}
