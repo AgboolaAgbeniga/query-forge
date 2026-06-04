@@ -37,7 +37,7 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function BuilderPage() {
-  const [activeRightTab, setActiveRightTab] = useState<'results' | 'history'>('results');
+  const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -303,74 +303,9 @@ export default function BuilderPage() {
           </button>
         </div>
 
-        {/* FLOATING RIGHT PANEL (Preview & Results) */}
-        <aside className="w-full lg:w-[380px] flex flex-col lg:absolute top-6 right-6 lg:max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border-t lg:border border-zinc-200 dark:border-white/10 lg:shadow-2xl lg:rounded-2xl overflow-hidden z-40 mt-4 lg:mt-0">
-          {/* Tab buttons */}
-          <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-transparent">
-            {(['results', 'history'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveRightTab(tab)}
-                className={cn(
-                  "flex-1 py-3 text-center text-[11px] font-bold uppercase tracking-wider transition-all border-b-2",
-                  activeRightTab === tab
-                    ? "border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white/50 dark:bg-white/5"
-                    : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200 border-transparent"
-                )}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
-
-          {/* Tab contents */}
-          <div className="flex-1 lg:overflow-y-auto p-5 custom-scrollbar">
-
-            {activeRightTab === 'results' && (
-              <div className="flex flex-col h-full gap-4">
-                {!isValid ? (
-                  <div className="p-4 bg-red-50/80 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-2xl flex flex-col gap-3">
-                    <div className="flex items-center gap-2 text-xs font-bold text-red-700 dark:text-red-400">
-                      <AlertTriangle size={16} />
-                      <span>Execution Blocked</span>
-                    </div>
-                    <p className="text-xs text-red-600 dark:text-red-300 leading-relaxed">
-                      The query tree contains errors. Please correct the highlighted conditions.
-                    </p>
-                    <div className="flex flex-col gap-1.5 border-t border-red-200/50 dark:border-red-500/20 pt-3">
-                      {validationErrors.map((err, idx) => (
-                        <div key={idx} className="text-[10.5px] text-red-600 dark:text-red-400 font-medium">
-                          • <strong>{err.field || 'General'}:</strong> {err.message}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <ErrorBoundary>
-                    <ResultsPane 
-                      results={executionResults} 
-                      executionTime={executionTime} 
-                      isLoading={isLoading} 
-                      hasExecuted={hasExecuted} 
-                    />
-                  </ErrorBoundary>
-                )}
-              </div>
-            )}
-
-            {activeRightTab === 'history' && (
-              <div className="flex flex-col h-full">
-                <ErrorBoundary>
-                  <HistoryPanel />
-                </ErrorBoundary>
-              </div>
-            )}
-          </div>
-        </aside>
-
-        {/* THE MAIN CANVAS (Query Tree) */}
+        {/* THE MAIN CANVAS (Query Tree & Results) */}
         <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-24 pb-32 px-4 lg:px-[340px] custom-scrollbar flex justify-center">
-          <div className="max-w-4xl w-full flex flex-col gap-8">
+          <div className="max-w-4xl w-full flex flex-col gap-12">
             <div>
               <div className="mb-6 flex justify-center">
                 <ErrorBoundary>
@@ -381,27 +316,86 @@ export default function BuilderPage() {
                 <QueryBuilder />
               </ErrorBoundary>
             </div>
-            
-            {/* INLINE LIVE PREVIEW */}
-            <div className="w-full">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-1">
-                  Live Preview
-                </span>
-                <div className="h-px flex-1 bg-zinc-200 dark:bg-white/5" />
+
+            {/* INLINE PREVIEW & RESULTS PANEL */}
+            <div className="w-full flex flex-col bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl overflow-hidden z-40">
+              {/* Tab buttons */}
+              <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-transparent">
+                {(['preview', 'results', 'history'] as const).map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveRightTab(tab)}
+                    className={cn(
+                      "flex-1 py-3 text-center text-[11px] font-bold uppercase tracking-wider transition-all border-b-2",
+                      activeRightTab === tab
+                        ? "border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white/50 dark:bg-white/5"
+                        : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200 border-transparent"
+                    )}
+                  >
+                    {tab}
+                  </button>
+                ))}
               </div>
-              <ErrorBoundary>
-                <div className="h-[300px]">
-                  <PreviewPane />
-                </div>
-              </ErrorBoundary>
-              <div className="flex gap-3 mt-4 w-full max-w-sm mx-auto">
-                <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all shadow-sm">
-                  Share JSON
-                </button>
-                <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all shadow-sm">
-                  Save Preset
-                </button>
+
+              {/* Tab contents */}
+              <div className="flex-1 p-5">
+                {activeRightTab === 'preview' && (
+                  <div className="flex flex-col">
+                    <div className="min-h-[300px]">
+                      <ErrorBoundary>
+                        <PreviewPane />
+                      </ErrorBoundary>
+                    </div>
+                    <div className="flex gap-2.5 mt-3 mb-3">
+                      <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all">
+                        Share JSON
+                      </button>
+                      <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all">
+                        Save Preset
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {activeRightTab === 'results' && (
+                  <div className="flex flex-col gap-4">
+                    {!isValid ? (
+                      <div className="p-4 bg-red-50/80 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-2xl flex flex-col gap-3">
+                        <div className="flex items-center gap-2 text-xs font-bold text-red-700 dark:text-red-400">
+                          <AlertTriangle size={16} />
+                          <span>Execution Blocked</span>
+                        </div>
+                        <p className="text-xs text-red-600 dark:text-red-300 leading-relaxed">
+                          The query tree contains errors. Please correct the highlighted conditions.
+                        </p>
+                        <div className="flex flex-col gap-1.5 border-t border-red-200/50 dark:border-red-500/20 pt-3">
+                          {validationErrors.map((err, idx) => (
+                            <div key={idx} className="text-[10.5px] text-red-600 dark:text-red-400 font-medium">
+                              • <strong>{err.field || 'General'}:</strong> {err.message}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      <ErrorBoundary>
+                        <ResultsPane 
+                          results={executionResults} 
+                          executionTime={executionTime} 
+                          isLoading={isLoading} 
+                          hasExecuted={hasExecuted} 
+                        />
+                      </ErrorBoundary>
+                    )}
+                  </div>
+                )}
+
+                {activeRightTab === 'history' && (
+                  <div className="flex flex-col">
+                    <ErrorBoundary>
+                      <HistoryPanel />
+                    </ErrorBoundary>
+                  </div>
+                )}
               </div>
             </div>
           </div>
