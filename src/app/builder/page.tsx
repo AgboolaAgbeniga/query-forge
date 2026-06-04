@@ -260,27 +260,6 @@ export default function BuilderPage() {
           </div>
         </aside>
 
-        {/* TOP-LEFT STATUS PILLS (Mobile overlay or Float) */}
-        <div className="lg:absolute top-6 left-6 lg:left-[320px] flex items-center gap-3 z-30 p-4 lg:p-0">
-          <div className="hidden sm:block">
-            <SchemaSelector
-              activeSchemaId={store.activeSchemaId}
-              onSelect={(src) => store.setActiveSchemaId(src.id)}
-            />
-          </div>
-          <button
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200">
-            <Database size={14} className="text-blue-500 dark:text-blue-400" />
-            {store.activeSchemaId.toUpperCase()}
-          </button>
-          <div className="flex items-center gap-2 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
-            <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
-            <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
-              {isValid ? 'Valid Setup' : 'Invalid Setup'}
-            </span>
-          </div>
-        </div>
 
         {/* BOTTOM FLOATING COMMAND DOCK */}
         <div className="fixed lg:absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl z-50 w-[max-content]">
@@ -304,8 +283,31 @@ export default function BuilderPage() {
         </div>
 
         {/* THE MAIN CANVAS (Query Tree & Results) */}
-        <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-24 pb-32 px-4 lg:pl-[340px] lg:pr-12 custom-scrollbar flex justify-center">
+        <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-16 pb-32 px-4 lg:pl-[340px] lg:pr-12 custom-scrollbar flex justify-center">
           <div className="max-w-5xl w-full flex flex-col gap-12">
+            
+            {/* STATUS PILLS & DATA SOURCE */}
+            <div className="flex items-center gap-3 z-30">
+              <div className="hidden sm:block">
+                <SchemaSelector
+                  activeSchemaId={store.activeSchemaId}
+                  onSelect={(src) => store.setActiveSchemaId(src.id)}
+                />
+              </div>
+              <button
+                onClick={() => setIsMobileSidebarOpen(true)}
+                className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200">
+                <Database size={14} className="text-blue-500 dark:text-blue-400" />
+                {store.activeSchemaId.toUpperCase()}
+              </button>
+              <div className="flex items-center gap-2 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
+                <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
+                <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
+                  {isValid ? 'Valid Setup' : 'Invalid Setup'}
+                </span>
+              </div>
+            </div>
+
             <div>
               <div className="mb-6 flex justify-center">
                 <ErrorBoundary>
