@@ -1,5 +1,7 @@
 'use client';
 
+import { useTheme } from 'next-themes';
+
 import React, { useEffect, useCallback, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { QueryBuilder } from '@/components/QueryBuilder/QueryBuilder';
@@ -32,11 +34,14 @@ import {
   Plus,
   Layers,
   Database,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function BuilderPage() {
+  const { theme, setTheme } = useTheme();
   const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
@@ -142,12 +147,15 @@ export default function BuilderPage() {
               <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center"><Keyboard size={16} /></div>
               Keyboard Shortcuts
             </button>
-            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors">
-              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center">
-                <ThemeToggle />
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="flex items-center gap-3 px-3 w-full py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors text-left"
+            >
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center pointer-events-none">
+                {theme === 'dark' ? <Moon size={16} /> : <Sun size={16} />}
               </div>
               Toggle Theme
-            </div>
+            </button>
           </div>
         }
       />
