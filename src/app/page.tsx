@@ -471,7 +471,7 @@ export default function Home() {
       {/* ─── Footer ─── */}
       <footer className="relative z-10 py-10 px-6 bg-slate-950 dark:bg-black border-t border-zinc-800 text-center text-xs text-zinc-500 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
         <div>
-          Built with Next.js · TypeScript · Tailwind CSS — Frontend Wizards Stage 8
+          Built by Sugar
         </div>
         <div className="text-zinc-400">
           QueryForge &copy; {new Date().getFullYear()}

@@ -7,6 +7,7 @@ import { RuleNode } from './RuleNode';
 import { GripVertical, Plus, Trash2, ChevronDown, ChevronRight, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 
 interface GroupNodeProps {
   id: GroupId;
@@ -21,6 +22,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
   const removeNode = useQueryStore((s) => s.removeNode);
   const rootGroupId = useQueryStore((s) => s.rootGroupId);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const {
     attributes,
@@ -71,8 +73,8 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
       )}
 
       {/* Group header */}
-      <div className="flex items-center justify-between gap-3 relative z-10">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center items-start justify-between gap-3 relative z-10">
+        <div className="flex flex-wrap items-center gap-2">
           {!isRoot && (
             <div
               {...attributes}
@@ -129,7 +131,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
           )}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 mt-3 sm:mt-0">
           <button
             onClick={() => addRule(id)}
             className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 hover:border-zinc-300 dark:hover:border-zinc-500 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98]"
@@ -144,7 +146,13 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
           </button>
           {!isRoot && (
             <button
-              onClick={() => removeNode(id)}
+              onClick={() => {
+                if (group.children.length > 0) {
+                  setShowDeleteConfirm(true);
+                } else {
+                  removeNode(id);
+                }
+              }}
               className="p-1.5 text-zinc-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-all ml-2 hover:scale-105 active:scale-95"
             >
               <Trash2 size={18} />
@@ -182,6 +190,18 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete Group"
+        message={`Are you sure you want to delete this group? All ${group.children.length} nested rules and groups will be lost.`}
+        confirmLabel="Delete Group"
+        onConfirm={() => {
+          removeNode(id);
+          setShowDeleteConfirm(false);
+        }}
+        onCancel={() => setShowDeleteConfirm(false)}
+      />
     </div>
   );
 });

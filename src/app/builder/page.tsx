@@ -13,34 +13,24 @@ import { ExportImport } from '@/components/QueryBuilder/ExportImport';
 import { SVGLogo } from '@/components/ui/SVGLogo';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { useQueryStore } from '@/lib/store';
+import { useQueryExecution } from '@/lib/useQueryExecution';
+import { useBuilderShortcuts } from '@/lib/useBuilderShortcuts';
+import { MobileSidebar } from '@/components/QueryBuilder/MobileSidebar';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
 import { DATA_SOURCES, getSchemaById } from '@/lib/schema';
-import { addToHistory, getHistory, clearHistory, removeFromHistory, HistoryEntry } from '@/lib/history';
-import { getPresets, createPreset, deletePreset, QueryPreset } from '@/lib/presets';
-import { executeQuery } from '@/lib/executor';
-import { MOCK_DATASETS } from '@/lib/mock-data';
-import { useKeyboardShortcuts, formatShortcut, ShortcutConfig } from '@/lib/keyboard';
 import { validateQueryTree } from '@/lib/engine';
 import {
-  Search,
   Keyboard,
-  Database,
-  Shield,
-  ArrowLeft,
   Clock,
-  Upload,
-  Download,
   Play,
+  Trash2,
+  AlertTriangle,
+  Menu,
+  ArrowLeft,
   Plus,
   Layers,
-  Trash2,
-  Bookmark,
-  Copy,
-  Check,
-  X,
-  FileCode,
-  CheckCircle,
-  AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -48,32 +38,20 @@ import { AnimatePresence, motion } from 'framer-motion';
 export default function BuilderPage() {
   const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
   const [showShortcuts, setShowShortcuts] = useState(false);
-  const [presets, setPresets] = useState<QueryPreset[]>([]);
-  const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([]);
-  const [isLoadingResults, setIsLoadingResults] = useState(false);
-  const [hasExecuted, setHasExecuted] = useState(false);
-  const [executionResults, setExecutionResults] = useState<any[]>([]);
-  const [executionTime, setExecutionTime] = useState(0);
-  const [presetName, setPresetName] = useState('');
-  const [presetDesc, setPresetDesc] = useState('');
-  const [showPresetSaveModal, setShowPresetSaveModal] = useState(false);
-  const [importJson, setImportJson] = useState('');
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [showExportModal, setShowExportModal] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const [showClearAllConfirm, setShowClearAllConfirm] = useState(false);
+
   const store = useQueryStore();
+  const { results: executionResults, executionTime, isLoading, hasExecuted, execute: runExecution } = useQueryExecution();
+  
   const activeSchema = getSchemaById(store.activeSchemaId);
   const schemaFieldsList = Object.values(activeSchema);
-  const activeDataset = MOCK_DATASETS[store.activeSchemaId] || [];
 
-  // Update lists
   useEffect(() => {
-    setPresets(getPresets());
-    setHistoryEntries(getHistory());
-  }, [store.activeSchemaId]);
-
-  const refreshPresets = () => setPresets(getPresets());
-  const refreshHistory = () => setHistoryEntries(getHistory());
+    useQueryStore.persist.rehydrate();
+    setIsHydrated(true);
+  }, []);
 
   // Validation Check
   const validationErrors = useMemo(() => {
@@ -82,195 +60,30 @@ export default function BuilderPage() {
 
   const isValid = validationErrors.length === 0;
 
-  // Keyboard shortcuts
-  const shortcuts: ShortcutConfig[] = [
-    {
-      key: 'e',
-      ctrl: true,
-      description: 'Switch to Results Tab',
-      action: () => setActiveRightTab('results'),
-    },
-    {
-      key: 'n',
-      ctrl: true,
-      description: 'Add new rule',
-      action: () => store.addRule(store.rootGroupId),
-    },
-    {
-      key: 'g',
-      ctrl: true,
-      description: 'Add new group',
-      action: () => store.addGroup(store.rootGroupId),
-    },
-    {
-      key: 'Delete',
-      ctrl: true,
-      description: 'Clear builder',
-      action: () => store.resetQuery(),
-    },
-    {
-      key: '?',
-      shift: true,
-      description: 'Show shortcuts modal',
-      action: () => setShowShortcuts((s) => !s),
-    },
-  ];
-  useKeyboardShortcuts(shortcuts);
+  const shortcuts = useBuilderShortcuts({
+    setShowShortcuts,
+    setShowClearAllConfirm,
+    setActiveRightTab
+  });
 
   const handleExecute = () => {
     if (!isValid) {
       setActiveRightTab('results');
       return;
     }
-
-    setIsLoadingResults(true);
-    setHasExecuted(true);
     setActiveRightTab('results');
-
-    setTimeout(() => {
-      const { results, executionTimeMs } = executeQuery(
-        { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId },
-        activeSchema,
-        activeDataset
-      );
-      setExecutionResults(results);
-      setExecutionTime(executionTimeMs);
-      setIsLoadingResults(false);
-
-      // Add to log history
-      addToHistory(
-        { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId },
-        `Query on ${store.activeSchemaId.toUpperCase()} (${Object.keys(store.rules).length} rules)`
-      );
-      refreshHistory();
-    }, 800);
+    runExecution();
   };
 
-  const handleLoadPreset = (preset: QueryPreset) => {
-    store.setStoreState(preset.state);
-  };
 
-  const handleDeletePreset = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    deletePreset(id);
-    refreshPresets();
-  };
-
-  const handleSavePreset = () => {
-    if (!presetName.trim()) return;
-    createPreset(
-      presetName.trim(),
-      presetDesc.trim(),
-      { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId }
-    );
-    setPresetName('');
-    setPresetDesc('');
-    setShowPresetSaveModal(false);
-    refreshPresets();
-  };
-
-  const handleImport = () => {
-    try {
-      const parsed = JSON.parse(importJson);
-      if (!parsed.query) throw new Error('Missing query property');
-      store.setActiveSchemaId(parsed.schema || 'users');
-      store.setStoreState(parsed.query);
-      setImportJson('');
-      setShowImportModal(false);
-    } catch (e: any) {
-      alert(`Invalid JSON format: ${e.message}`);
-    }
-  };
-
-  const getExportData = () => {
-    return JSON.stringify(
-      {
-        schema: store.activeSchemaId,
-        query: { groups: store.groups, rules: store.rules, rootGroupId: store.rootGroupId },
-      },
-      null,
-      2
-    );
-  };
-
-  const handleCopyExport = () => {
-    navigator.clipboard.writeText(getExportData());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleRestoreHistory = (entry: HistoryEntry) => {
-    store.setStoreState(entry.state);
-  };
-
-  const handleRemoveHistory = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    removeFromHistory(id);
-    refreshHistory();
-  };
-
-  const handleClearHistory = () => {
-    clearHistory();
-    refreshHistory();
-  };
-
-  // Preset templates depending on the schema
-  const examplePresets = useMemo(() => {
-    if (store.activeSchemaId === 'users') {
-      return [
-        {
-          name: 'Active Verified Users',
-          state: {
-            rootGroupId: 'root',
-            groups: { root: { id: 'root', type: 'AND', children: ['r1', 'r2'], parentId: null } },
-            rules: {
-              r1: { id: 'r1', field: 'status', operator: 'equals', value: 'active' },
-              r2: { id: 'r2', field: 'isVerified', operator: 'equals', value: true }
-            }
-          }
-        },
-        {
-          name: 'Nigerian Young Adults',
-          state: {
-            rootGroupId: 'root',
-            groups: { root: { id: 'root', type: 'AND', children: ['r1', 'r2'], parentId: null } },
-            rules: {
-              r1: { id: 'r1', field: 'age', operator: 'between', value: '18', value2: '30' },
-              r2: { id: 'r2', field: 'country', operator: 'equals', value: 'Nigeria' }
-            }
-          }
-        }
-      ];
-    } else if (store.activeSchemaId === 'products') {
-      return [
-        {
-          name: 'Affordable Electronics',
-          state: {
-            rootGroupId: 'root',
-            groups: { root: { id: 'root', type: 'AND', children: ['r1', 'r2'], parentId: null } },
-            rules: {
-              r1: { id: 'r1', field: 'category', operator: 'equals', value: 'electronics' },
-              r2: { id: 'r2', field: 'price', operator: 'lessThan', value: '100' }
-            }
-          }
-        }
-      ];
-    } else {
-      return [
-        {
-          name: 'Paid Shipped Orders',
-          state: {
-            rootGroupId: 'root',
-            groups: { root: { id: 'root', type: 'AND', children: ['r1', 'r2'], parentId: null } },
-            rules: {
-              r1: { id: 'r1', field: 'orderStatus', operator: 'equals', value: 'shipped' },
-              r2: { id: 'r2', field: 'isPaid', operator: 'equals', value: true }
-            }
-          }
-        }
-      ];
-    }
-  }, [store.activeSchemaId]);
+  if (!isHydrated) {
+    return <main className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+      <div className="animate-pulse flex flex-col items-center gap-4">
+        <div className="w-12 h-12 rounded-xl bg-zinc-200 dark:bg-zinc-800" />
+        <div className="h-4 w-24 bg-zinc-200 dark:bg-zinc-800 rounded" />
+      </div>
+    </main>;
+  }
 
   return (
     <main className="min-h-screen bg-[var(--background)] selection:bg-blue-200 dark:selection:bg-blue-900 overflow-hidden flex flex-col">
@@ -289,20 +102,36 @@ export default function BuilderPage() {
         ))}
       </div>
 
+      <div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-10 z-0">
+        <div className="absolute left-0 right-0 top-[64px] border-b border-zinc-200 dark:border-zinc-700" />
+      </div>
+
+      <MobileSidebar 
+        isOpen={isMobileSidebarOpen} 
+        onClose={() => setIsMobileSidebarOpen(false)} 
+      />
+
       {/* ─── Header ─── */}
       <header className="relative z-50 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-6 h-16 flex items-center justify-between shadow-sm">
-        <Link href="/" className="flex items-center gap-2 group focus:outline-none">
-          <div className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
-            <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
-          </div>
-          <SVGLogo size={24} />
-          {/* <span className="font-heading font-semibold text-lg text-slate-800 dark:text-white tracking-wide">
-            QueryForge
-          </span> */}
-          <span className="badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ml-1">
-            Builder
-          </span>
-        </Link>
+        <div className="flex items-center gap-2 lg:gap-0">
+          <button
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
+            title="Open Menu"
+          >
+            <Menu size={18} />
+          </button>
+          
+          <Link href="/" className="flex items-center gap-2 group focus:outline-none">
+            <div className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+              <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
+            </div>
+            <SVGLogo size={24} />
+            <span className="badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ml-1">
+              Builder
+            </span>
+          </Link>
+        </div>
 
         {/* Validator Status Indicator */}
         <div className="hidden md:flex items-center gap-4">
@@ -330,10 +159,7 @@ export default function BuilderPage() {
             Docs
           </Link>
           <button
-            onClick={() => {
-              refreshHistory();
-              setActiveRightTab('history');
-            }}
+            onClick={() => setActiveRightTab('history')}
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
             title="Query History (H)"
           >
@@ -396,14 +222,18 @@ export default function BuilderPage() {
             </div>
           </div>
 
-          <PresetsPanel />
+          <ErrorBoundary>
+            <PresetsPanel />
+          </ErrorBoundary>
           <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800/50 pt-6">
-            <ExportImport />
+            <ErrorBoundary>
+              <ExportImport />
+            </ErrorBoundary>
           </div>
         </aside>
 
         {/* COLUMN 2: Main Query Editor (Center) */}
-        <section className="flex flex-col overflow-y-auto p-6 bg-[var(--surface-muted)] border-r border-zinc-200 dark:border-zinc-800/50 custom-scrollbar relative">
+        <section className="flex flex-col overflow-y-auto p-4 md:p-6 bg-[var(--surface-muted)] border-r border-zinc-200 dark:border-zinc-800/50 custom-scrollbar relative">
           
           {/* Builder Toolbar Controls */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
@@ -414,7 +244,7 @@ export default function BuilderPage() {
               />
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center flex-wrap gap-2">
               <button
                 onClick={() => store.addRule(store.rootGroupId)}
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all hover:scale-105 active:scale-95"
@@ -428,7 +258,7 @@ export default function BuilderPage() {
                 <Layers size={14} /> Group
               </button>
               <button
-                onClick={() => store.resetQuery()}
+                onClick={() => setShowClearAllConfirm(true)}
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-red-400 bg-white dark:bg-zinc-800 border border-red-200 dark:border-red-500/20 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-all hover:scale-105 active:scale-95"
               >
                 <Trash2 size={14} /> Clear All
@@ -436,15 +266,17 @@ export default function BuilderPage() {
             </div>
           </div>
 
-          {/* Aggressive Validation banner removed - user relies on summary banner and execution warnings instead */}
-
           {/* The visual builder tree */}
           <div className="flex-1">
-            <QueryBuilder />
+            <ErrorBoundary>
+              <QueryBuilder />
+            </ErrorBoundary>
           </div>
           {/* Validation banner */}
-          <div className="mb-4">
-            <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
+          <div className="mb-4 mt-4">
+            <ErrorBoundary>
+              <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
+            </ErrorBoundary>
           </div>
         </section>
 
@@ -470,23 +302,23 @@ export default function BuilderPage() {
           </div>
 
           {/* Tab contents */}
-          <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-            
-            {/* Tab: Preview Code compilations */}
+          <div className="flex-1 overflow-hidden">
             {activeRightTab === 'preview' && (
               <div className="h-full flex flex-col">
                 <div className="flex-1 min-h-[400px]">
-                  <PreviewPane />
+                  <ErrorBoundary>
+                    <PreviewPane />
+                  </ErrorBoundary>
                 </div>
-                <div className="flex gap-2.5 mt-3">
+                <div className="flex gap-2.5 mt-3 mb-3">
                   <button
-                    onClick={() => setShowExportModal(true)}
+                    onClick={() => {/* Use active tab or export module */}}
                     className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-xl transition-all"
                   >
                     Share JSON
                   </button>
                   <button
-                    onClick={() => setShowPresetSaveModal(true)}
+                    onClick={() => {/* Use active tab or preset module */}}
                     className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-xl transition-all"
                   >
                     Save Preset
@@ -516,7 +348,14 @@ export default function BuilderPage() {
                     </div>
                   </div>
                 ) : (
-                  <ResultsPane />
+                  <ErrorBoundary>
+                    <ResultsPane 
+                      results={executionResults} 
+                      executionTime={executionTime} 
+                      isLoading={isLoading} 
+                      hasExecuted={hasExecuted} 
+                    />
+                  </ErrorBoundary>
                 )}
               </div>
             )}
@@ -524,7 +363,9 @@ export default function BuilderPage() {
             {/* Tab: History query log */}
             {activeRightTab === 'history' && (
               <div className="flex flex-col h-full">
-                <HistoryPanel />
+                <ErrorBoundary>
+                  <HistoryPanel />
+                </ErrorBoundary>
               </div>
             )}
 
@@ -552,7 +393,7 @@ export default function BuilderPage() {
                   <div key={s.description} className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
                     <span>{s.description}</span>
                     <kbd className="px-2 py-0.5 font-mono bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded">
-                      {formatShortcut(s)}
+                      {s.key}
                     </kbd>
                   </div>
                 ))}
@@ -567,6 +408,18 @@ export default function BuilderPage() {
           </div>
         )}
       </AnimatePresence>
+
+      <ConfirmDialog
+        isOpen={showClearAllConfirm}
+        title="Clear Query Builder"
+        message="Are you sure you want to clear all rules and groups? This action cannot be undone."
+        confirmLabel="Clear All"
+        onConfirm={() => {
+          store.resetQuery();
+          setShowClearAllConfirm(false);
+        }}
+        onCancel={() => setShowClearAllConfirm(false)}
+      />
 
     </main>
   );

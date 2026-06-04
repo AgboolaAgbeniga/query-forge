@@ -212,14 +212,14 @@ export const generateSQL = (state: QueryState, schema: Schema): string => {
 };
 
 export const generateMongo = (state: QueryState, schema: Schema): string => {
-  const processGroup = (groupId: string): any => {
+  const processGroup = (groupId: string): Record<string, unknown> | null => {
     const group = state.groups[groupId];
     if (!group || group.children.length === 0) return {};
 
     const conditions = group.children.map(childId => {
       if (state.groups[childId]) {
         const nested = processGroup(childId);
-        return Object.keys(nested).length > 0 ? nested : null;
+        return nested && Object.keys(nested).length > 0 ? nested : null;
       }
       
       const rule = state.rules[childId];
@@ -290,7 +290,7 @@ export const generateGraphQL = (state: QueryState, schema: Schema, schemaId: str
       const value = rule.value;
       const fieldSchema = schema[field];
 
-      const formatVal = (v: any) => {
+      const formatVal = (v: string | number | boolean | null) => {
         const isNumOrBool = fieldSchema?.type === 'number' || fieldSchema?.type === 'boolean';
         return isNumOrBool ? v : `"${String(v).replace(/"/g, '\\"')}"`;
       };

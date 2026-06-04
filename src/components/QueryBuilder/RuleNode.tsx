@@ -68,9 +68,6 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
   const updateRule = useQueryStore((s) => s.updateRule);
   const removeNode = useQueryStore((s) => s.removeNode);
   const activeSchemaId = useQueryStore((s) => s.activeSchemaId);
-
-  if (!rule) return null;
-
   const schema = getSchemaById(activeSchemaId);
 
   const {
@@ -108,7 +105,7 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "relative flex items-center gap-3 p-3 rounded-xl shadow-sm group transition-all duration-200 flashlight-card",
+        "relative flex flex-wrap sm:flex-nowrap items-center gap-3 p-3 rounded-xl shadow-sm group transition-all duration-200 flashlight-card",
         "bg-white dark:bg-zinc-800 border",
         isDragging
           ? "opacity-50 z-50 border-blue-400 dark:border-blue-500 shadow-md scale-[1.02]"
@@ -169,7 +166,7 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
           <div className="flex gap-2 flex-1 min-w-[140px]">
             {fieldSchema.type === 'enum' && fieldSchema.options ? (
               <select
-                value={rule.value}
+                value={rule.value === null ? '' : String(rule.value)}
                 onChange={(e) => updateRule(id, { value: e.target.value })}
                 className={cn(inputBaseClass, "flex-1")}
               >
@@ -198,7 +195,7 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
                     ? 'date'
                     : 'text'
                 }
-                value={rule.value}
+                value={rule.value === null ? '' : String(rule.value)}
                 onChange={(e) => updateRule(id, { value: e.target.value })}
                 placeholder="Enter value..."
                 className={cn(inputBaseClass, "flex-1 placeholder:text-zinc-400 dark:placeholder:text-zinc-500")}
@@ -218,7 +215,7 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
                       ? 'date'
                       : 'text'
                   }
-                  value={rule.value2 || ''}
+                  value={rule.value2 === null || rule.value2 === undefined ? '' : String(rule.value2)}
                   onChange={(e) => updateRule(id, { value2: e.target.value })}
                   placeholder="And..."
                   className={cn(inputBaseClass, "flex-1 placeholder:text-zinc-400 dark:placeholder:text-zinc-500")}
