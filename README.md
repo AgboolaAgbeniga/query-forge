@@ -1,6 +1,6 @@
-# QueryForge — Visual Query Builder
+# Prism — Visual Query Builder
 
-QueryForge is a high-performance, schema-driven visual query builder built with **Next.js 16**, **React 19**, **TypeScript**, **Zustand**, and **Tailwind CSS**. It allows developers and non-technical users alike to build complex database and API queries — generating **SQL**, **MongoDB**, and **GraphQL** filter syntax — through an intuitive, drag-and-drop graphical interface. No manual query writing required.
+Prism is a high-performance, schema-driven visual query builder built with **Next.js 16**, **React 19**, **TypeScript**, **Zustand**, and **Tailwind CSS**. It allows developers and non-technical users alike to build complex database and API queries — generating **SQL**, **MongoDB**, and **GraphQL** filter syntax — through an intuitive, drag-and-drop graphical interface. No manual query writing required.
 
 ---
 
@@ -170,7 +170,7 @@ Each data source provides a typed schema that drives the UI:
 
 ## ⚙️ Operators Reference
 
-QueryForge supports **11** type-aware filtering operators:
+Prism supports **11** type-aware filtering operators:
 
 | Operator | Supported Types | SQL | MongoDB | GraphQL |
 |----------|----------------|-----|---------|---------|

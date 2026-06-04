@@ -153,7 +153,7 @@ export default function BuilderPage() {
       />
 
       {/* ─── Header ─── */}
-      <header className="h-16 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 shrink-0 relative z-50 overflow-x-auto no-scrollbar">
+      <header className="h-16 flex items-center justify-between border-b border-zinc-200 dark:border-white/10 bg-white/80 dark:bg-black/60 backdrop-blur-xl px-4 shrink-0 relative z-50 overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-2 lg:gap-0">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
@@ -219,7 +219,7 @@ export default function BuilderPage() {
       <div className="relative z-10 flex-1 flex flex-col lg:grid lg:grid-cols-[260px_1fr_360px] overflow-y-auto lg:overflow-hidden h-[calc(100vh-64px)]">
         
         {/* COLUMN 1: Schema Fields + Presets (Sidebar Left) */}
-        <aside className="hidden lg:flex flex-col bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 overflow-y-auto p-4 custom-scrollbar">
+        <aside className="hidden lg:flex flex-col bg-white/50 dark:bg-black/40 backdrop-blur-xl border-r border-zinc-200 dark:border-white/5 overflow-y-auto p-4 custom-scrollbar">
           
           {/* Schema fields Section */}
           <div className="mb-6">
@@ -263,7 +263,7 @@ export default function BuilderPage() {
         </aside>
 
         {/* COLUMN 2: Main Query Editor (Center) */}
-        <section className="flex flex-col overflow-y-auto p-4 md:p-6 bg-[var(--surface-muted)] border-r border-zinc-200 dark:border-zinc-800/50 custom-scrollbar relative">
+        <section className="flex flex-col overflow-y-auto p-4 md:p-6 bg-[var(--surface-muted)] border-r border-zinc-200 dark:border-white/5 custom-scrollbar relative">
           
           {/* Builder Toolbar Controls */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">

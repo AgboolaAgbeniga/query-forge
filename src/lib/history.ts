@@ -5,7 +5,7 @@
 
 import { QueryState } from './types';
 
-const HISTORY_KEY = 'queryforge_history';
+const HISTORY_KEY = 'prism_history';
 const MAX_HISTORY = 20;
 
 export interface HistoryEntry {

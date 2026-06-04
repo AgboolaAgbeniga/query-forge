@@ -6,13 +6,13 @@ interface SVGLogoProps {
 }
 
 /**
- * QueryForge — Inline SVG wordmark + monogram.
+ * Prism — Inline SVG wordmark + monogram.
  * Monochrome by default, auto-adapts in dark mode via currentColor.
  */
 export function SVGLogo({ size = 32, className = '' }: SVGLogoProps) {
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
-      {/* Monogram mark */}
+      {/* Monogram mark - Abstract geometric prism */}
       <svg
         width={size}
         height={size}
@@ -20,46 +20,38 @@ export function SVGLogo({ size = 32, className = '' }: SVGLogoProps) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="shrink-0"
-        aria-label="QueryForge logo"
+        aria-label="Prism logo"
       >
-        {/* Outer rounded square */}
-        <rect
-          x="2"
-          y="2"
-          width="36"
-          height="36"
-          rx="10"
+        {/* Outer bounds - subtle glow background */}
+        <circle cx="20" cy="20" r="18" fill="currentColor" className="text-blue-500/10 dark:text-blue-400/10" />
+        {/* Main Prism Triangle (Left-facing edge) */}
+        <path
+          d="M20 6L8 28H32L20 6Z"
           stroke="currentColor"
           strokeWidth="2.5"
+          strokeLinejoin="round"
           className="text-slate-900 dark:text-white"
         />
-        {/* Q letterform — circle */}
-        <circle
-          cx="20"
-          cy="18"
-          r="8"
+        {/* Inner Refracting Lines */}
+        <path
+          d="M8 28L20 20L32 28"
           stroke="currentColor"
           strokeWidth="2.5"
-          fill="none"
+          strokeLinejoin="round"
           className="text-blue-600 dark:text-blue-400"
         />
-        {/* Q letterform — tail / query arrow */}
         <path
-          d="M24 22L30 30"
+          d="M20 6V20"
           stroke="currentColor"
           strokeWidth="2.5"
-          strokeLinecap="round"
+          strokeLinejoin="round"
           className="text-emerald-500 dark:text-emerald-400"
         />
-        {/* Filter dots representing query conditions */}
-        <circle cx="16" cy="18" r="1.5" fill="currentColor" className="text-slate-900 dark:text-white" />
-        <circle cx="20" cy="18" r="1.5" fill="currentColor" className="text-slate-900 dark:text-white" />
-        <circle cx="24" cy="18" r="1.5" fill="currentColor" className="text-slate-900 dark:text-white" />
       </svg>
 
       {/* Wordmark */}
-      <span className="text-xl font-bold tracking-wide text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-heading)' }}>
-        Query<span className="text-blue-600 dark:text-blue-400">Forge</span>
+      <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+        Prism
       </span>
     </div>
   );
@@ -75,37 +67,30 @@ export function SVGLogoMark({ size = 28, className = '' }: SVGLogoProps) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={`shrink-0 ${className}`}
-      aria-label="QueryForge logo mark"
+      aria-label="Prism logo mark"
     >
-      <rect
-        x="2"
-        y="2"
-        width="36"
-        height="36"
-        rx="10"
+      <circle cx="20" cy="20" r="18" fill="currentColor" className="text-blue-500/10 dark:text-blue-400/10" />
+      <path
+        d="M20 6L8 28H32L20 6Z"
         stroke="currentColor"
         strokeWidth="2.5"
+        strokeLinejoin="round"
         className="text-slate-900 dark:text-white"
       />
-      <circle
-        cx="20"
-        cy="18"
-        r="8"
+      <path
+        d="M8 28L20 20L32 28"
         stroke="currentColor"
         strokeWidth="2.5"
-        fill="none"
+        strokeLinejoin="round"
         className="text-blue-600 dark:text-blue-400"
       />
       <path
-        d="M24 22L30 30"
+        d="M20 6V20"
         stroke="currentColor"
         strokeWidth="2.5"
-        strokeLinecap="round"
+        strokeLinejoin="round"
         className="text-emerald-500 dark:text-emerald-400"
       />
-      <circle cx="16" cy="18" r="1.5" fill="currentColor" className="text-slate-900 dark:text-white" />
-      <circle cx="20" cy="18" r="1.5" fill="currentColor" className="text-slate-900 dark:text-white" />
-      <circle cx="24" cy="18" r="1.5" fill="currentColor" className="text-slate-900 dark:text-white" />
     </svg>
   );
 }

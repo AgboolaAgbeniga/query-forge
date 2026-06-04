@@ -5,7 +5,7 @@
 
 import { QueryState } from './types';
 
-const PRESETS_KEY = 'queryforge_presets';
+const PRESETS_KEY = 'prism_presets';
 
 export interface QueryPreset {
   id: string;

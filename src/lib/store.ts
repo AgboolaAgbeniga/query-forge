@@ -251,4 +251,4 @@ export const useQueryStore = create<QueryStore>()(
     activeSchemaId: id,
     ...createFreshState(),
   }),
-}), { name: 'queryforge-active-state', skipHydration: true }));
+}), { name: 'prism-active-state', skipHydration: true }));

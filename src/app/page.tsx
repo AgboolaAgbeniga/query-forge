@@ -464,7 +464,7 @@ export default function Home() {
           className="pill-button inline-flex items-center gap-2 px-8 py-3.5 bg-white hover:bg-zinc-150 text-slate-900 text-sm font-semibold transition-all hover:scale-105 active:scale-95"
         >
           <Play size={12} fill="currentColor" />
-          Launch QueryForge
+          Launch Prism
         </Link>
       </section>
 
@@ -474,7 +474,7 @@ export default function Home() {
           Built by Sugar
         </div>
         <div className="text-zinc-400">
-          QueryForge &copy; {new Date().getFullYear()}
+          Prism &copy; {new Date().getFullYear()}
         </div>
       </footer>
     </main>

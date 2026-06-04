@@ -116,7 +116,7 @@ export function ExportImport() {
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = `queryforge-export-${Date.now()}.json`;
+    a.download = `prism-export-${Date.now()}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

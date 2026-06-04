@@ -1,8 +1,9 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 @theme {
-  --font-sans: var(--font-manrope);
-  --font-heading: var(--font-biorhyme);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
   
   --color-background: var(--color-stone-100);
   --color-foreground: var(--color-slate-900);
@@ -30,15 +31,15 @@
   }
 
   .dark {
-    --background: #09090b; /* zinc-950 */
+    --background: #000000; /* pure black */
     --foreground: #fafafa; /* zinc-50 */
-    --surface: #18181b; /* zinc-900 */
-    --surface-elevated: #27272a; /* zinc-800 */
-    --surface-muted: #18181b; /* zinc-900 */
-    --border-default: #27272a; /* zinc-800 */
-    --border-subtle: #3f3f46; /* zinc-700 */
+    --surface: #0a0a0a; /* elevated surface */
+    --surface-elevated: #111111; /* card surface */
+    --surface-muted: #050505; /* pure muted */
+    --border-default: rgba(255, 255, 255, 0.08); /* subtle translucent border */
+    --border-subtle: rgba(255, 255, 255, 0.04); /* very subtle border */
     --accent: #3b82f6; /* blue-500 */
-    --accent-soft: #1e3a8a; /* blue-900 */
+    --accent-soft: rgba(59, 130, 246, 0.15); /* subtle blue */
     --shadow-color: 0 0% 0%;
   }
 

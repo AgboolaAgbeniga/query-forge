@@ -166,7 +166,7 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-[var(--background)] flex flex-col font-sans selection:bg-blue-200 dark:selection:bg-blue-900">
       {/* SEO metadata hidden elements */}
-      <h1 className="sr-only">QueryForge - Interactive Documentation and User Onboarding Guide</h1>
+      <h1 className="sr-only">Prism - Interactive Documentation and User Onboarding Guide</h1>
 
       {/* Background Guide Lines */}
       <div className="fixed inset-0 pointer-events-none flex justify-around opacity-[0.06] dark:opacity-[0.04] z-0">
@@ -426,13 +426,13 @@ export default function DocsPage() {
           >
             <div className="pill-button inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold mb-4 tracking-wide uppercase">
               <BookOpen size={12} />
-              Welcome to QueryForge
+              Welcome to Prism
             </div>
             <h2 className="heading text-3xl font-bold text-slate-900 dark:text-white mb-4">
               Introduction
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-4">
-              QueryForge is a premium, visual schema-driven query construction workspace designed to build database and API filter queries. Through an interactive graphical interface, engineers can build simple filters or highly complex, deeply nested logic configurations, generating clean compiled syntaxes for <strong>SQL</strong>, <strong>MongoDB</strong>, and <strong>GraphQL</strong>.
+              Prism is a premium, visual schema-driven query construction workspace designed to build database and API filter queries. Through an interactive graphical interface, engineers can build simple filters or highly complex, deeply nested logic configurations, generating clean compiled syntaxes for <strong>SQL</strong>, <strong>MongoDB</strong>, and <strong>GraphQL</strong>.
             </p>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed">
               No manual query format compilation is required. The UI adapts contextually according to the defined schema types—presenting select dropdowns for enums, calendars for dates, checkboxes for booleans, and numeric controls for numerical limits—ensuring type-safe query generation with built-in schema validation.
@@ -508,7 +508,7 @@ export default function DocsPage() {
               Available Data Sources
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge ships with three pre-configured datasets, each with a typed schema. The UI automatically adapts input controls to match field types — dropdowns for enums, date pickers for dates, checkboxes for booleans, and number spinners for numeric fields.
+              Prism ships with three pre-configured datasets, each with a typed schema. The UI automatically adapts input controls to match field types — dropdowns for enums, date pickers for dates, checkboxes for booleans, and number spinners for numeric fields.
             </p>
 
             <div className="flex flex-col gap-4">
@@ -568,7 +568,7 @@ export default function DocsPage() {
               Rules & Logic Groups
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge query configs are structured as hierarchical trees composed of two node types: <strong>Rules</strong> and <strong>Groups</strong>.
+              Prism query configs are structured as hierarchical trees composed of two node types: <strong>Rules</strong> and <strong>Groups</strong>.
             </p>
 
             <div className="flex flex-col gap-4">
@@ -617,7 +617,7 @@ export default function DocsPage() {
               Drag & Drop Reordering
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-4">
-              QueryForge uses <strong>@dnd-kit</strong> to enable full drag-and-drop reordering of rules and groups within the query tree. You can restructure your entire query hierarchy by simply dragging nodes to new positions.
+              Prism uses <strong>@dnd-kit</strong> to enable full drag-and-drop reordering of rules and groups within the query tree. You can restructure your entire query hierarchy by simply dragging nodes to new positions.
             </p>
 
             <div className="flex flex-col gap-3">
@@ -654,7 +654,7 @@ export default function DocsPage() {
               Validation Engine
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge includes a real-time validation engine that checks your query tree for correctness before execution. Validation runs automatically as you build, and results are displayed in the summary banner at the bottom of the builder.
+              Prism includes a real-time validation engine that checks your query tree for correctness before execution. Validation runs automatically as you build, and results are displayed in the summary banner at the bottom of the builder.
             </p>
 
             <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3">What gets validated:</h3>
@@ -699,7 +699,7 @@ export default function DocsPage() {
               Operators Reference
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge supports 14 distinct, type-aware filtering operators. Below is the mapping matrix of operator keys, their applicable types, and translations across compilers.
+              Prism supports 14 distinct, type-aware filtering operators. Below is the mapping matrix of operator keys, their applicable types, and translations across compilers.
             </p>
 
             <div className="overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900">
@@ -826,7 +826,7 @@ export default function DocsPage() {
               Query Formats
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge generates live, production-ready filter syntaxes. You can toggle between output types in the Preview Pane. Here is a compilation demonstration of a single filter structure across all three engines:
+              Prism generates live, production-ready filter syntaxes. You can toggle between output types in the Preview Pane. Here is a compilation demonstration of a single filter structure across all three engines:
             </p>
 
             {/* Interactive Compiler Preview Component */}
@@ -871,7 +871,7 @@ export default function DocsPage() {
               Presets & JSON Schema
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge query states can be shared or exported as structured JSON payloads. This schema is fully declarative, making it simple to send visual filter structures to backend APIs to parse directly.
+              Prism query states can be shared or exported as structured JSON payloads. This schema is fully declarative, making it simple to send visual filter structures to backend APIs to parse directly.
             </p>
 
             <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3">
@@ -898,7 +898,7 @@ export default function DocsPage() {
                   Importing and Exporting
                 </h4>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                  In the builder view, click the <strong>Upload</strong> button to import any valid QueryForge schema JSON. You can save custom configurations as a local Preset inside your browser storage using the <strong>Bookmark</strong> button, or export code for backend filters immediately.
+                  In the builder view, click the <strong>Upload</strong> button to import any valid Prism schema JSON. You can save custom configurations as a local Preset inside your browser storage using the <strong>Bookmark</strong> button, or export code for backend filters immediately.
                 </p>
               </div>
             </div>
@@ -913,7 +913,7 @@ export default function DocsPage() {
               Keyboard Shortcuts
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge supports system keyboard shortcuts for power users to navigate the workspace. Press the modifier keys below or review the layout matrix to explore controls:
+              Prism supports system keyboard shortcuts for power users to navigate the workspace. Press the modifier keys below or review the layout matrix to explore controls:
             </p>
 
             {/* Keyboard status visualizer */}
@@ -1011,7 +1011,7 @@ export default function DocsPage() {
               Execution & Results
             </h2>
             <p className="text-sm text-slate-600 dark:text-zinc-350 leading-relaxed mb-6">
-              QueryForge includes an in-memory query execution simulator that runs your filter conditions against mock datasets of 250+ records. No backend required — everything runs instantly in the browser.
+              Prism includes an in-memory query execution simulator that runs your filter conditions against mock datasets of 250+ records. No backend required — everything runs instantly in the browser.
             </p>
 
             <div className="flex flex-col gap-3">
@@ -1088,9 +1088,9 @@ export default function DocsPage() {
               </div>
 
               <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
-                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;Can I use QueryForge with my own database?&quot;</h3>
+                <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;Can I use Prism with my own database?&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                  QueryForge currently executes against built-in mock datasets. However, the generated SQL, MongoDB, or GraphQL syntax in the Preview tab is production-ready — you can copy it directly into your backend queries. The JSON export format can also be sent to a backend API to parse and execute.
+                  Prism currently executes against built-in mock datasets. However, the generated SQL, MongoDB, or GraphQL syntax in the Preview tab is production-ready — you can copy it directly into your backend queries. The JSON export format can also be sent to a backend API to parse and execute.
                 </p>
               </div>
             </div>
@@ -1105,7 +1105,7 @@ export default function DocsPage() {
           Built with Next.js · TypeScript · Tailwind CSS — Frontend Wizards Stage 8
         </div>
         <div className="text-zinc-400">
-          QueryForge &copy; {new Date().getFullYear()}
+          Prism &copy; {new Date().getFullYear()}
         </div>
       </footer>
     </div>
