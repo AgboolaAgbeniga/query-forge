@@ -216,7 +216,7 @@ export default function BuilderPage() {
       </header>
 
       {/* ─── Spatial Canvas Workspace ─── */}
-      <div className="relative z-10 flex-1 w-full overflow-hidden bg-zinc-50/50 dark:bg-black bg-dot-pattern flex flex-col h-[calc(100vh-64px)]">
+      <div className="relative z-10 flex-1 w-full overflow-y-auto lg:overflow-hidden bg-zinc-50/50 dark:bg-black bg-dot-pattern flex flex-col lg:h-[calc(100vh-64px)] h-full">
         
         {/* FLOATING LEFT PANEL (Schema & Presets) */}
         <aside className="hidden lg:flex flex-col absolute top-6 left-6 w-[280px] max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl overflow-y-auto custom-scrollbar z-40 p-5">
@@ -261,7 +261,7 @@ export default function BuilderPage() {
         </aside>
 
         {/* TOP-LEFT STATUS PILLS (Mobile overlay or Float) */}
-        <div className="absolute top-6 left-6 lg:left-[320px] flex items-center gap-3 z-30">
+        <div className="lg:absolute top-6 left-6 lg:left-[320px] flex items-center gap-3 z-30 p-4 lg:p-0">
           <div className="hidden sm:block">
             <SchemaSelector
               activeSchemaId={store.activeSchemaId}
@@ -283,7 +283,7 @@ export default function BuilderPage() {
         </div>
 
         {/* BOTTOM FLOATING COMMAND DOCK */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl z-50">
+        <div className="fixed lg:absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl z-50 w-[max-content]">
           <button
             onClick={() => store.addRule(store.rootGroupId)}
             className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95">
@@ -304,7 +304,7 @@ export default function BuilderPage() {
         </div>
 
         {/* FLOATING RIGHT PANEL (Preview & Results) */}
-        <aside className="hidden lg:flex flex-col absolute top-6 right-6 w-[380px] max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl overflow-hidden z-40">
+        <aside className="w-full lg:w-[380px] flex flex-col lg:absolute top-6 right-6 lg:max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border-t lg:border border-zinc-200 dark:border-white/10 lg:shadow-2xl lg:rounded-2xl overflow-hidden z-40 mt-4 lg:mt-0">
           {/* Tab buttons */}
           <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-transparent">
             {(['preview', 'results', 'history'] as const).map((tab) => (
@@ -324,7 +324,7 @@ export default function BuilderPage() {
           </div>
 
           {/* Tab contents */}
-          <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+          <div className="flex-1 lg:overflow-y-auto p-5 custom-scrollbar">
             {activeRightTab === 'preview' && (
               <div className="h-full flex flex-col">
                 <div className="flex-1 min-h-[400px]">
@@ -386,7 +386,7 @@ export default function BuilderPage() {
         </aside>
 
         {/* THE MAIN CANVAS (Query Tree) */}
-        <div className="w-full h-full overflow-auto pt-24 pb-32 px-4 lg:px-[340px] custom-scrollbar flex justify-center">
+        <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-24 pb-32 px-4 lg:px-[340px] custom-scrollbar flex justify-center">
           <div className="max-w-4xl w-full">
             <div className="mb-6 flex justify-center">
               <ErrorBoundary>
