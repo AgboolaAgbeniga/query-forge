@@ -174,6 +174,13 @@ export default function BuilderPage() {
               Builder
             </span>
           </Link>
+          
+          <button
+            onClick={() => setIsMobileSidebarOpen(true)}
+            className="lg:hidden ml-2 flex items-center gap-1.5 px-2.5 py-1.5 bg-zinc-100 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl active:scale-95 transition-all text-[11px] font-bold text-slate-700 dark:text-zinc-200 tracking-wider">
+            <Database size={12} className="text-blue-500 dark:text-blue-400" />
+            {store.activeSchemaId.toUpperCase()}
+          </button>
         </div>
 
 
@@ -220,6 +227,18 @@ export default function BuilderPage() {
         
         {/* FLOATING LEFT PANEL (Schema & Presets) */}
         <aside className="hidden lg:flex flex-col absolute top-6 left-6 w-[280px] max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl overflow-y-auto custom-scrollbar z-40 p-5">
+          
+          {/* Data Source Selector */}
+          <div className="mb-6">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2 px-1">
+              Data Source
+            </div>
+            <SchemaSelector
+              activeSchemaId={store.activeSchemaId}
+              onSelect={(src) => store.setActiveSchemaId(src.id)}
+            />
+          </div>
+
           {/* Schema fields Section */}
           <div className="mb-6">
             <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3 px-1">
@@ -286,27 +305,6 @@ export default function BuilderPage() {
         <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-16 pb-32 px-4 lg:pl-[340px] lg:pr-12 custom-scrollbar flex justify-center">
           <div className="max-w-5xl w-full flex flex-col gap-12">
             
-            {/* STATUS PILLS & DATA SOURCE */}
-            <div className="flex items-center gap-3 z-30">
-              <div className="hidden sm:block">
-                <SchemaSelector
-                  activeSchemaId={store.activeSchemaId}
-                  onSelect={(src) => store.setActiveSchemaId(src.id)}
-                />
-              </div>
-              <button
-                onClick={() => setIsMobileSidebarOpen(true)}
-                className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200">
-                <Database size={14} className="text-blue-500 dark:text-blue-400" />
-                {store.activeSchemaId.toUpperCase()}
-              </button>
-              <div className="flex items-center gap-2 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
-                <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
-                <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
-                  {isValid ? 'Valid Setup' : 'Invalid Setup'}
-                </span>
-              </div>
-            </div>
 
             <div>
               <div className="mb-6 flex justify-center">
