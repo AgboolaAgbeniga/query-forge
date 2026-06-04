@@ -37,7 +37,7 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function BuilderPage() {
-  const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
+  const [activeRightTab, setActiveRightTab] = useState<'results' | 'history'>('results');
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -307,7 +307,7 @@ export default function BuilderPage() {
         <aside className="w-full lg:w-[380px] flex flex-col lg:absolute top-6 right-6 lg:max-h-[calc(100vh-112px)] bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border-t lg:border border-zinc-200 dark:border-white/10 lg:shadow-2xl lg:rounded-2xl overflow-hidden z-40 mt-4 lg:mt-0">
           {/* Tab buttons */}
           <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-transparent">
-            {(['preview', 'results', 'history'] as const).map((tab) => (
+            {(['results', 'history'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveRightTab(tab)}
@@ -325,23 +325,6 @@ export default function BuilderPage() {
 
           {/* Tab contents */}
           <div className="flex-1 lg:overflow-y-auto p-5 custom-scrollbar">
-            {activeRightTab === 'preview' && (
-              <div className="h-full flex flex-col">
-                <div className="flex-1 min-h-[400px]">
-                  <ErrorBoundary>
-                    <PreviewPane />
-                  </ErrorBoundary>
-                </div>
-                <div className="flex gap-2.5 mt-3 mb-3">
-                  <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all">
-                    Share JSON
-                  </button>
-                  <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all">
-                    Save Preset
-                  </button>
-                </div>
-              </div>
-            )}
 
             {activeRightTab === 'results' && (
               <div className="flex flex-col h-full gap-4">
@@ -387,15 +370,40 @@ export default function BuilderPage() {
 
         {/* THE MAIN CANVAS (Query Tree) */}
         <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-24 pb-32 px-4 lg:px-[340px] custom-scrollbar flex justify-center">
-          <div className="max-w-4xl w-full">
-            <div className="mb-6 flex justify-center">
+          <div className="max-w-4xl w-full flex flex-col gap-8">
+            <div>
+              <div className="mb-6 flex justify-center">
+                <ErrorBoundary>
+                  <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
+                </ErrorBoundary>
+              </div>
               <ErrorBoundary>
-                <ValidationSummary errors={validationErrors} rulesCount={Object.keys(store.rules).length} />
+                <QueryBuilder />
               </ErrorBoundary>
             </div>
-            <ErrorBoundary>
-              <QueryBuilder />
-            </ErrorBoundary>
+            
+            {/* INLINE LIVE PREVIEW */}
+            <div className="w-full">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-1">
+                  Live Preview
+                </span>
+                <div className="h-px flex-1 bg-zinc-200 dark:bg-white/5" />
+              </div>
+              <ErrorBoundary>
+                <div className="h-[300px]">
+                  <PreviewPane />
+                </div>
+              </ErrorBoundary>
+              <div className="flex gap-3 mt-4 w-full max-w-sm mx-auto">
+                <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all shadow-sm">
+                  Share JSON
+                </button>
+                <button className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/5 hover:bg-zinc-100 dark:hover:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl transition-all shadow-sm">
+                  Save Preset
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 

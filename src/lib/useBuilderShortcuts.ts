@@ -4,7 +4,7 @@ import { useQueryStore } from '@/lib/store';
 interface BuilderShortcutsProps {
   setShowShortcuts: React.Dispatch<React.SetStateAction<boolean>>;
   setShowClearAllConfirm: React.Dispatch<React.SetStateAction<boolean>>;
-  setActiveRightTab: React.Dispatch<React.SetStateAction<'preview' | 'history' | 'results'>>;
+  setActiveRightTab: React.Dispatch<React.SetStateAction<'history' | 'results'>>;
 }
 
 export function useBuilderShortcuts({ 
