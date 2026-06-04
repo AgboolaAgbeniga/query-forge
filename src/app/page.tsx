@@ -194,14 +194,14 @@ export default function Home() {
   return (
     <main
       ref={containerRef}
-      className="min-h-screen bg-[var(--background)] selection:bg-indigo-200 dark:selection:bg-indigo-900"
+      className="min-h-screen bg-[var(--background)] selection:bg-orange-200 dark:selection:bg-orange-900"
     >
       {/* ─── Background Guide Lines ─── */}
       <div className="fixed inset-0 pointer-events-none flex justify-around opacity-[0.12] dark:opacity-[0.08] z-0">
         {[...Array(7)].map((_, i) => (
           <div key={i} className="guide-line w-px h-full bg-zinc-300 dark:bg-zinc-600 relative">
             <div
-              className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-indigo-400/0 via-indigo-500/80 to-indigo-400/0 animate-beam"
+              className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-orange-400/0 via-orange-500/80 to-orange-400/0 animate-beam"
               style={{
                 animationDelay: `${i * 0.5}s`,
                 animationDuration: `${3 + i * 0.3}s`,
@@ -222,13 +222,13 @@ export default function Home() {
           <div className="hero-element flex items-center gap-6">
             <Link
               href="/docs"
-              className="text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors uppercase tracking-wider font-sans"
+              className="text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors uppercase tracking-wider font-sans"
             >
               Docs
             </Link>
             <Link
               href="/builder"
-              className="pill-button inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-semibold shadow-md shadow-indigo-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="pill-button inline-flex items-center px-4 py-2 bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm font-semibold shadow-md shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               Launch Builder
             </Link>
@@ -243,13 +243,13 @@ export default function Home() {
         className="relative z-10 pt-36 pb-20 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center"
       >
         <div className="hero-element blur-in" style={{ animationDelay: '0.1s' }}>
-          <div className="pill-button inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-xs font-semibold mb-6 border border-indigo-200/40 dark:border-indigo-500/20 cursor-default">
+          <div className="pill-button inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 text-xs font-semibold mb-6 border border-orange-200/40 dark:border-orange-500/20 cursor-default">
             <Zap size={12} className="animate-pulse" />
             <span>Visual Query Builder</span>
           </div>
 
           <h1 className="heading text-[38px] md:text-[46px] lg:text-[56px] leading-tight text-slate-900 dark:text-white mb-6">
-            Build <span className="text-indigo-600 dark:text-indigo-400">complex queries</span>
+            Build <span className="text-orange-600 dark:text-orange-400">complex queries</span>
             <br />
             without writing code
           </h1>
@@ -261,7 +261,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-4 mb-8">
             <Link
               href="/builder"
-              className="pill-button inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="pill-button inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 dark:bg-orange-500 dark:hover:bg-orange-600 text-white text-sm font-semibold shadow-lg shadow-orange-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Play size={12} fill="currentColor" />
               Open Builder
@@ -289,18 +289,18 @@ export default function Home() {
           <div className="bg-white dark:bg-[#050505] border border-zinc-200 dark:border-white/10 rounded-3xl p-6 shadow-2xl dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:translate-y-[-6px] transition-all duration-500">
             <div className="flex items-center justify-between mb-4 border-b border-zinc-100 dark:border-white/10 pb-3">
               <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Live Preview</span>
-              <span className="px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 text-[10px] font-bold">SQL</span>
+              <span className="px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-500/20 text-orange-700 dark:text-orange-400 text-[10px] font-bold">SQL</span>
             </div>
 
             {/* Simulated Query tree */}
             <div className="flex flex-col gap-2.5 mb-5">
               <div className="flex gap-2 p-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
-                <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full text-[10px]">age</span>
+                <span className="bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full text-[10px]">age</span>
                 <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full text-[10px]">&gt; greaterThan</span>
                 <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">18</span>
               </div>
               <div className="flex gap-2 p-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
-                <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full text-[10px]">country</span>
+                <span className="bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full text-[10px]">country</span>
                 <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full text-[10px]">= equals</span>
                 <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">&quot;Nigeria&quot;</span>
               </div>
@@ -311,7 +311,7 @@ export default function Home() {
               </div>
 
               <div className="ml-4 pl-3 border-l-2 border-purple-400 flex gap-2 p-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
-                <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full text-[10px]">status</span>
+                <span className="bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 px-2 py-0.5 rounded-full text-[10px]">status</span>
                 <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full text-[10px]">= equals</span>
                 <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">&quot;active&quot;</span>
               </div>
@@ -319,9 +319,9 @@ export default function Home() {
 
             {/* Preview Box */}
             <div className="bg-slate-950 dark:bg-black/60 rounded-xl p-4 font-mono text-xs text-slate-300 leading-relaxed mb-4 border border-zinc-800">
-              <span className="text-indigo-400 font-semibold">SELECT</span> * <span className="text-indigo-400 font-semibold">FROM</span> users <br />
-              <span className="text-indigo-400 font-semibold">WHERE</span> (age &gt; <span className="text-emerald-400">18</span> <span className="text-indigo-400 font-semibold">AND</span> country = <span className="text-orange-400">&apos;Nigeria&apos;</span>)<br />
-              <span className="text-indigo-400 font-semibold">OR</span> status = <span className="text-orange-400">&apos;active&apos;</span>
+              <span className="text-orange-400 font-semibold">SELECT</span> * <span className="text-orange-400 font-semibold">FROM</span> users <br />
+              <span className="text-orange-400 font-semibold">WHERE</span> (age &gt; <span className="text-emerald-400">18</span> <span className="text-orange-400 font-semibold">AND</span> country = <span className="text-orange-400">&apos;Nigeria&apos;</span>)<br />
+              <span className="text-orange-400 font-semibold">OR</span> status = <span className="text-orange-400">&apos;active&apos;</span>
             </div>
 
             <div className="flex items-center justify-between text-[11px] text-zinc-400 border-t border-zinc-100 dark:border-white/10 pt-3">
@@ -365,7 +365,7 @@ export default function Home() {
         className="relative z-10 py-24 px-6 max-w-7xl mx-auto"
       >
         <div className="mb-16 max-w-lg">
-          <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3">
+          <div className="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-3">
             Capabilities
           </div>
           <h2 className="heading text-3xl md:text-4xl text-slate-900 dark:text-white mb-4">
@@ -384,7 +384,7 @@ export default function Home() {
               onMouseMove={handleFlashlightMove}
             >
               <div className="relative z-10">
-                <div className="inline-flex p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-5 group-hover:scale-110 transition-transform duration-300">
+                <div className="inline-flex p-3 rounded-xl bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 mb-5 group-hover:scale-110 transition-transform duration-300">
                   <feature.icon size={20} />
                 </div>
                 <h3 className="heading text-[18px] text-slate-900 dark:text-white mb-2">
@@ -402,7 +402,7 @@ export default function Home() {
       {/* ─── "How it Works" Workflow Section ─── */}
       <section id="how-it-works" className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-zinc-200/50 dark:border-white/10">
         <div className="text-center max-w-lg mx-auto mb-14">
-          <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 mb-3">
+          <div className="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400 mb-3">
             Workflow
           </div>
           <h2 className="heading text-3xl text-slate-950 dark:text-white">

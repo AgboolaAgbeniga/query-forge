@@ -47,7 +47,7 @@ export function ConfirmDialog({
                   "p-2 rounded-xl shrink-0 mt-0.5",
                   isDestructive 
                     ? "bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400"
-                    : "bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400"
+                    : "bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400"
                 )}
               >
                 <AlertTriangle size={20} />
@@ -83,7 +83,7 @@ export function ConfirmDialog({
                   "flex-1 px-4 py-2 text-xs font-semibold text-white rounded-xl transition-all active:scale-95 shadow-md",
                   isDestructive 
                     ? "bg-red-600 hover:bg-red-700 shadow-red-500/20"
-                    : "bg-indigo-600 hover:bg-indigo-700 shadow-indigo-500/20"
+                    : "bg-orange-600 hover:bg-orange-700 shadow-orange-500/20"
                 )}
               >
                 {confirmLabel}

@@ -98,7 +98,7 @@ export function PreviewPane() {
       {/* Query output */}
       <div className="flex-1 p-4 overflow-auto font-mono text-sm leading-relaxed whitespace-pre-wrap custom-scrollbar">
         {activeTab === 'sql' ? (
-          <span className="text-indigo-300">{activeQuery}</span>
+          <span className="text-orange-300">{activeQuery}</span>
         ) : activeTab === 'mongo' ? (
           <span className="text-emerald-300">{activeQuery}</span>
         ) : (

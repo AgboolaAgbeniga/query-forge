@@ -23,7 +23,7 @@ export function SVGLogo({ size = 32, className = '' }: SVGLogoProps) {
         aria-label="Prism logo"
       >
         {/* Outer bounds - subtle glow background */}
-        <circle cx="20" cy="20" r="18" fill="currentColor" className="text-indigo-500/10 dark:text-indigo-400/10" />
+        <circle cx="20" cy="20" r="18" fill="currentColor" className="text-orange-500/10 dark:text-orange-400/10" />
         {/* Main Prism Triangle (Left-facing edge) */}
         <path
           d="M20 6L8 28H32L20 6Z"
@@ -38,7 +38,7 @@ export function SVGLogo({ size = 32, className = '' }: SVGLogoProps) {
           stroke="currentColor"
           strokeWidth="2.5"
           strokeLinejoin="round"
-          className="text-indigo-600 dark:text-indigo-400"
+          className="text-orange-600 dark:text-orange-400"
         />
         <path
           d="M20 6V20"
@@ -69,7 +69,7 @@ export function SVGLogoMark({ size = 28, className = '' }: SVGLogoProps) {
       className={`shrink-0 ${className}`}
       aria-label="Prism logo mark"
     >
-      <circle cx="20" cy="20" r="18" fill="currentColor" className="text-indigo-500/10 dark:text-indigo-400/10" />
+      <circle cx="20" cy="20" r="18" fill="currentColor" className="text-orange-500/10 dark:text-orange-400/10" />
       <path
         d="M20 6L8 28H32L20 6Z"
         stroke="currentColor"
@@ -82,7 +82,7 @@ export function SVGLogoMark({ size = 28, className = '' }: SVGLogoProps) {
         stroke="currentColor"
         strokeWidth="2.5"
         strokeLinejoin="round"
-        className="text-indigo-600 dark:text-indigo-400"
+        className="text-orange-600 dark:text-orange-400"
       />
       <path
         d="M20 6V20"

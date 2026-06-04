@@ -18,29 +18,29 @@
 
 @layer base {
   :root {
-    --background: #f5f5f4; /* stone-100 */
-    --foreground: #0f172a; /* slate-900 */
+    --background: #fdfbf7;
+    --foreground: #2d2422;
     --surface: #ffffff;
     --surface-elevated: #ffffff;
-    --surface-muted: #fafaf9; /* stone-50 */
-    --border-default: #e4e4e7; /* zinc-200 */
-    --border-subtle: #f4f4f5; /* zinc-100 */
-    --accent: #2563eb; /* blue-600 */
-    --accent-soft: #eff6ff; /* blue-50 */
-    --shadow-color: 0 0% 63%;
+    --surface-muted: #fcfaf8;
+    --border-default: #e7e4e0;
+    --border-subtle: #f4f0ec;
+    --accent: #f97316;
+    --accent-soft: #fff7ed;
+    --shadow-color: 25 20% 63%;
   }
 
   .dark {
-    --background: #000000; /* pure black */
-    --foreground: #fafafa; /* zinc-50 */
-    --surface: #0a0a0a; /* elevated surface */
-    --surface-elevated: #111111; /* card surface */
-    --surface-muted: #050505; /* pure muted */
-    --border-default: rgba(255, 255, 255, 0.08); /* subtle translucent border */
-    --border-subtle: rgba(255, 255, 255, 0.04); /* very subtle border */
-    --accent: #3b82f6; /* blue-500 */
-    --accent-soft: rgba(59, 130, 246, 0.15); /* subtle blue */
-    --shadow-color: 0 0% 0%;
+    --background: #171210;
+    --foreground: #fcfaf8;
+    --surface: #1e1715;
+    --surface-elevated: #241d1a;
+    --surface-muted: #1a1412;
+    --border-default: rgba(255, 230, 220, 0.08);
+    --border-subtle: rgba(255, 230, 220, 0.04);
+    --accent: #f97316;
+    --accent-soft: rgba(249, 115, 22, 0.15);
+    --shadow-color: 25 50% 0%;
   }
 
   body {
@@ -127,7 +127,7 @@
     transition: opacity 0.3s ease;
     background: radial-gradient(
       400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      hsl(217 91% 60% / 0.12),
+      hsl(25 95% 60% / 0.15),
       transparent 40%
     );
     pointer-events: none;
@@ -160,9 +160,9 @@
       from var(--beam-angle, 0deg),
       transparent 0%,
       transparent 75%,
-      hsl(217 91% 60% / 0.8) 85%,
-      hsl(217 91% 60% / 1) 90%,
-      hsl(160 84% 39% / 1) 95%,
+      hsl(15 95% 60% / 0.8) 85%,
+      hsl(25 95% 60% / 1) 90%,
+      hsl(45 95% 50% / 1) 95%,
       transparent 100%
     );
     mask:

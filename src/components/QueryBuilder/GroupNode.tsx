@@ -61,14 +61,14 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
         depth === 0
           ? "shadow-[0_1px_3px_hsl(0_0%_63%/0.06),0_4px_6px_hsl(0_0%_63%/0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
           : "ml-4 shadow-sm dark:shadow-[0_4px_16px_rgba(0,0,0,0.2)]",
-        isDragging && "opacity-50 z-50 border-indigo-400 dark:border-indigo-500 shadow-md scale-[1.01]"
+        isDragging && "opacity-50 z-50 border-orange-400 dark:border-orange-500 shadow-md scale-[1.01]"
       )}
       onMouseMove={handleMouseMove}
     >
       {/* Vertical guide line for nested groups */}
       {depth > 0 && (
         <div className="absolute -left-4 top-0 bottom-0 w-px bg-zinc-200 dark:bg-white/10">
-          <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-indigo-400/0 via-indigo-400/50 to-indigo-400/0 animate-beam" />
+          <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-orange-400/0 via-orange-400/50 to-orange-400/0 animate-beam" />
         </div>
       )}
 
@@ -104,7 +104,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
               className={cn(
                 "px-3 py-1 text-xs font-semibold rounded-md transition-all duration-200",
                 group.type === 'AND'
-                  ? "bg-white dark:bg-white/10 text-indigo-600 dark:text-indigo-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                  ? "bg-white dark:bg-white/10 text-orange-600 dark:text-orange-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               )}
             >
@@ -115,7 +115,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
               className={cn(
                 "px-3 py-1 text-xs font-semibold rounded-md transition-all duration-200",
                 group.type === 'OR'
-                  ? "bg-white dark:bg-white/10 text-indigo-600 dark:text-indigo-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                  ? "bg-white dark:bg-white/10 text-orange-600 dark:text-orange-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               )}
             >
