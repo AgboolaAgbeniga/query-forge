@@ -255,10 +255,21 @@ export default function BuilderPage() {
           {/* Builder Toolbar Controls */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
             <div className="flex items-center flex-wrap gap-3">
-              <SchemaSelector
-                activeSchemaId={store.activeSchemaId}
-                onSelect={(src) => store.setActiveSchemaId(src.id)}
-              />
+              <div className="hidden sm:block">
+                <SchemaSelector
+                  activeSchemaId={store.activeSchemaId}
+                  onSelect={(src) => store.setActiveSchemaId(src.id)}
+                />
+              </div>
+              
+              {/* Mobile Data Source Display (Read Only) */}
+              <button
+                onClick={() => setIsMobileSidebarOpen(true)}
+                className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm hover:bg-zinc-50 active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200"
+              >
+                <Database size={14} className="text-blue-500 dark:text-blue-400" />
+                {store.activeSchemaId.toUpperCase()}
+              </button>
               <div className="flex items-center gap-2 bg-white dark:bg-zinc-800 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
                 <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
                 <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
@@ -325,7 +336,7 @@ export default function BuilderPage() {
           </div>
 
           {/* Tab contents */}
-          <div className="flex-1 overflow-hidden">
+          <div className="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar">
             {activeRightTab === 'preview' && (
               <div className="h-full flex flex-col">
                 <div className="flex-1 min-h-[400px]">
