@@ -31,6 +31,7 @@ import {
   ArrowLeft,
   Plus,
   Layers,
+  Database,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -112,6 +113,15 @@ export default function BuilderPage() {
         mobileActions={
           <div className="flex flex-col gap-2">
             <Link
+              href="/"
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+            >
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                <ArrowLeft size={16} />
+              </div>
+              Back to Home
+            </Link>
+            <Link
               href="/docs"
               className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"
             >
@@ -143,7 +153,7 @@ export default function BuilderPage() {
       />
 
       {/* ─── Header ─── */}
-      <header className="h-16 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 shrink-0 relative z-50">
+      <header className="h-16 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 shrink-0 relative z-50 overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-2 lg:gap-0">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
@@ -154,11 +164,13 @@ export default function BuilderPage() {
           </button>
           
           <Link href="/" className="flex items-center gap-2 group focus:outline-none">
-            <div className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+            <div className="hidden sm:block p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shrink-0">
               <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
             </div>
-            <SVGLogo size={24} />
-            <span className="badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full ml-1">
+            <div className="shrink-0">
+              <SVGLogo size={24} />
+            </div>
+            <span className="hidden sm:inline-block badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full ml-1 whitespace-nowrap shrink-0">
               Builder
             </span>
           </Link>
@@ -177,7 +189,7 @@ export default function BuilderPage() {
             </Link>
             <button
               onClick={() => setActiveRightTab('history')}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
               title="Query History (H)"
             >
               <Clock size={16} />
@@ -185,7 +197,7 @@ export default function BuilderPage() {
             <ThemeToggle />
             <button
               onClick={() => setShowShortcuts(true)}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
               title="Keyboard Shortcuts"
             >
               <Keyboard size={16} />
@@ -194,10 +206,11 @@ export default function BuilderPage() {
 
           <button
             onClick={handleExecute}
-            className="px-2.5 sm:px-4 h-8 sm:h-9 inline-flex items-center gap-1 sm:gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="shrink-0 whitespace-nowrap px-3 sm:px-4 h-8 sm:h-9 inline-flex items-center justify-center gap-1 sm:gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            title="Execute Query (Ctrl + Enter)"
           >
-            <Play size={14} fill="currentColor" />
-            Execute
+            <Play size={14} fill="currentColor" className="shrink-0" />
+            <span className="hidden sm:inline">Execute</span>
           </button>
         </div>
       </header>
