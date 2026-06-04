@@ -296,9 +296,9 @@ export default function BuilderPage() {
             <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
           </div>
           <SVGLogo size={24} />
-          <span className="font-heading font-semibold text-lg text-slate-800 dark:text-white tracking-wide">
+          {/* <span className="font-heading font-semibold text-lg text-slate-800 dark:text-white tracking-wide">
             QueryForge
-          </span>
+          </span> */}
           <span className="badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ml-1">
             Builder
           </span>
