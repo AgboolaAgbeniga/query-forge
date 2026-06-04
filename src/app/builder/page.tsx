@@ -304,8 +304,8 @@ export default function BuilderPage() {
         </div>
 
         {/* THE MAIN CANVAS (Query Tree & Results) */}
-        <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-24 pb-32 px-4 lg:px-[340px] custom-scrollbar flex justify-center">
-          <div className="max-w-4xl w-full flex flex-col gap-12">
+        <div className="w-full flex-1 lg:h-full overflow-visible lg:overflow-auto pt-4 lg:pt-24 pb-32 px-4 lg:pl-[340px] lg:pr-12 custom-scrollbar flex justify-center">
+          <div className="max-w-5xl w-full flex flex-col gap-12">
             <div>
               <div className="mb-6 flex justify-center">
                 <ErrorBoundary>
