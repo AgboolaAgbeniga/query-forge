@@ -48,6 +48,19 @@ import { AnimatePresence, motion } from 'framer-motion';
 export default function BuilderPage() {
   const [activeRightTab, setActiveRightTab] = useState<'preview' | 'results' | 'history'>('preview');
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [presets, setPresets] = useState<QueryPreset[]>([]);
+  const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([]);
+  const [isLoadingResults, setIsLoadingResults] = useState(false);
+  const [hasExecuted, setHasExecuted] = useState(false);
+  const [executionResults, setExecutionResults] = useState<any[]>([]);
+  const [executionTime, setExecutionTime] = useState(0);
+  const [presetName, setPresetName] = useState('');
+  const [presetDesc, setPresetDesc] = useState('');
+  const [showPresetSaveModal, setShowPresetSaveModal] = useState(false);
+  const [importJson, setImportJson] = useState('');
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [showExportModal, setShowExportModal] = useState(false);
   const store = useQueryStore();
   const activeSchema = getSchemaById(store.activeSchemaId);
   const schemaFieldsList = Object.values(activeSchema);
@@ -283,9 +296,9 @@ export default function BuilderPage() {
             <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
           </div>
           <SVGLogo size={24} />
-          <span className="font-heading font-semibold text-lg text-slate-800 dark:text-white tracking-wide">
+          {/* <span className="font-heading font-semibold text-lg text-slate-800 dark:text-white tracking-wide">
             QueryForge
-          </span>
+          </span> */}
           <span className="badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ml-1">
             Builder
           </span>
@@ -347,7 +360,7 @@ export default function BuilderPage() {
       </header>
 
       {/* ─── 3-Column Workspace Layout ─── */}
-      <div className="relative z-10 flex-1 grid lg:grid-cols-[260px_1fr_360px] overflow-hidden h-[calc(100vh-64px)]">
+      <div className="relative z-10 flex-1 flex flex-col lg:grid lg:grid-cols-[260px_1fr_360px] overflow-y-auto lg:overflow-hidden h-[calc(100vh-64px)]">
         
         {/* COLUMN 1: Schema Fields + Presets (Sidebar Left) */}
         <aside className="hidden lg:flex flex-col bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 overflow-y-auto p-4 custom-scrollbar">
@@ -423,22 +436,7 @@ export default function BuilderPage() {
             </div>
           </div>
 
-          {/* Validation banner */}
-          <AnimatePresence>
-            {!isValid && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="mb-4 overflow-hidden"
-              >
-                <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/30 rounded-xl text-xs text-red-600 dark:text-red-400 flex items-center gap-2 font-medium">
-                  <AlertTriangle size={14} />
-                  <span>Validation errors detected. Please correct before running the execution.</span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {/* Aggressive Validation banner removed - user relies on summary banner and execution warnings instead */}
 
           {/* The visual builder tree */}
           <div className="flex-1">
@@ -451,7 +449,7 @@ export default function BuilderPage() {
         </section>
 
         {/* COLUMN 3: Live Preview / Results / History (Sidebar Right) */}
-        <aside className="bg-white dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden">
+        <aside className="bg-white dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden min-w-0">
           
           {/* Tab buttons */}
           <div className="flex border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
@@ -570,11 +568,6 @@ export default function BuilderPage() {
         )}
       </AnimatePresence>
 
-      {/* ─── MODAL: JSON Import ─── */}
-      <AnimatePresence>
-        {showImportModal && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
     </main>
   );
 }

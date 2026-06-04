@@ -266,7 +266,7 @@ export default function Home() {
               Open Builder
             </Link>
             <a
-              href="https://github.com"
+              href="https://github.com/AgboolaAgbeniga/query-forge"
               target="_blank"
               rel="noopener noreferrer"
               className="pill-button inline-flex items-center gap-2 px-6 py-3 bg-white/95 dark:bg-zinc-800/90 text-slate-700 dark:text-zinc-200 text-sm font-semibold border border-zinc-200 dark:border-zinc-700 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all"
@@ -445,7 +445,7 @@ export default function Home() {
       <section className="relative z-10 py-12 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <StatCounter target={12} label="Supported operators" />
-          <StatCounter target={3} label="Query Formats" suffix=" (SQL·Mongo·GQL)" />
+          <StatCounter target={3} label="Query Formats"  />
           <StatCounter target="∞" label="Nesting Depth" />
           <StatCounter target={250} label="Mock Dataset Records" suffix="+" />
         </div>

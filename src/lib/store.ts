@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { QueryState, Rule, Group, GroupId, RuleId } from './types';
 
 interface QueryActions {
@@ -52,7 +53,9 @@ function createFreshState(): QueryState {
   };
 }
 
-export const useQueryStore = create<QueryStore>((set, get) => ({
+export const useQueryStore = create<QueryStore>()(
+  persist(
+    (set, get) => ({
   ...initialQueryState,
   activeSchemaId: 'users',
 
@@ -248,4 +251,4 @@ export const useQueryStore = create<QueryStore>((set, get) => ({
     activeSchemaId: id,
     ...createFreshState(),
   }),
-}));
+}), { name: 'queryforge-active-state' }));
