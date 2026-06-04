@@ -135,8 +135,8 @@ export function ResultsPane({
 
   const SortIcon = ({ field }: { field: string }) => {
     if (sortConfig?.field !== field) return <ArrowUpDown size={12} className="text-zinc-400" />;
-    if (sortConfig.direction === 'asc') return <ArrowUp size={12} className="text-blue-500" />;
-    return <ArrowDown size={12} className="text-blue-500" />;
+    if (sortConfig.direction === 'asc') return <ArrowUp size={12} className="text-indigo-500" />;
+    return <ArrowDown size={12} className="text-indigo-500" />;
   };
 
   const renderCell = (value: unknown, type: string, key: string) => {
@@ -166,7 +166,7 @@ export function ResultsPane({
             (displayVal === 'active' || displayVal === 'delivered' || displayVal === 'shipped' || displayVal === 'electronics') &&
               'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400',
             (displayVal === 'pending' || displayVal === 'processing' || displayVal === 'placed' || displayVal === 'clothing' || displayVal === 'credit_card' || displayVal === 'paypal') &&
-              'bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400',
+              'bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400',
             (displayVal === 'suspended' || displayVal === 'cancelled' || displayVal === 'refunded' || displayVal === 'sports') &&
               'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400',
             (displayVal === 'inactive' || displayVal === 'books' || displayVal === 'home' || displayVal === 'food' || displayVal === 'debit_card' || displayVal === 'bank_transfer' || displayVal === 'crypto') &&
@@ -202,7 +202,7 @@ export function ResultsPane({
       {/* Header Info */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
             <Database size={20} />
           </div>
           <div>
@@ -273,8 +273,8 @@ export function ResultsPane({
       {/* Initial state */}
       {!hasExecuted && !isLoading && (
         <div className="surface-base rounded-xl p-12 flex flex-col items-center justify-center gap-3 text-center">
-          <div className="p-4 bg-blue-50 dark:bg-blue-500/10 rounded-2xl">
-            <Play size={32} className="text-blue-500 dark:text-blue-400" />
+          <div className="p-4 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl">
+            <Play size={32} className="text-indigo-500 dark:text-indigo-400" />
           </div>
           <h3 className="heading text-[18px] text-slate-700 dark:text-zinc-300">
             Ready to execute
@@ -350,7 +350,7 @@ export function ResultsPane({
                   setPageSize(Number(e.target.value));
                   setPage(1);
                 }}
-                className="px-2 py-1 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="px-2 py-1 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500/20"
               >
                 {PAGE_SIZES.map((s) => (
                   <option key={s} value={s}>

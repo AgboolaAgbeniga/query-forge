@@ -56,19 +56,19 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
       ref={setNodeRef}
       style={style}
       className={cn(
-        "relative flex flex-col gap-3 p-4 rounded-2xl transition-all duration-300 flashlight-card",
-        "bg-white/60 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]",
+        "relative flex flex-col gap-3 p-4 rounded-2xl transition-all duration-300 flashlight-card backdrop-blur-3xl",
+        "bg-white/50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]",
         depth === 0
-          ? "shadow-[0_1px_3px_hsl(0_0%_63%/0.06),0_4px_6px_hsl(0_0%_63%/0.04)] dark:shadow-[0_1px_3px_hsl(0_0%_5%/0.3)]"
-          : "ml-4 shadow-sm",
-        isDragging && "opacity-50 z-50 border-blue-400 dark:border-blue-500 shadow-md scale-[1.01]"
+          ? "shadow-[0_1px_3px_hsl(0_0%_63%/0.06),0_4px_6px_hsl(0_0%_63%/0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          : "ml-4 shadow-sm dark:shadow-[0_4px_16px_rgba(0,0,0,0.2)]",
+        isDragging && "opacity-50 z-50 border-indigo-400 dark:border-indigo-500 shadow-md scale-[1.01]"
       )}
       onMouseMove={handleMouseMove}
     >
       {/* Vertical guide line for nested groups */}
       {depth > 0 && (
         <div className="absolute -left-4 top-0 bottom-0 w-px bg-zinc-200 dark:bg-white/10">
-          <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-400/0 via-blue-400/50 to-blue-400/0 animate-beam" />
+          <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-indigo-400/0 via-indigo-400/50 to-indigo-400/0 animate-beam" />
         </div>
       )}
 
@@ -104,7 +104,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
               className={cn(
                 "px-3 py-1 text-xs font-semibold rounded-md transition-all duration-200",
                 group.type === 'AND'
-                  ? "bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                  ? "bg-white dark:bg-white/10 text-indigo-600 dark:text-indigo-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               )}
             >
@@ -115,7 +115,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
               className={cn(
                 "px-3 py-1 text-xs font-semibold rounded-md transition-all duration-200",
                 group.type === 'OR'
-                  ? "bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
+                  ? "bg-white dark:bg-white/10 text-indigo-600 dark:text-indigo-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               )}
             >

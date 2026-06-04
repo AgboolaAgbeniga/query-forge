@@ -26,8 +26,8 @@ export function SchemaSelector({ activeSchemaId, onSelect }: SchemaSelectorProps
               "px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 border",
               "hover:scale-[1.02] active:scale-[0.98]",
               activeSchemaId === source.id
-                ? "bg-blue-600 dark:bg-blue-500 text-white border-blue-600 dark:border-blue-500 shadow-md shadow-blue-500/20"
-                : "bg-white dark:bg-white/10 text-slate-600 dark:text-zinc-300 border-zinc-200 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-blue-400"
+                ? "bg-indigo-600 dark:bg-indigo-500 text-white border-indigo-600 dark:border-indigo-500 shadow-md shadow-indigo-500/20"
+                : "bg-white dark:bg-white/10 text-slate-600 dark:text-zinc-300 border-zinc-200 dark:border-white/10 hover:border-indigo-300 dark:hover:border-indigo-500/50 hover:text-indigo-600 dark:hover:text-indigo-400"
             )}
           >
             <div className="flex flex-col items-start">
@@ -35,7 +35,7 @@ export function SchemaSelector({ activeSchemaId, onSelect }: SchemaSelectorProps
               <span className={cn(
                 "text-[11px] font-normal",
                 activeSchemaId === source.id
-                  ? "text-blue-200 dark:text-blue-200"
+                  ? "text-indigo-200 dark:text-indigo-200"
                   : "text-zinc-400 dark:text-zinc-500"
               )}>
                 {source.description}

@@ -164,7 +164,7 @@ export default function DocsPage() {
 }`;
 
   return (
-    <div className="min-h-screen bg-[var(--background)] flex flex-col font-sans selection:bg-blue-200 dark:selection:bg-blue-900">
+    <div className="min-h-screen bg-[var(--background)] flex flex-col font-sans selection:bg-indigo-200 dark:selection:bg-indigo-900">
       {/* SEO metadata hidden elements */}
       <h1 className="sr-only">Prism - Interactive Documentation and User Onboarding Guide</h1>
 
@@ -173,7 +173,7 @@ export default function DocsPage() {
         {[...Array(7)].map((_, i) => (
           <div key={i} className="w-px h-full bg-zinc-300 dark:bg-zinc-600 relative">
             <div
-              className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-blue-400/0 via-blue-500/80 to-blue-400/0 animate-beam"
+              className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-indigo-400/0 via-indigo-500/80 to-indigo-400/0 animate-beam"
               style={{
                 animationDelay: `${i * 0.4}s`,
                 animationDuration: `${4 + i * 0.4}s`,
@@ -192,7 +192,7 @@ export default function DocsPage() {
           <div className="flex items-center gap-4">
             <Link
               href="/builder"
-              className="pill-button inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-sm font-semibold shadow-md shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="pill-button inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-sm font-semibold shadow-md shadow-indigo-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
               id="docs-launch-builder-btn"
             >
               Launch Builder
@@ -215,7 +215,7 @@ export default function DocsPage() {
               placeholder="Search documentation..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-slate-800 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all"
+              className="w-full pl-9 pr-4 py-2 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-slate-800 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 transition-all"
               id="docs-sidebar-search"
             />
           </div>
@@ -236,7 +236,7 @@ export default function DocsPage() {
                       className={cn(
                         "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
                         activeSection === s.id
-                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
                       )}
                       id={`docs-nav-link-${s.id}`}
@@ -246,7 +246,7 @@ export default function DocsPage() {
                         size={12}
                         className={cn(
                           "transition-transform duration-200 opacity-0 group-hover:opacity-100",
-                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-indigo-500"
                         )}
                       />
                     </button>
@@ -268,7 +268,7 @@ export default function DocsPage() {
                       className={cn(
                         "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
                         activeSection === s.id
-                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
                       )}
                       id={`docs-nav-link-${s.id}`}
@@ -278,7 +278,7 @@ export default function DocsPage() {
                         size={12}
                         className={cn(
                           "transition-transform duration-200 opacity-0 group-hover:opacity-100",
-                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-indigo-500"
                         )}
                       />
                     </button>
@@ -300,7 +300,7 @@ export default function DocsPage() {
                       className={cn(
                         "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
                         activeSection === s.id
-                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
                       )}
                       id={`docs-nav-link-${s.id}`}
@@ -310,7 +310,7 @@ export default function DocsPage() {
                         size={12}
                         className={cn(
                           "transition-transform duration-200 opacity-0 group-hover:opacity-100",
-                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-indigo-500"
                         )}
                       />
                     </button>
@@ -332,7 +332,7 @@ export default function DocsPage() {
                       className={cn(
                         "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
                         activeSection === s.id
-                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
                       )}
                       id={`docs-nav-link-${s.id}`}
@@ -342,7 +342,7 @@ export default function DocsPage() {
                         size={12}
                         className={cn(
                           "transition-transform duration-200 opacity-0 group-hover:opacity-100",
-                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-indigo-500"
                         )}
                       />
                     </button>
@@ -364,7 +364,7 @@ export default function DocsPage() {
                       className={cn(
                         "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
                         activeSection === s.id
-                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
                       )}
                       id={`docs-nav-link-${s.id}`}
@@ -374,7 +374,7 @@ export default function DocsPage() {
                         size={12}
                         className={cn(
                           "transition-transform duration-200 opacity-0 group-hover:opacity-100",
-                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-indigo-500"
                         )}
                       />
                     </button>
@@ -396,7 +396,7 @@ export default function DocsPage() {
                       className={cn(
                         "w-full text-left px-3 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-between group",
                         activeSection === s.id
-                          ? "bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400"
+                          ? "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
                           : "text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 hover:text-slate-800 dark:hover:text-zinc-200"
                       )}
                       id={`docs-nav-link-${s.id}`}
@@ -406,7 +406,7 @@ export default function DocsPage() {
                         size={12}
                         className={cn(
                           "transition-transform duration-200 opacity-0 group-hover:opacity-100",
-                          activeSection === s.id && "opacity-100 translate-x-0.5 text-blue-500"
+                          activeSection === s.id && "opacity-100 translate-x-0.5 text-indigo-500"
                         )}
                       />
                     </button>
@@ -424,7 +424,7 @@ export default function DocsPage() {
             id="introduction"
             className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
-            <div className="pill-button inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold mb-4 tracking-wide uppercase">
+            <div className="pill-button inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold mb-4 tracking-wide uppercase">
               <BookOpen size={12} />
               Welcome to Prism
             </div>
@@ -450,7 +450,7 @@ export default function DocsPage() {
             
             <div className="grid sm:grid-cols-2 gap-4">
               <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
-                <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   1
                 </div>
                 <h3 className="font-semibold text-sm text-slate-800 dark:text-zinc-150 mb-1.5">
@@ -462,7 +462,7 @@ export default function DocsPage() {
               </div>
 
               <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
-                <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   2
                 </div>
                 <h3 className="font-semibold text-sm text-slate-800 dark:text-zinc-150 mb-1.5">
@@ -474,7 +474,7 @@ export default function DocsPage() {
               </div>
 
               <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
-                <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   3
                 </div>
                 <h3 className="font-semibold text-sm text-slate-800 dark:text-zinc-150 mb-1.5">
@@ -486,7 +486,7 @@ export default function DocsPage() {
               </div>
 
               <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
-                <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
+                <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   4
                 </div>
                 <h3 className="font-semibold text-sm text-slate-800 dark:text-zinc-150 mb-1.5">
@@ -514,7 +514,7 @@ export default function DocsPage() {
             <div className="flex flex-col gap-4">
               <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
-                  <Database size={16} className="text-blue-500" />
+                  <Database size={16} className="text-indigo-500" />
                   Users
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -573,7 +573,7 @@ export default function DocsPage() {
 
             <div className="flex flex-col gap-4">
               <div className="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
-                <Filter className="text-blue-600 dark:text-blue-400 shrink-0 mt-1" size={20} />
+                <Filter className="text-indigo-600 dark:text-indigo-400 shrink-0 mt-1" size={20} />
                 <div>
                   <h4 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-1">
                     Rules (Conditions)
@@ -597,9 +597,9 @@ export default function DocsPage() {
               </div>
             </div>
 
-            <div className="mt-6 p-4 bg-blue-50/50 dark:bg-blue-950/10 border border-blue-100 dark:border-blue-900/20 rounded-2xl text-xs text-slate-650 dark:text-zinc-400">
+            <div className="mt-6 p-4 bg-indigo-50/50 dark:bg-indigo-950/10 border border-indigo-100 dark:border-indigo-900/20 rounded-2xl text-xs text-slate-650 dark:text-zinc-400">
               <div className="flex items-center gap-2 font-semibold text-slate-850 dark:text-zinc-350 mb-2">
-                <Zap size={14} className="text-blue-600" />
+                <Zap size={14} className="text-indigo-600" />
                 <span>Did you know?</span>
               </div>
               <p className="leading-relaxed">
@@ -622,7 +622,7 @@ export default function DocsPage() {
 
             <div className="flex flex-col gap-3">
               <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
-                <ArrowLeftRight className="text-blue-500 shrink-0 mt-0.5" size={18} />
+                <ArrowLeftRight className="text-indigo-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Reorder within a group</h4>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Drag any rule or sub-group up or down within its parent group to change the order of conditions.</p>
@@ -679,9 +679,9 @@ export default function DocsPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-blue-50/50 dark:bg-blue-950/10 border border-blue-100 dark:border-blue-900/20 rounded-2xl text-xs text-slate-650 dark:text-zinc-400">
+            <div className="p-4 bg-indigo-50/50 dark:bg-indigo-950/10 border border-indigo-100 dark:border-indigo-900/20 rounded-2xl text-xs text-slate-650 dark:text-zinc-400">
               <div className="flex items-center gap-2 font-semibold text-slate-850 dark:text-zinc-350 mb-2">
-                <Zap size={14} className="text-blue-600" />
+                <Zap size={14} className="text-indigo-600" />
                 <span>Tip</span>
               </div>
               <p className="leading-relaxed">
@@ -839,7 +839,7 @@ export default function DocsPage() {
                     className={cn(
                       "px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all",
                       compilerTab === tab
-                        ? "bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 border border-zinc-200/80 dark:border-white/10 shadow-sm"
+                        ? "bg-white dark:bg-white/10 text-indigo-600 dark:text-indigo-400 border border-zinc-200/80 dark:border-white/10 shadow-sm"
                         : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200"
                     )}
                   >
@@ -921,7 +921,7 @@ export default function DocsPage() {
               <div className={cn(
                 "px-4 py-2 border rounded-xl font-mono text-xs font-bold transition-all shadow-sm",
                 isCtrlPressed 
-                  ? "bg-blue-600 border-blue-500 text-white shadow-blue-500/10 scale-105" 
+                  ? "bg-indigo-600 border-indigo-500 text-white shadow-indigo-500/10 scale-105" 
                   : "bg-white dark:bg-[#0a0a0a] border-zinc-200 dark:border-white/10 text-zinc-400 dark:text-zinc-500"
               )}>
                 Control / Command
@@ -929,7 +929,7 @@ export default function DocsPage() {
               <div className={cn(
                 "px-4 py-2 border rounded-xl font-mono text-xs font-bold transition-all shadow-sm",
                 isShiftPressed 
-                  ? "bg-blue-600 border-blue-500 text-white shadow-blue-500/10 scale-105" 
+                  ? "bg-indigo-600 border-indigo-500 text-white shadow-indigo-500/10 scale-105" 
                   : "bg-white dark:bg-[#0a0a0a] border-zinc-200 dark:border-white/10 text-zinc-400 dark:text-zinc-500"
               )}>
                 Shift
@@ -1016,7 +1016,7 @@ export default function DocsPage() {
 
             <div className="flex flex-col gap-3">
               <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
-                <Play className="text-blue-500 shrink-0 mt-0.5" size={18} />
+                <Play className="text-indigo-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Running a query</h4>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Click the <strong>Execute</strong> button (or press <kbd className="px-1 py-0.5 bg-zinc-100 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded text-[10px] font-mono">Ctrl+E</kbd>) to run your conditions against the currently selected dataset. The Results tab will open automatically.</p>

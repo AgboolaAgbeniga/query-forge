@@ -64,7 +64,7 @@ export default function NotFound() {
               href="/builder"
               className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white dark:bg-[#0a0a0a] text-slate-700 dark:text-zinc-200 border border-zinc-200 dark:border-white/10 rounded-2xl font-bold hover:bg-zinc-50 dark:hover:bg-white/20 transition-all active:scale-95"
             >
-              <DatabaseZap size={18} className="text-blue-500" />
+              <DatabaseZap size={18} className="text-indigo-500" />
               Open Builder
             </Link>
           </div>

@@ -57,7 +57,7 @@ export function PresetsPanel() {
         </h3>
         <button
           onClick={() => setShowSaveForm(!showSaveForm)}
-          className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1 font-medium"
+          className="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 transition-colors flex items-center gap-1 font-medium"
         >
           {showSaveForm ? <X size={12} /> : <Plus size={12} />}
           {showSaveForm ? 'Cancel' : 'Save Current'}
@@ -73,13 +73,13 @@ export function PresetsPanel() {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="flex flex-col gap-2 p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30">
+            <div className="flex flex-col gap-2 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/30">
               <input
                 type="text"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Preset name..."
-                className="px-3 py-1.5 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="px-3 py-1.5 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500/20"
                 autoFocus
               />
               <input
@@ -87,12 +87,12 @@ export function PresetsPanel() {
                 value={newDesc}
                 onChange={(e) => setNewDesc(e.target.value)}
                 placeholder="Description (optional)..."
-                className="px-3 py-1.5 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="px-3 py-1.5 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-indigo-500/20"
               />
               <button
                 onClick={handleSave}
                 disabled={!newName.trim()}
-                className="px-3 py-1.5 bg-blue-600 dark:bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1.5 bg-indigo-600 dark:bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Save Preset
               </button>
@@ -129,7 +129,7 @@ export function PresetsPanel() {
               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => handleLoad(preset)}
-                  className="p-1.5 text-zinc-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-500/10 rounded-lg transition-all"
+                  className="p-1.5 text-zinc-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-all"
                   title="Load this preset"
                 >
                   <Download size={14} />

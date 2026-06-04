@@ -87,13 +87,13 @@ export default function BuilderPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] selection:bg-blue-200 dark:selection:bg-blue-900 overflow-hidden flex flex-col">
+    <main className="min-h-screen bg-[var(--background)] selection:bg-indigo-200 dark:selection:bg-indigo-900 overflow-hidden flex flex-col">
       {/* ─── Background Guide Lines ─── */}
       <div className="fixed inset-0 pointer-events-none flex justify-around opacity-[0.12] dark:opacity-[0.08] z-0">
         {[...Array(7)].map((_, i) => (
           <div key={i} className="guide-line w-px h-full bg-zinc-300 dark:bg-zinc-600 relative">
             <div
-              className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-blue-400/0 via-blue-500/80 to-blue-400/0 animate-beam"
+              className="absolute top-0 left-0 w-full h-1/4 bg-gradient-to-b from-indigo-400/0 via-indigo-500/80 to-indigo-400/0 animate-beam"
               style={{
                 animationDelay: `${i * 0.5}s`,
                 animationDuration: `${3 + i * 0.3}s`,
@@ -170,7 +170,7 @@ export default function BuilderPage() {
             <div className="shrink-0">
               <SVGLogo size={24} />
             </div>
-            <span className="hidden sm:inline-block badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full ml-1 whitespace-nowrap shrink-0">
+            <span className="hidden sm:inline-block badge-sm badge-indigo text-[10px] uppercase font-bold tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full ml-1 whitespace-nowrap shrink-0">
               Builder
             </span>
           </Link>
@@ -178,7 +178,7 @@ export default function BuilderPage() {
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
             className="lg:hidden ml-2 flex items-center gap-1.5 px-2.5 py-1.5 bg-zinc-100 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl active:scale-95 transition-all text-[11px] font-bold text-slate-700 dark:text-zinc-200 tracking-wider">
-            <Database size={12} className="text-blue-500 dark:text-blue-400" />
+            <Database size={12} className="text-indigo-500 dark:text-indigo-400" />
             {store.activeSchemaId.toUpperCase()}
           </button>
         </div>
@@ -189,7 +189,7 @@ export default function BuilderPage() {
           <div className="hidden sm:flex items-center gap-2.5">
             <Link
               href="/docs"
-              className="inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 rounded-xl transition-all uppercase tracking-wider font-sans"
+              className="inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-indigo-400 border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 rounded-xl transition-all uppercase tracking-wider font-sans"
               id="builder-header-docs-link"
             >
               Docs
@@ -213,7 +213,7 @@ export default function BuilderPage() {
 
           <button
             onClick={handleExecute}
-            className="shrink-0 whitespace-nowrap px-3 sm:px-4 h-8 sm:h-9 inline-flex items-center justify-center gap-1 sm:gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="shrink-0 whitespace-nowrap px-3 sm:px-4 h-8 sm:h-9 inline-flex items-center justify-center gap-1 sm:gap-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-indigo-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
             title="Execute Query (Ctrl + Enter)"
           >
             <Play size={14} fill="currentColor" className="shrink-0" />
@@ -281,22 +281,22 @@ export default function BuilderPage() {
 
 
         {/* BOTTOM FLOATING COMMAND DOCK */}
-        <div className="fixed lg:absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 p-2 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 shadow-2xl rounded-2xl z-50 w-[max-content]">
+        <div className="fixed lg:absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-1.5 p-1.5 bg-white/80 dark:bg-black/60 backdrop-blur-3xl border border-zinc-200/80 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(99,102,241,0.08)] rounded-full z-50 w-[max-content]">
           <button
             onClick={() => store.addRule(store.rootGroupId)}
-            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95">
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-full transition-all active:scale-95 hover:text-indigo-600 dark:hover:text-indigo-400">
             <Plus size={14} /> Add Rule
           </button>
-          <div className="w-px h-6 bg-zinc-200 dark:bg-white/10" />
+          <div className="w-px h-5 bg-zinc-200 dark:bg-white/10" />
           <button
             onClick={() => store.addGroup(store.rootGroupId)}
-            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95">
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 bg-transparent hover:bg-zinc-100 dark:hover:bg-white/10 rounded-full transition-all active:scale-95 hover:text-indigo-600 dark:hover:text-indigo-400">
             <Layers size={14} /> Add Group
           </button>
-          <div className="w-px h-6 bg-zinc-200 dark:bg-white/10" />
+          <div className="w-px h-5 bg-zinc-200 dark:bg-white/10" />
           <button
             onClick={() => setShowClearAllConfirm(true)}
-            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-600 dark:text-red-400 bg-transparent hover:bg-red-50 dark:hover:bg-red-500/10 rounded-xl transition-all active:scale-95">
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-red-600 dark:text-red-400 bg-transparent hover:bg-red-50 dark:hover:bg-red-500/10 rounded-full transition-all active:scale-95">
             <Trash2 size={14} /> Clear All
           </button>
         </div>
@@ -328,7 +328,7 @@ export default function BuilderPage() {
                     className={cn(
                       "flex-1 py-3 text-center text-[11px] font-bold uppercase tracking-wider transition-all border-b-2",
                       activeRightTab === tab
-                        ? "border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white/50 dark:bg-white/5"
+                        ? "border-indigo-600 dark:border-indigo-500 text-indigo-600 dark:text-indigo-400 bg-white/50 dark:bg-white/5"
                         : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200 border-transparent"
                     )}
                   >

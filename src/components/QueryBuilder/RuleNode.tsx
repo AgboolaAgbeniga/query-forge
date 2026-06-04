@@ -61,7 +61,7 @@ const operatorsByFieldType: Record<string, { label: string; value: RuleOperator 
 };
 
 const inputBaseClass =
-  "px-3 py-1.5 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-lg text-sm text-slate-700 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all hover:bg-zinc-100 dark:hover:bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]";
+  "px-3 py-1.5 bg-zinc-100/50 dark:bg-black/20 ring-1 ring-inset ring-zinc-200 dark:ring-white/10 rounded-lg text-sm font-mono tracking-tight text-slate-700 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500/50 transition-all hover:bg-zinc-100 dark:hover:bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]";
 
 export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
   const rule = useQueryStore((s) => s.rules[id]);
@@ -105,10 +105,10 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
       ref={setNodeRef}
       style={style}
       className={cn(
-        "relative flex flex-wrap sm:flex-nowrap items-center gap-3 p-3 rounded-xl shadow-sm group transition-all duration-200 flashlight-card",
-        "bg-white dark:bg-[#0a0a0a] border shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]",
+        "relative flex flex-wrap sm:flex-nowrap items-center gap-3 p-3 rounded-xl group transition-all duration-200 flashlight-card backdrop-blur-3xl",
+        "bg-white/90 dark:bg-white/[0.02] border shadow-sm dark:shadow-[0_4px_24px_rgba(0,0,0,0.2)] shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]",
         isDragging
-          ? "opacity-50 z-50 border-blue-400 dark:border-blue-500 shadow-md scale-[1.02]"
+          ? "opacity-50 z-50 border-indigo-400 dark:border-indigo-500 shadow-md scale-[1.02]"
           : "border-zinc-200 dark:border-white/10 hover:border-zinc-300 dark:hover:border-white/20 hover:shadow-md",
         error && "border-red-300 dark:border-red-500/50"
       )}
