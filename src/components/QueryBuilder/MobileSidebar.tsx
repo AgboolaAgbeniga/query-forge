@@ -8,7 +8,7 @@ import { useQueryStore } from '@/lib/store';
 import { getSchemaById } from '@/lib/schema';
 import { cn } from '@/lib/utils';
 
-export function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function MobileSidebar({ isOpen, onClose, mobileActions }: { isOpen: boolean; onClose: () => void; mobileActions?: React.ReactNode }) {
   const store = useQueryStore();
   const activeSchemaId = store.activeSchemaId;
   const activeSchema = getSchemaById(activeSchemaId);
@@ -90,6 +90,15 @@ export function MobileSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: (
               <div className="border-t border-zinc-200 dark:border-zinc-800/50 pt-6">
                 <ExportImport />
               </div>
+
+              {mobileActions && (
+                <div className="border-t border-zinc-200 dark:border-zinc-800/50 pt-6 mt-auto">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3 px-1">
+                    Quick Actions
+                  </div>
+                  {mobileActions}
+                </div>
+              )}
             </div>
           </motion.div>
         </>

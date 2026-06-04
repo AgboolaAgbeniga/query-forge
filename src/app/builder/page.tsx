@@ -109,10 +109,41 @@ export default function BuilderPage() {
       <MobileSidebar 
         isOpen={isMobileSidebarOpen} 
         onClose={() => setIsMobileSidebarOpen(false)} 
+        mobileActions={
+          <div className="flex flex-col gap-2">
+            <Link
+              href="/docs"
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+            >
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-bold">?</div>
+              Documentation
+            </Link>
+            <button
+              onClick={() => { setActiveRightTab('history'); setIsMobileSidebarOpen(false); }}
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors text-left"
+            >
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center"><Clock size={16} /></div>
+              Query History
+            </button>
+            <button
+              onClick={() => { setShowShortcuts(true); setIsMobileSidebarOpen(false); }}
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors text-left"
+            >
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center"><Keyboard size={16} /></div>
+              Keyboard Shortcuts
+            </button>
+            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors">
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                <ThemeToggle />
+              </div>
+              Toggle Theme
+            </div>
+          </div>
+        }
       />
 
       {/* ─── Header ─── */}
-      <header className="min-h-[64px] h-auto py-3 flex flex-wrap items-center justify-between gap-y-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 shrink-0 relative z-50">
+      <header className="h-16 flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 shrink-0 relative z-50">
         <div className="flex items-center gap-2 lg:gap-0">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
@@ -133,50 +164,33 @@ export default function BuilderPage() {
           </Link>
         </div>
 
-        {/* Validator Status Indicator */}
-        <div className="flex items-center gap-2 sm:gap-4 order-3 w-full md:w-auto md:order-none justify-center md:justify-start">
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium flex items-center gap-1.5">
-            <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
-            {store.activeSchemaId.toUpperCase()} Schema
-          </span>
-          <span
-            className={cn(
-              "px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider",
-              isValid ? "bg-emerald-100 dark:bg-emerald-500/25 text-emerald-700 dark:text-emerald-400" : "bg-amber-100 dark:bg-amber-500/25 text-amber-700 dark:text-amber-400"
-            )}
-          >
-            {isValid ? 'Valid' : 'Invalid'}
-          </span>
-        </div>
 
         {/* Toolbar Header Buttons */}
         <div className="flex items-center gap-1 sm:gap-2.5 ml-auto">
-          <Link
-            href="/docs"
-            className="inline-flex px-2 sm:px-3 h-8 sm:h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
-            id="builder-header-docs-link"
-          >
-            Docs
-          </Link>
-          <button
-            onClick={() => setActiveRightTab('history')}
-            className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
-            title="Query History (H)"
-          >
-            <Clock size={16} />
-          </button>
-          
-          <div className="scale-90 sm:scale-100 origin-center">
+          <div className="hidden sm:flex items-center gap-2.5">
+            <Link
+              href="/docs"
+              className="inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
+              id="builder-header-docs-link"
+            >
+              Docs
+            </Link>
+            <button
+              onClick={() => setActiveRightTab('history')}
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+              title="Query History (H)"
+            >
+              <Clock size={16} />
+            </button>
             <ThemeToggle />
+            <button
+              onClick={() => setShowShortcuts(true)}
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+              title="Keyboard Shortcuts"
+            >
+              <Keyboard size={16} />
+            </button>
           </div>
-
-          <button
-            onClick={() => setShowShortcuts(true)}
-            className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
-            title="Keyboard Shortcuts"
-          >
-            <Keyboard size={16} />
-          </button>
 
           <button
             onClick={handleExecute}
@@ -240,11 +254,17 @@ export default function BuilderPage() {
           
           {/* Builder Toolbar Controls */}
           <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center flex-wrap gap-3">
               <SchemaSelector
                 activeSchemaId={store.activeSchemaId}
                 onSelect={(src) => store.setActiveSchemaId(src.id)}
               />
+              <div className="flex items-center gap-2 bg-white dark:bg-zinc-800 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
+                <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
+                <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
+                  {isValid ? 'Valid Setup' : 'Invalid Setup'}
+                </span>
+              </div>
             </div>
 
             <div className="flex items-center flex-wrap gap-2">
