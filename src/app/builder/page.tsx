@@ -127,7 +127,7 @@ export default function BuilderPage() {
               <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
             </div>
             <SVGLogo size={24} />
-            <span className="hidden sm:inline-block badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ml-1">
+            <span className="badge-sm badge-blue text-[10px] uppercase font-bold tracking-wider px-1.5 sm:px-2 py-0.5 rounded-full ml-1">
               Builder
             </span>
           </Link>
@@ -150,26 +150,30 @@ export default function BuilderPage() {
         </div>
 
         {/* Toolbar Header Buttons */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-1 sm:gap-2.5">
           <Link
             href="/docs"
-            className="hidden sm:inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
+            className="inline-flex px-2 sm:px-3 h-8 sm:h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
             id="builder-header-docs-link"
           >
-            Docs
+            <span className="hidden sm:inline">Docs</span>
+            <span className="sm:hidden">?</span>
           </Link>
           <button
             onClick={() => setActiveRightTab('history')}
-            className="w-9 h-9 flex sm:hidden md:flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+            className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
             title="Query History (H)"
           >
             <Clock size={16} />
           </button>
-          <ThemeToggle />
+          
+          <div className="scale-90 sm:scale-100 origin-center">
+            <ThemeToggle />
+          </div>
 
           <button
             onClick={() => setShowShortcuts(true)}
-            className="hidden sm:flex w-9 h-9 items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+            className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
             title="Keyboard Shortcuts"
           >
             <Keyboard size={16} />
@@ -177,10 +181,10 @@ export default function BuilderPage() {
 
           <button
             onClick={handleExecute}
-            className="px-4 h-9 inline-flex items-center gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="px-2.5 sm:px-4 h-8 sm:h-9 inline-flex items-center gap-1 sm:gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Play size={14} fill="currentColor" />
-            Execute
+            <span className="hidden sm:inline">Execute</span>
           </button>
         </div>
       </header>
