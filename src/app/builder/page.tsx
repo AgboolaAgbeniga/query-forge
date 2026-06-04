@@ -112,11 +112,11 @@ export default function BuilderPage() {
       />
 
       {/* ─── Header ─── */}
-      <header className="relative z-50 bg-white dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 px-6 h-16 flex items-center justify-between shadow-sm">
+      <header className="min-h-[64px] h-auto py-3 flex flex-wrap items-center justify-between gap-y-3 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 shrink-0 relative z-50">
         <div className="flex items-center gap-2 lg:gap-0">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
             title="Open Menu"
           >
             <Menu size={18} />
@@ -134,7 +134,7 @@ export default function BuilderPage() {
         </div>
 
         {/* Validator Status Indicator */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 order-3 w-full md:w-auto md:order-none justify-center md:justify-start">
           <span className="text-xs text-zinc-500 dark:text-zinc-400 font-medium flex items-center gap-1.5">
             <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
             {store.activeSchemaId.toUpperCase()} Schema
@@ -150,14 +150,13 @@ export default function BuilderPage() {
         </div>
 
         {/* Toolbar Header Buttons */}
-        <div className="flex items-center gap-1 sm:gap-2.5">
+        <div className="flex items-center gap-1 sm:gap-2.5 ml-auto">
           <Link
             href="/docs"
             className="inline-flex px-2 sm:px-3 h-8 sm:h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
             id="builder-header-docs-link"
           >
-            <span className="hidden sm:inline">Docs</span>
-            <span className="sm:hidden">?</span>
+            Docs
           </Link>
           <button
             onClick={() => setActiveRightTab('history')}
@@ -184,7 +183,7 @@ export default function BuilderPage() {
             className="px-2.5 sm:px-4 h-8 sm:h-9 inline-flex items-center gap-1 sm:gap-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-md shadow-blue-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Play size={14} fill="currentColor" />
-            <span className="hidden sm:inline">Execute</span>
+            Execute
           </button>
         </div>
       </header>
