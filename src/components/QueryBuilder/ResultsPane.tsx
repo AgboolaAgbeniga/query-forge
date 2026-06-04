@@ -149,7 +149,7 @@ export function ResultsPane({
             'inline-flex w-5 h-5 rounded-full items-center justify-center text-[10px] font-bold',
             value
               ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400'
-              : 'bg-zinc-100 dark:bg-zinc-700 text-zinc-400'
+              : 'bg-zinc-100 dark:bg-white/10 text-zinc-400'
           )}
         >
           {value ? '✓' : '—'}
@@ -170,7 +170,7 @@ export function ResultsPane({
             (displayVal === 'suspended' || displayVal === 'cancelled' || displayVal === 'refunded' || displayVal === 'sports') &&
               'bg-red-100 dark:bg-red-500/20 text-red-700 dark:text-red-400',
             (displayVal === 'inactive' || displayVal === 'books' || displayVal === 'home' || displayVal === 'food' || displayVal === 'debit_card' || displayVal === 'bank_transfer' || displayVal === 'crypto') &&
-              'bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
+              'bg-zinc-100 dark:bg-white/10 text-zinc-600 dark:text-zinc-400'
           )}
         >
           {displayVal.replace(/_/g, ' ')}
@@ -245,7 +245,7 @@ export function ResultsPane({
                 {columns.map((col) => (
                   <div
                     key={col.key}
-                    className={cn('h-4 bg-zinc-200 dark:bg-zinc-700 rounded', col.width ?? 'flex-1')}
+                    className={cn('h-4 bg-zinc-200 dark:bg-white/10 rounded', col.width ?? 'flex-1')}
                     style={{ width: col.width ? undefined : `${60 + Math.random() * 40}%` }}
                   />
                 ))}
@@ -319,7 +319,7 @@ export function ResultsPane({
                         className={cn(
                           'border-b border-zinc-100 dark:border-white/10 last:border-0 transition-colors',
                           'hover:bg-zinc-50/80 dark:hover:bg-white/5',
-                          idx % 2 === 0 ? 'bg-white dark:bg-zinc-900' : 'bg-zinc-50/30 dark:bg-zinc-900/50'
+                          idx % 2 === 0 ? 'bg-white dark:bg-[#0a0a0a]' : 'bg-zinc-50/30 dark:bg-white/5'
                         )}
                       >
                         {columns.map((col) => {

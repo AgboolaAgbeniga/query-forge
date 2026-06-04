@@ -79,7 +79,7 @@ export function PresetsPanel() {
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Preset name..."
-                className="px-3 py-1.5 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="px-3 py-1.5 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
                 autoFocus
               />
               <input
@@ -87,7 +87,7 @@ export function PresetsPanel() {
                 value={newDesc}
                 onChange={(e) => setNewDesc(e.target.value)}
                 placeholder="Description (optional)..."
-                className="px-3 py-1.5 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="px-3 py-1.5 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
               />
               <button
                 onClick={handleSave}
@@ -111,7 +111,7 @@ export function PresetsPanel() {
           {presets.map((preset) => (
             <div
               key={preset.id}
-              className="flex items-center justify-between gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 group hover:border-zinc-300 dark:hover:border-zinc-600 transition-all"
+              className="flex items-center justify-between gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 group hover:border-zinc-300 dark:hover:border-zinc-600 transition-all"
             >
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-slate-700 dark:text-zinc-200 truncate">

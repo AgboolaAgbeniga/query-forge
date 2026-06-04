@@ -30,9 +30,9 @@ export function MobileSidebar({ isOpen, onClose, mobileActions }: { isOpen: bool
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', bounce: 0, duration: 0.3 }}
-            className="fixed inset-y-0 left-0 w-80 bg-white dark:bg-zinc-900 z-[100] lg:hidden flex flex-col border-r border-zinc-200 dark:border-zinc-800 shadow-2xl"
+            className="fixed inset-y-0 left-0 w-80 bg-white dark:bg-[#0a0a0a] z-[100] lg:hidden flex flex-col border-r border-zinc-200 dark:border-white/10 shadow-2xl"
           >
-            <div className="flex items-center justify-between p-4 border-b border-zinc-200 dark:border-zinc-800">
+            <div className="flex items-center justify-between p-4 border-b border-zinc-200 dark:border-white/10">
               <h2 className="font-semibold text-slate-800 dark:text-zinc-100">Query Settings</h2>
               <button
                 onClick={onClose}
@@ -63,7 +63,7 @@ export function MobileSidebar({ isOpen, onClose, mobileActions }: { isOpen: bool
                   {schemaFieldsList.map((field) => (
                     <div
                       key={field.name}
-                      className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:bg-zinc-50 dark:hover:bg-zinc-800/40 transition-all cursor-default"
+                      className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:bg-zinc-50 dark:hover:bg-white/10 transition-all cursor-default"
                     >
                       <span
                         className={cn(
@@ -87,12 +87,12 @@ export function MobileSidebar({ isOpen, onClose, mobileActions }: { isOpen: bool
 
               <PresetsPanel />
               
-              <div className="border-t border-zinc-200 dark:border-zinc-800/50 pt-6">
+              <div className="border-t border-zinc-200 dark:border-white/10 pt-6">
                 <ExportImport />
               </div>
 
               {mobileActions && (
-                <div className="border-t border-zinc-200 dark:border-zinc-800/50 pt-6 mt-auto">
+                <div className="border-t border-zinc-200 dark:border-white/10 pt-6 mt-auto">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3 px-1">
                     Quick Actions
                   </div>

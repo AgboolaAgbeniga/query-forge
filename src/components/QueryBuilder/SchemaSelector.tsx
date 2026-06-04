@@ -27,7 +27,7 @@ export function SchemaSelector({ activeSchemaId, onSelect }: SchemaSelectorProps
               "hover:scale-[1.02] active:scale-[0.98]",
               activeSchemaId === source.id
                 ? "bg-blue-600 dark:bg-blue-500 text-white border-blue-600 dark:border-blue-500 shadow-md shadow-blue-500/20"
-                : "bg-white dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 border-zinc-200 dark:border-zinc-700 hover:border-blue-300 dark:hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-blue-400"
+                : "bg-white dark:bg-white/10 text-slate-600 dark:text-zinc-300 border-zinc-200 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-blue-400"
             )}
           >
             <div className="flex flex-col items-start">

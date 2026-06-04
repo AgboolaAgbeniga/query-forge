@@ -87,7 +87,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
 
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-md transition-all duration-200 hover:scale-105 active:scale-95"
+            className="p-1 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-white/20 rounded-md transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <motion.div
               animate={{ rotate: isCollapsed ? -90 : 0 }}
@@ -125,7 +125,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
 
           {/* Children count badge */}
           {group.children.length > 0 && (
-            <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-700/50 px-2 py-0.5 rounded-full">
+            <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-white/5 px-2 py-0.5 rounded-full">
               {group.children.length}
             </span>
           )}

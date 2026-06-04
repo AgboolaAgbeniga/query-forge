@@ -270,7 +270,7 @@ export default function Home() {
               href="https://github.com/AgboolaAgbeniga/query-forge"
               target="_blank"
               rel="noopener noreferrer"
-              className="pill-button inline-flex items-center gap-2 px-6 py-3 bg-white/95 dark:bg-zinc-800/90 text-slate-700 dark:text-zinc-200 text-sm font-semibold border border-zinc-200 dark:border-zinc-700 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="pill-button inline-flex items-center gap-2 px-6 py-3 bg-white/95 dark:bg-white/5 text-slate-700 dark:text-zinc-200 text-sm font-semibold border border-zinc-200 dark:border-white/10 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               View on GitHub
             </a>
@@ -278,9 +278,9 @@ export default function Home() {
 
           {/* Shortcut details below */}
           <div className="flex flex-wrap gap-4 text-xs text-zinc-400 dark:text-zinc-500">
-            <span><kbd className="px-1.5 py-0.5 border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 rounded font-mono text-[10px]">⌘N</kbd> Add rule</span>
-            <span><kbd className="px-1.5 py-0.5 border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 rounded font-mono text-[10px]">⌘E</kbd> Execute</span>
-            <span><kbd className="px-1.5 py-0.5 border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 rounded font-mono text-[10px]">⌘Z</kbd> Undo</span>
+            <span><kbd className="px-1.5 py-0.5 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/10 rounded font-mono text-[10px]">⌘N</kbd> Add rule</span>
+            <span><kbd className="px-1.5 py-0.5 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/10 rounded font-mono text-[10px]">⌘E</kbd> Execute</span>
+            <span><kbd className="px-1.5 py-0.5 border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/10 rounded font-mono text-[10px]">⌘Z</kbd> Undo</span>
           </div>
         </div>
 
@@ -324,7 +324,7 @@ export default function Home() {
               <span className="text-blue-400 font-semibold">OR</span> status = <span className="text-orange-400">&apos;active&apos;</span>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-zinc-400 border-t border-zinc-100 dark:border-zinc-800 pt-3">
+            <div className="flex items-center justify-between text-[11px] text-zinc-400 border-t border-zinc-100 dark:border-white/10 pt-3">
               <span>3 rules • 2 groups</span>
               <span className="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-bold">42 results</span>
             </div>
@@ -380,7 +380,7 @@ export default function Home() {
           {FEATURES.map((feature) => (
             <div
               key={feature.title}
-              className="feature-card flashlight-card bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 shadow-md hover:shadow-lg cursor-default group"
+              className="feature-card flashlight-card bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 shadow-md hover:shadow-lg cursor-default group"
               onMouseMove={handleFlashlightMove}
             >
               <div className="relative z-10">
@@ -400,7 +400,7 @@ export default function Home() {
       </section>
 
       {/* ─── "How it Works" Workflow Section ─── */}
-      <section id="how-it-works" className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-zinc-200/50 dark:border-zinc-800/50">
+      <section id="how-it-works" className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-zinc-200/50 dark:border-white/10">
         <div className="text-center max-w-lg mx-auto mb-14">
           <div className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">
             Workflow
@@ -411,29 +411,29 @@ export default function Home() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div className="text-center p-6 bg-white/40 dark:bg-zinc-800/20 rounded-2xl border border-zinc-200/20">
-            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-zinc-800 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
+          <div className="text-center p-6 bg-white/40 dark:bg-white/5 rounded-2xl border border-zinc-200/20">
+            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-white/10 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
               1
             </div>
             <h3 className="heading text-[16px] text-slate-800 dark:text-zinc-200 mb-2">Choose Schema</h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Select a data source (Users, Products, or Orders) or load examples.</p>
           </div>
-          <div className="text-center p-6 bg-white/40 dark:bg-zinc-800/20 rounded-2xl border border-zinc-200/20">
-            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-zinc-800 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
+          <div className="text-center p-6 bg-white/40 dark:bg-white/5 rounded-2xl border border-zinc-200/20">
+            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-white/10 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
               2
             </div>
             <h3 className="heading text-[16px] text-slate-800 dark:text-zinc-200 mb-2">Build Query</h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Add condition rules and group logic with drag-and-drop reordering.</p>
           </div>
-          <div className="text-center p-6 bg-white/40 dark:bg-zinc-800/20 rounded-2xl border border-zinc-200/20">
-            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-zinc-800 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
+          <div className="text-center p-6 bg-white/40 dark:bg-white/5 rounded-2xl border border-zinc-200/20">
+            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-white/10 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
               3
             </div>
             <h3 className="heading text-[16px] text-slate-800 dark:text-zinc-200 mb-2">Preview Output</h3>
             <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Watch SQL, MongoDB, or GraphQL code syntax compile in real-time.</p>
           </div>
-          <div className="text-center p-6 bg-white/40 dark:bg-zinc-800/20 rounded-2xl border border-zinc-200/20">
-            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-zinc-800 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
+          <div className="text-center p-6 bg-white/40 dark:bg-white/5 rounded-2xl border border-zinc-200/20">
+            <div className="w-12 h-12 rounded-full bg-slate-900 dark:bg-white/10 text-white flex items-center justify-center mx-auto mb-4 font-heading text-lg font-bold">
               4
             </div>
             <h3 className="heading text-[16px] text-slate-800 dark:text-zinc-200 mb-2">Execute & Inspect</h3>
@@ -453,7 +453,7 @@ export default function Home() {
       </section>
 
       {/* ─── Call To Action Section ─── */}
-      <section className="relative z-10 py-20 bg-slate-900 dark:bg-zinc-950 text-white text-center rounded-[2rem] max-w-7xl mx-6 md:mx-auto px-6 mb-20 border border-zinc-800 shadow-2xl">
+      <section className="relative z-10 py-20 bg-slate-900 dark:bg-[#050505] text-white text-center rounded-[2rem] max-w-7xl mx-6 md:mx-auto px-6 mb-20 border border-zinc-800 shadow-2xl">
         <h2 className="font-heading text-3xl md:text-4xl font-extrabold mb-4">
           Ready to query smarter?
         </h2>

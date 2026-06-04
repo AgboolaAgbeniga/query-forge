@@ -184,7 +184,7 @@ export default function DocsPage() {
       </div>
 
       {/* Top Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-[var(--background)]/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-[var(--background)]/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="focus:outline-none">
             <SVGLogo size={28} />
@@ -215,7 +215,7 @@ export default function DocsPage() {
               placeholder="Search documentation..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl text-xs text-slate-800 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all"
+              className="w-full pl-9 pr-4 py-2 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-slate-800 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all"
               id="docs-sidebar-search"
             />
           </div>
@@ -422,7 +422,7 @@ export default function DocsPage() {
           {/* SECTION 1: Introduction */}
           <div
             id="introduction"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <div className="pill-button inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold mb-4 tracking-wide uppercase">
               <BookOpen size={12} />
@@ -442,14 +442,14 @@ export default function DocsPage() {
           {/* SECTION 2: Quickstart Guide */}
           <div
             id="quickstart"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-6">
               Quickstart Guide
             </h2>
             
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm relative">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
                 <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   1
                 </div>
@@ -461,7 +461,7 @@ export default function DocsPage() {
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm relative">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
                 <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   2
                 </div>
@@ -473,7 +473,7 @@ export default function DocsPage() {
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm relative">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
                 <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   3
                 </div>
@@ -485,7 +485,7 @@ export default function DocsPage() {
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm relative">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm relative">
                 <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-xs mb-3.5">
                   4
                 </div>
@@ -502,7 +502,7 @@ export default function DocsPage() {
           {/* SECTION: Available Data Sources */}
           <div
             id="schema-fields"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Available Data Sources
@@ -512,14 +512,14 @@ export default function DocsPage() {
             </p>
 
             <div className="flex flex-col gap-4">
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
                   <Database size={16} className="text-blue-500" />
                   Users
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                   {[{n:'id',t:'string'},{n:'name',t:'string'},{n:'age',t:'number'},{n:'status',t:'enum'},{n:'country',t:'string'},{n:'createdAt',t:'date'},{n:'isVerified',t:'boolean'}].map(f => (
-                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs">
+                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs">
                       <span className="font-semibold text-slate-700 dark:text-zinc-200">{f.n}</span>
                       <span className="ml-1.5 text-zinc-400">({f.t})</span>
                     </div>
@@ -527,14 +527,14 @@ export default function DocsPage() {
                 </div>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
                   <Database size={16} className="text-emerald-500" />
                   Products
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                   {[{n:'sku',t:'string'},{n:'productName',t:'string'},{n:'category',t:'enum'},{n:'price',t:'number'},{n:'stock',t:'number'},{n:'isAvailable',t:'boolean'},{n:'listedAt',t:'date'}].map(f => (
-                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs">
+                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs">
                       <span className="font-semibold text-slate-700 dark:text-zinc-200">{f.n}</span>
                       <span className="ml-1.5 text-zinc-400">({f.t})</span>
                     </div>
@@ -542,14 +542,14 @@ export default function DocsPage() {
                 </div>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3 flex items-center gap-2">
                   <Database size={16} className="text-amber-500" />
                   Orders
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
                   {[{n:'orderId',t:'string'},{n:'customerName',t:'string'},{n:'total',t:'number'},{n:'orderStatus',t:'enum'},{n:'paymentMethod',t:'enum'},{n:'orderDate',t:'date'},{n:'isPaid',t:'boolean'}].map(f => (
-                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs">
+                    <div key={f.n} className="px-3 py-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs">
                       <span className="font-semibold text-slate-700 dark:text-zinc-200">{f.n}</span>
                       <span className="ml-1.5 text-zinc-400">({f.t})</span>
                     </div>
@@ -562,7 +562,7 @@ export default function DocsPage() {
           {/* SECTION 3: Rules and Groups */}
           <div
             id="rules-and-groups"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Rules & Logic Groups
@@ -572,7 +572,7 @@ export default function DocsPage() {
             </p>
 
             <div className="flex flex-col gap-4">
-              <div className="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Filter className="text-blue-600 dark:text-blue-400 shrink-0 mt-1" size={20} />
                 <div>
                   <h4 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-1">
@@ -584,7 +584,7 @@ export default function DocsPage() {
                 </div>
               </div>
 
-              <div className="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Layers className="text-emerald-500 dark:text-emerald-400 shrink-0 mt-1" size={20} />
                 <div>
                   <h4 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-1">
@@ -611,7 +611,7 @@ export default function DocsPage() {
           {/* SECTION: Drag & Drop */}
           <div
             id="drag-and-drop"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Drag & Drop Reordering
@@ -621,21 +621,21 @@ export default function DocsPage() {
             </p>
 
             <div className="flex flex-col gap-3">
-              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <ArrowLeftRight className="text-blue-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Reorder within a group</h4>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Drag any rule or sub-group up or down within its parent group to change the order of conditions.</p>
                 </div>
               </div>
-              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Layers className="text-emerald-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Move between groups</h4>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Drag a rule from one group into another to restructure your logic tree. The query preview updates instantly.</p>
                 </div>
               </div>
-              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Shield className="text-red-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Cycle prevention</h4>
@@ -648,7 +648,7 @@ export default function DocsPage() {
           {/* SECTION: Validation Engine */}
           <div
             id="validation-engine"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Validation Engine
@@ -659,23 +659,23 @@ export default function DocsPage() {
 
             <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-3">What gets validated:</h3>
             <div className="grid sm:grid-cols-2 gap-3 mb-4">
-              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
-                <strong className="text-slate-800 dark:text-zinc-200">Empty values</strong> — Rules with blank inputs are flagged (except <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">isNull</code> and <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">isNotNull</code>)
+              <div className="p-3 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Empty values</strong> — Rules with blank inputs are flagged (except <code className="bg-zinc-100 dark:bg-white/10 px-1 rounded">isNull</code> and <code className="bg-zinc-100 dark:bg-white/10 px-1 rounded">isNotNull</code>)
               </div>
-              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="p-3 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
                 <strong className="text-slate-800 dark:text-zinc-200">Type mismatches</strong> — String operators on number fields, or invalid date formats are caught
               </div>
-              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
-                <strong className="text-slate-800 dark:text-zinc-200">Range validation</strong> — For <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">between</code> operator: end date/number must be after/greater than start
+              <div className="p-3 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Range validation</strong> — For <code className="bg-zinc-100 dark:bg-white/10 px-1 rounded">between</code> operator: end date/number must be after/greater than start
               </div>
-              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="p-3 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
                 <strong className="text-slate-800 dark:text-zinc-200">Empty groups</strong> — Groups with no children rules are detected
               </div>
-              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+              <div className="p-3 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
                 <strong className="text-slate-800 dark:text-zinc-200">Numeric precision</strong> — Non-numeric input on number fields is rejected
               </div>
-              <div className="p-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
-                <strong className="text-slate-800 dark:text-zinc-200">Between bounds</strong> — Both boundary values are required when using <code className="bg-zinc-100 dark:bg-zinc-800 px-1 rounded">between</code>
+              <div className="p-3 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-xl text-xs text-zinc-600 dark:text-zinc-400">
+                <strong className="text-slate-800 dark:text-zinc-200">Between bounds</strong> — Both boundary values are required when using <code className="bg-zinc-100 dark:bg-white/10 px-1 rounded">between</code>
               </div>
             </div>
 
@@ -693,7 +693,7 @@ export default function DocsPage() {
           {/* SECTION 4: Operators Reference Table */}
           <div
             id="operators"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Operators Reference
@@ -702,10 +702,10 @@ export default function DocsPage() {
               Prism supports 14 distinct, type-aware filtering operators. Below is the mapping matrix of operator keys, their applicable types, and translations across compilers.
             </p>
 
-            <div className="overflow-x-auto border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900">
+            <div className="overflow-x-auto border border-zinc-200 dark:border-white/10 rounded-2xl bg-white dark:bg-[#0a0a0a]">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-800 font-semibold text-slate-700 dark:text-zinc-300">
+                  <tr className="bg-zinc-50 dark:bg-white/5 border-b border-zinc-200 dark:border-white/10 font-semibold text-slate-700 dark:text-zinc-300">
                     <th className="p-3">Operator</th>
                     <th className="p-3">Data Types</th>
                     <th className="p-3">SQL</th>
@@ -820,7 +820,7 @@ export default function DocsPage() {
           {/* SECTION 5: Query Formats (SQL, MongoDB, GraphQL) */}
           <div
             id="query-formats"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Query Formats
@@ -830,8 +830,8 @@ export default function DocsPage() {
             </p>
 
             {/* Interactive Compiler Preview Component */}
-            <div className="border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden bg-white dark:bg-zinc-900 shadow-lg">
-              <div className="flex border-b border-zinc-150 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 p-2 gap-2">
+            <div className="border border-zinc-200 dark:border-white/10 rounded-3xl overflow-hidden bg-white dark:bg-[#0a0a0a] shadow-lg">
+              <div className="flex border-b border-zinc-150 dark:border-white/10 bg-zinc-50/50 dark:bg-white/5 p-2 gap-2">
                 {(['sql', 'mongo', 'graphql'] as const).map((tab) => (
                   <button
                     key={tab}
@@ -839,7 +839,7 @@ export default function DocsPage() {
                     className={cn(
                       "px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all",
                       compilerTab === tab
-                        ? "bg-white dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-zinc-200/80 dark:border-zinc-700 shadow-sm"
+                        ? "bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 border border-zinc-200/80 dark:border-white/10 shadow-sm"
                         : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200"
                     )}
                   >
@@ -853,7 +853,7 @@ export default function DocsPage() {
                 </pre>
                 <button
                   onClick={() => handleCopy(compilerOutputs[compilerTab], `compiler-${compilerTab}`)}
-                  className="absolute right-4 top-4 p-2 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-750 border border-zinc-200 dark:border-zinc-750 text-zinc-500 hover:text-slate-800 dark:hover:text-white rounded-lg transition-all"
+                  className="absolute right-4 top-4 p-2 bg-white dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-750 border border-zinc-200 dark:border-zinc-750 text-zinc-500 hover:text-slate-800 dark:hover:text-white rounded-lg transition-all"
                   title="Copy compilation"
                 >
                   {copiedText === `compiler-${compilerTab}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
@@ -865,7 +865,7 @@ export default function DocsPage() {
           {/* SECTION 6: Presets and JSON Schema */}
           <div
             id="schema-sharing"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Presets & JSON Schema
@@ -878,13 +878,13 @@ export default function DocsPage() {
               Export Schema Representation
             </h3>
 
-            <div className="relative border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden bg-white dark:bg-zinc-900">
+            <div className="relative border border-zinc-200 dark:border-white/10 rounded-2xl overflow-hidden bg-white dark:bg-[#0a0a0a]">
               <pre className="p-4 overflow-x-auto text-[11px] font-mono text-slate-800 dark:text-zinc-300 bg-zinc-50/30 dark:bg-black/20 max-h-[300px]">
                 <code>{jsonSchemaExample}</code>
               </pre>
               <button
                 onClick={() => handleCopy(jsonSchemaExample, 'json-schema')}
-                className="absolute right-4 top-4 p-2 bg-white dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-750 border border-zinc-200 dark:border-zinc-750 text-zinc-500 hover:text-slate-800 dark:hover:text-white rounded-lg transition-all"
+                className="absolute right-4 top-4 p-2 bg-white dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-zinc-750 border border-zinc-200 dark:border-zinc-750 text-zinc-500 hover:text-slate-800 dark:hover:text-white rounded-lg transition-all"
                 title="Copy JSON Schema"
               >
                 {copiedText === 'json-schema' ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
@@ -922,7 +922,7 @@ export default function DocsPage() {
                 "px-4 py-2 border rounded-xl font-mono text-xs font-bold transition-all shadow-sm",
                 isCtrlPressed 
                   ? "bg-blue-600 border-blue-500 text-white shadow-blue-500/10 scale-105" 
-                  : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500"
+                  : "bg-white dark:bg-[#0a0a0a] border-zinc-200 dark:border-white/10 text-zinc-400 dark:text-zinc-500"
               )}>
                 Control / Command
               </div>
@@ -930,7 +930,7 @@ export default function DocsPage() {
                 "px-4 py-2 border rounded-xl font-mono text-xs font-bold transition-all shadow-sm",
                 isShiftPressed 
                   ? "bg-blue-600 border-blue-500 text-white shadow-blue-500/10 scale-105" 
-                  : "bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500"
+                  : "bg-white dark:bg-[#0a0a0a] border-zinc-200 dark:border-white/10 text-zinc-400 dark:text-zinc-500"
               )}>
                 Shift
               </div>
@@ -939,62 +939,62 @@ export default function DocsPage() {
             {/* Keyboard Grid list */}
             <div className="grid sm:grid-cols-2 gap-4">
               
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex items-center justify-between shadow-sm">
+              <div className="p-4 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-0.5">Execute Query</h4>
                   <p className="text-[10px] text-zinc-400">Run active condition logic</p>
                 </div>
-                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-sm text-slate-700 dark:text-zinc-350">
+                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded shadow-sm text-slate-700 dark:text-zinc-350">
                   Ctrl + E
                 </kbd>
               </div>
 
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex items-center justify-between shadow-sm">
+              <div className="p-4 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-0.5">Save Preset</h4>
                   <p className="text-[10px] text-zinc-400">Store configuration in workspace</p>
                 </div>
-                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-sm text-slate-700 dark:text-zinc-350">
+                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded shadow-sm text-slate-700 dark:text-zinc-350">
                   Ctrl + S
                 </kbd>
               </div>
 
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex items-center justify-between shadow-sm">
+              <div className="p-4 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-0.5">Add Rule</h4>
                   <p className="text-[10px] text-zinc-400">Append condition to root group</p>
                 </div>
-                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-sm text-slate-700 dark:text-zinc-350">
+                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded shadow-sm text-slate-700 dark:text-zinc-350">
                   Ctrl + N
                 </kbd>
               </div>
 
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex items-center justify-between shadow-sm">
+              <div className="p-4 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-0.5">Add Group</h4>
                   <p className="text-[10px] text-zinc-400">Append sub-conjunction group</p>
                 </div>
-                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-sm text-slate-700 dark:text-zinc-350">
+                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded shadow-sm text-slate-700 dark:text-zinc-350">
                   Ctrl + G
                 </kbd>
               </div>
 
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex items-center justify-between shadow-sm">
+              <div className="p-4 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-0.5">Clear All</h4>
                   <p className="text-[10px] text-zinc-400">Reset builder query tree state</p>
                 </div>
-                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-sm text-slate-700 dark:text-zinc-350">
+                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded shadow-sm text-slate-700 dark:text-zinc-350">
                   Ctrl + Del
                 </kbd>
               </div>
 
-              <div className="p-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex items-center justify-between shadow-sm">
+              <div className="p-4 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl flex items-center justify-between shadow-sm">
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-0.5">Shortcuts Panel</h4>
                   <p className="text-[10px] text-zinc-400">Toggle info panel overlay</p>
                 </div>
-                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded shadow-sm text-slate-700 dark:text-zinc-350">
+                <kbd className="px-2 py-1 font-mono text-[10px] bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded shadow-sm text-slate-700 dark:text-zinc-350">
                   Shift + ?
                 </kbd>
               </div>
@@ -1005,7 +1005,7 @@ export default function DocsPage() {
           {/* SECTION: Execution & Results */}
           <div
             id="execution"
-            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-zinc-800/60"
+            className="scroll-mt-24 pb-8 border-b border-zinc-200/60 dark:border-white/10"
           >
             <h2 className="heading text-2xl font-bold text-slate-900 dark:text-white mb-4">
               Execution & Results
@@ -1015,21 +1015,21 @@ export default function DocsPage() {
             </p>
 
             <div className="flex flex-col gap-3">
-              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Play className="text-blue-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Running a query</h4>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Click the <strong>Execute</strong> button (or press <kbd className="px-1 py-0.5 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded text-[10px] font-mono">Ctrl+E</kbd>) to run your conditions against the currently selected dataset. The Results tab will open automatically.</p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Click the <strong>Execute</strong> button (or press <kbd className="px-1 py-0.5 bg-zinc-100 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded text-[10px] font-mono">Ctrl+E</kbd>) to run your conditions against the currently selected dataset. The Results tab will open automatically.</p>
                 </div>
               </div>
-              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Filter className="text-emerald-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Reading results</h4>
                   <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Results are displayed as paginated cards showing the matching records. You can see the total match count, execution time, and sort results by clicking column headers.</p>
                 </div>
               </div>
-              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <div className="flex gap-3 items-start p-4 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-2xl">
                 <Shield className="text-amber-500 shrink-0 mt-0.5" size={18} />
                 <div>
                   <h4 className="font-semibold text-xs text-slate-800 dark:text-zinc-200 mb-1">Validation guard</h4>
@@ -1052,42 +1052,42 @@ export default function DocsPage() {
             </p>
 
             <div className="flex flex-col gap-4">
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;I see a validation warning as soon as I add a rule&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   This is expected. A new rule starts with an empty value, and the validation summary shows a soft warning. Simply fill in the value and the warning disappears. You can keep building — execution is only blocked when you click <strong>Execute</strong> with invalid rules.
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;How do I nest groups inside other groups?&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   Click the <strong>+ Group</strong> button on any existing group&apos;s toolbar. The new sub-group appears indented inside the parent. You can also drag and drop groups to rearrange the hierarchy. There is no limit to nesting depth.
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;How do I switch between AND and OR?&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   Click the <strong>AND</strong> / <strong>OR</strong> toggle badge on any group header. It switches the logical conjunction for that specific group and immediately updates the compiled query preview in all three formats.
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;Can I save my query and reload it later?&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   Yes! Use the <strong>Bookmark</strong> icon in the builder toolbar to save your current query as a named preset. Presets are stored in your browser&apos;s LocalStorage. You can also export your query as a JSON file using the Export/Import panel and share it with teammates.
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;What is the difference between the Preview and Results tabs?&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   The <strong>Preview</strong> tab shows the compiled query syntax (SQL, MongoDB, or GraphQL) that your visual conditions generate — this is what you would copy and use in your backend. The <strong>Results</strong> tab shows the actual data records that match your conditions when you run the execution simulator.
                 </p>
               </div>
 
-              <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+              <div className="p-5 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-sm">
                 <h3 className="font-bold text-sm text-slate-800 dark:text-zinc-200 mb-2">&quot;Can I use Prism with my own database?&quot;</h3>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                   Prism currently executes against built-in mock datasets. However, the generated SQL, MongoDB, or GraphQL syntax in the Preview tab is production-ready — you can copy it directly into your backend queries. The JSON export format can also be sent to a backend API to parse and execute.

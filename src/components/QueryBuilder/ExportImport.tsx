@@ -165,13 +165,13 @@ export function ExportImport() {
       <div className="flex flex-wrap gap-2">
         <button
           onClick={handleExport}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98]"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/10 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98]"
         >
           <Download size={14} />
           Export JSON
         </button>
 
-        <label className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98] cursor-pointer">
+        <label className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/10 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98] cursor-pointer">
           <Upload size={14} />
           Import JSON
           <input

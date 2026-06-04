@@ -25,7 +25,7 @@ export default function NotFound() {
           className="relative mb-8"
         >
           <div className="absolute -inset-4 bg-red-500/20 dark:bg-red-500/10 rounded-full blur-2xl animate-pulse" />
-          <div className="w-24 h-24 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl flex items-center justify-center shadow-2xl relative">
+          <div className="w-24 h-24 bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-3xl flex items-center justify-center shadow-2xl relative">
             <SearchX size={48} className="text-red-500 dark:text-red-400" />
             
             <motion.div 
@@ -62,7 +62,7 @@ export default function NotFound() {
             
             <Link
               href="/builder"
-              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 rounded-2xl font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all active:scale-95"
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white dark:bg-[#0a0a0a] text-slate-700 dark:text-zinc-200 border border-zinc-200 dark:border-white/10 rounded-2xl font-bold hover:bg-zinc-50 dark:hover:bg-white/20 transition-all active:scale-95"
             >
               <DatabaseZap size={18} className="text-blue-500" />
               Open Builder

@@ -80,8 +80,8 @@ export default function BuilderPage() {
   if (!isHydrated) {
     return <main className="min-h-screen bg-[var(--background)] flex items-center justify-center">
       <div className="animate-pulse flex flex-col items-center gap-4">
-        <div className="w-12 h-12 rounded-xl bg-zinc-200 dark:bg-zinc-800" />
-        <div className="h-4 w-24 bg-zinc-200 dark:bg-zinc-800 rounded" />
+        <div className="w-12 h-12 rounded-xl bg-zinc-200 dark:bg-white/10" />
+        <div className="h-4 w-24 bg-zinc-200 dark:bg-white/10 rounded" />
       </div>
     </main>;
   }
@@ -104,7 +104,7 @@ export default function BuilderPage() {
       </div>
 
       <div className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-10 z-0">
-        <div className="absolute left-0 right-0 top-[64px] border-b border-zinc-200 dark:border-zinc-700" />
+        <div className="absolute left-0 right-0 top-[64px] border-b border-zinc-200 dark:border-white/10" />
       </div>
 
       <MobileSidebar 
@@ -114,36 +114,36 @@ export default function BuilderPage() {
           <div className="flex flex-col gap-2">
             <Link
               href="/"
-              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors"
             >
-              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center">
                 <ArrowLeft size={16} />
               </div>
               Back to Home
             </Link>
             <Link
               href="/docs"
-              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors"
             >
-              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center font-bold">?</div>
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center font-bold">?</div>
               Documentation
             </Link>
             <button
               onClick={() => { setActiveRightTab('history'); setIsMobileSidebarOpen(false); }}
-              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors text-left"
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors text-left"
             >
-              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center"><Clock size={16} /></div>
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center"><Clock size={16} /></div>
               Query History
             </button>
             <button
               onClick={() => { setShowShortcuts(true); setIsMobileSidebarOpen(false); }}
-              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors text-left"
+              className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors text-left"
             >
-              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center"><Keyboard size={16} /></div>
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center"><Keyboard size={16} /></div>
               Keyboard Shortcuts
             </button>
-            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 rounded-lg transition-colors">
-              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+            <div className="flex items-center gap-3 px-3 py-2 text-sm font-medium text-slate-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-white/20 rounded-lg transition-colors">
+              <div className="w-8 h-8 rounded-lg bg-zinc-100 dark:bg-white/10 flex items-center justify-center">
                 <ThemeToggle />
               </div>
               Toggle Theme
@@ -157,14 +157,14 @@ export default function BuilderPage() {
         <div className="flex items-center gap-2 lg:gap-0">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
+            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
             title="Open Menu"
           >
             <Menu size={18} />
           </button>
           
           <Link href="/" className="flex items-center gap-2 group focus:outline-none">
-            <div className="hidden sm:block p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors shrink-0">
+            <div className="hidden sm:block p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/20 transition-colors shrink-0">
               <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
             </div>
             <div className="shrink-0">
@@ -182,14 +182,14 @@ export default function BuilderPage() {
           <div className="hidden sm:flex items-center gap-2.5">
             <Link
               href="/docs"
-              className="inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 rounded-xl transition-all uppercase tracking-wider font-sans"
+              className="inline-flex px-3 h-9 items-center justify-center text-xs font-bold text-zinc-550 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 rounded-xl transition-all uppercase tracking-wider font-sans"
               id="builder-header-docs-link"
             >
               Docs
             </Link>
             <button
               onClick={() => setActiveRightTab('history')}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
               title="Query History (H)"
             >
               <Clock size={16} />
@@ -197,7 +197,7 @@ export default function BuilderPage() {
             <ThemeToggle />
             <button
               onClick={() => setShowShortcuts(true)}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-700/50 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
+              className="w-9 h-9 flex items-center justify-center rounded-xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 text-zinc-550 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white transition-all hover:scale-105 active:scale-95"
               title="Keyboard Shortcuts"
             >
               <Keyboard size={16} />
@@ -230,7 +230,7 @@ export default function BuilderPage() {
               {schemaFieldsList.map((field) => (
                 <div
                   key={field.name}
-                  className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:bg-zinc-50 dark:hover:bg-zinc-800/40 hover:border-zinc-150 dark:hover:border-zinc-800/80 transition-all cursor-default"
+                  className="flex items-center gap-2.5 p-2 rounded-xl border border-transparent hover:bg-zinc-50 dark:hover:bg-white/10 hover:border-zinc-150 dark:hover:border-white/20/80 transition-all cursor-default"
                 >
                   <span
                     className={cn(
@@ -255,7 +255,7 @@ export default function BuilderPage() {
           <ErrorBoundary>
             <PresetsPanel />
           </ErrorBoundary>
-          <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800/50 pt-6">
+          <div className="mt-8 border-t border-zinc-200 dark:border-white/10 pt-6">
             <ErrorBoundary>
               <ExportImport />
             </ErrorBoundary>
@@ -278,12 +278,12 @@ export default function BuilderPage() {
               {/* Mobile Data Source Display (Read Only) */}
               <button
                 onClick={() => setIsMobileSidebarOpen(true)}
-                className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-zinc-800 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm hover:bg-zinc-50 active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200"
+                className="sm:hidden flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-white/10 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm hover:bg-zinc-50 active:scale-95 transition-all text-xs font-semibold text-slate-700 dark:text-zinc-200"
               >
                 <Database size={14} className="text-blue-500 dark:text-blue-400" />
                 {store.activeSchemaId.toUpperCase()}
               </button>
-              <div className="flex items-center gap-2 bg-white dark:bg-zinc-800 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 shadow-sm">
+              <div className="flex items-center gap-2 bg-white dark:bg-white/10 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-white/10 shadow-sm">
                 <span className={cn("w-2 h-2 rounded-full", isValid ? "bg-emerald-500" : "bg-amber-500")} />
                 <span className="text-xs font-semibold text-slate-700 dark:text-zinc-200">
                   {isValid ? 'Valid Setup' : 'Invalid Setup'}
@@ -294,19 +294,19 @@ export default function BuilderPage() {
             <div className="flex items-center flex-wrap gap-2">
               <button
                 onClick={() => store.addRule(store.rootGroupId)}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl hover:bg-zinc-50 dark:hover:bg-white/20 transition-all hover:scale-105 active:scale-95"
               >
                 <Plus size={14} /> Rule
               </button>
               <button
                 onClick={() => store.addGroup(store.rootGroupId)}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl hover:bg-zinc-50 dark:hover:bg-white/20 transition-all hover:scale-105 active:scale-95"
               >
                 <Layers size={14} /> Group
               </button>
               <button
                 onClick={() => setShowClearAllConfirm(true)}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-red-400 bg-white dark:bg-zinc-800 border border-red-200 dark:border-red-500/20 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-all hover:scale-105 active:scale-95"
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-red-600 dark:text-red-400 bg-white dark:bg-white/10 border border-red-200 dark:border-red-500/20 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-all hover:scale-105 active:scale-95"
               >
                 <Trash2 size={14} /> Clear All
               </button>
@@ -328,10 +328,10 @@ export default function BuilderPage() {
         </section>
 
         {/* COLUMN 3: Live Preview / Results / History (Sidebar Right) */}
-        <aside className="bg-white dark:bg-zinc-900 border-l border-zinc-200 dark:border-zinc-800 flex flex-col overflow-hidden min-w-0">
+        <aside className="bg-white dark:bg-[#0a0a0a] border-l border-zinc-200 dark:border-white/10 flex flex-col overflow-hidden min-w-0">
           
           {/* Tab buttons */}
-          <div className="flex border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50">
+          <div className="flex border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-white/5">
             {(['preview', 'results', 'history'] as const).map((tab) => (
               <button
                 key={tab}
@@ -339,7 +339,7 @@ export default function BuilderPage() {
                 className={cn(
                   "flex-1 py-3 text-center text-xs font-semibold uppercase tracking-wider transition-all border-b-2",
                   activeRightTab === tab
-                    ? "color-accent border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white dark:bg-zinc-900"
+                    ? "color-accent border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 bg-white dark:bg-[#0a0a0a]"
                     : "text-zinc-400 hover:text-slate-700 dark:hover:text-zinc-200 border-transparent"
                 )}
               >
@@ -360,13 +360,13 @@ export default function BuilderPage() {
                 <div className="flex gap-2.5 mt-3 mb-3">
                   <button
                     onClick={() => {/* Use active tab or export module */}}
-                    className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-xl transition-all"
+                    className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-white/20 border border-zinc-200 dark:border-white/10 rounded-xl transition-all"
                   >
                     Share JSON
                   </button>
                   <button
                     onClick={() => {/* Use active tab or preset module */}}
-                    className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-xl transition-all"
+                    className="flex-1 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-white/20 border border-zinc-200 dark:border-white/10 rounded-xl transition-all"
                   >
                     Save Preset
                   </button>
@@ -428,7 +428,7 @@ export default function BuilderPage() {
             onClick={() => setShowShortcuts(false)}
           >
             <div
-              className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-xl"
+              className="bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <h3 className="font-heading text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
@@ -437,9 +437,9 @@ export default function BuilderPage() {
               </h3>
               <div className="flex flex-col gap-2.5 text-xs text-slate-600 dark:text-zinc-400">
                 {shortcuts.map((s) => (
-                  <div key={s.description} className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
+                  <div key={s.description} className="flex justify-between py-1.5 border-b border-zinc-100 dark:border-white/10 last:border-0">
                     <span>{s.description}</span>
-                    <kbd className="px-2 py-0.5 font-mono bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded">
+                    <kbd className="px-2 py-0.5 font-mono bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded">
                       {s.key}
                     </kbd>
                   </div>
@@ -447,7 +447,7 @@ export default function BuilderPage() {
               </div>
               <button
                 onClick={() => setShowShortcuts(false)}
-                className="w-full mt-6 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl hover:bg-zinc-100"
+                className="w-full mt-6 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-xl hover:bg-zinc-100"
               >
                 Close
               </button>

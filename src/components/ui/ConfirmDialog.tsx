@@ -39,7 +39,7 @@ export function ConfirmDialog({
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="relative w-full max-w-sm bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-xl p-5 mx-4"
+            className="relative w-full max-w-sm bg-white dark:bg-[#0a0a0a] border border-zinc-200 dark:border-white/10 rounded-2xl shadow-xl p-5 mx-4"
           >
             <div className="flex items-start gap-3">
               <div
@@ -71,7 +71,7 @@ export function ConfirmDialog({
             <div className="flex gap-2 mt-5">
               <button
                 onClick={onCancel}
-                className="flex-1 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-xl transition-all active:scale-95"
+                className="flex-1 px-4 py-2 text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-zinc-50 dark:bg-white/10 hover:bg-zinc-100 dark:hover:bg-white/20 border border-zinc-200 dark:border-white/10 rounded-xl transition-all active:scale-95"
               >
                 {cancelLabel}
               </button>
