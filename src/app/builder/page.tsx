@@ -157,16 +157,13 @@ export default function BuilderPage() {
         <div className="flex items-center gap-2 lg:gap-0">
           <button
             onClick={() => setIsMobileSidebarOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
+            className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-white/10 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-white/10 hover:text-slate-800 dark:hover:text-white transition-all active:scale-95"
             title="Open Menu"
           >
             <Menu size={18} />
           </button>
           
-          <Link href="/" className="flex items-center gap-2 group focus:outline-none">
-            <div className="hidden sm:block p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/20 transition-colors shrink-0">
-              <ArrowLeft size={18} className="text-zinc-500 dark:text-zinc-400 group-hover:text-slate-900 dark:group-hover:text-white" />
-            </div>
+          <Link href="/" className="flex items-center gap-2 group focus:outline-none ml-2 lg:ml-0 hover:opacity-80 transition-opacity">
             <div className="shrink-0">
               <SVGLogo size={24} />
             </div>
