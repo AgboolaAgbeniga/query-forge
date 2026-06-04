@@ -32,8 +32,8 @@ export interface Rule {
   id: RuleId;
   field: string;
   operator: RuleOperator;
-  value: any;
-  value2?: any; // For 'between' operator
+  value: string | number | boolean | null;
+  value2?: string | number | boolean | null; // For 'between' operator
 }
 
 export interface Group {

@@ -28,23 +28,33 @@ type SortConfig = {
   direction: 'asc' | 'desc';
 } | null;
 
-export function ResultsPane() {
-  const activeSchemaId = useQueryStore(s => s.activeSchemaId);
-  const [results, setResults] = useState<any[]>([]);
-  const [executionTime, setExecutionTime] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasExecuted, setHasExecuted] = useState(false);
+export interface ResultsPaneProps {
+  results: Record<string, unknown>[];
+  executionTime: number;
+  isLoading: boolean;
+  hasExecuted: boolean;
+}
+
+export function ResultsPane({
+  results,
+  executionTime,
+  isLoading,
+  hasExecuted,
+}: ResultsPaneProps) {
+  const activeSchemaId = useQueryStore((s) => s.activeSchemaId);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [sortConfig, setSortConfig] = useState<SortConfig>(null);
 
   const schema = getSchemaById(activeSchemaId);
-  const activeDataset = MOCK_DATASETS[activeSchemaId] || MOCK_USERS;
+  
+  // Need to get total dataset count
+  const activeDatasetSize = typeof window !== 'undefined' ? 
+    require('@/lib/mock-data')[`MOCK_${activeSchemaId.toUpperCase()}`]?.length || 0 
+    : 0;
 
-  // Reset page and results when schema changes
+  // Reset page and sort when schema changes
   useEffect(() => {
-    setResults([]);
-    setHasExecuted(false);
     setSortConfig(null);
     setPage(1);
   }, [activeSchemaId]);
@@ -53,24 +63,6 @@ export function ResultsPane() {
   useEffect(() => {
     setPage(1);
   }, [results]);
-
-  const handleExecute = useCallback(() => {
-    setIsLoading(true);
-    setHasExecuted(true);
-
-    // Simulate a brief loading state for UX
-    setTimeout(() => {
-      const state = useQueryStore.getState();
-      const { results: queryResults, executionTimeMs } = executeQuery(
-        { groups: state.groups, rules: state.rules, rootGroupId: state.rootGroupId },
-        schema,
-        activeDataset
-      );
-      setResults(queryResults);
-      setExecutionTime(executionTimeMs);
-      setIsLoading(false);
-    }, 300);
-  }, [schema, activeDataset]);
 
   // Sort results
   const sortedResults = useMemo(() => {
@@ -147,7 +139,7 @@ export function ResultsPane() {
     return <ArrowDown size={12} className="text-blue-500" />;
   };
 
-  const renderCell = (value: any, type: string, key: string) => {
+  const renderCell = (value: unknown, type: string, key: string) => {
     if (value === null || value === undefined) return <span className="text-zinc-400">—</span>;
 
     if (type === 'boolean') {
@@ -181,24 +173,24 @@ export function ResultsPane() {
               'bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400'
           )}
         >
-          {displayVal.replace('_', ' ')}
+          {displayVal.replace(/_/g, ' ')}
         </span>
       );
     }
 
     if (type === 'date') {
-      return <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{value}</span>;
+      return <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{String(value)}</span>;
     }
 
     if (key === 'id' || key === 'sku' || key === 'orderId') {
-      return <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400 font-semibold">{value}</span>;
+      return <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400 font-semibold">{String(value)}</span>;
     }
 
     if (type === 'number') {
       if (key === 'price' || key === 'total') {
         return <span className="font-medium text-slate-700 dark:text-zinc-200">${Number(value).toFixed(2)}</span>;
       }
-      return <span className="font-medium text-slate-700 dark:text-zinc-200">{value}</span>;
+      return <span className="font-medium text-slate-700 dark:text-zinc-200">{String(value)}</span>;
     }
 
     // Default text representation
@@ -207,26 +199,21 @@ export function ResultsPane() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Execute bar */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <button
-          onClick={handleExecute}
-          disabled={isLoading}
-          className={cn(
-            "inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200",
-            "bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600",
-            "text-white shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/25",
-            "hover:scale-[1.02] active:scale-[0.98]",
-            isLoading && "opacity-75 cursor-not-allowed"
-          )}
-        >
-          {isLoading ? (
-            <Loader2 size={18} className="animate-spin" />
-          ) : (
-            <Play size={18} />
-          )}
-          {isLoading ? 'Executing...' : 'Execute Query'}
-        </button>
+      {/* Header Info */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+            <Database size={20} />
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-slate-800 dark:text-zinc-100">
+              Query Results
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium">
+              Running against simulated {activeSchemaId} dataset
+            </p>
+          </div>
+        </div>
 
         {hasExecuted && !isLoading && (
           <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-zinc-400">
@@ -240,7 +227,7 @@ export function ResultsPane() {
             </span>
             <span className="inline-flex items-center gap-1.5">
               <Database size={14} />
-              <strong className="text-slate-700 dark:text-zinc-200">{activeDataset.length}</strong> total
+              <strong className="text-slate-700 dark:text-zinc-200">{activeDatasetSize}</strong> total
             </span>
           </div>
         )}
@@ -325,7 +312,7 @@ export function ResultsPane() {
                 </thead>
                 <tbody>
                   {paginatedResults.map((record, idx) => {
-                    const rowKey = record.id || record.sku || record.orderId || idx;
+                    const rowKey = (record.id || record.sku || record.orderId || idx) as string | number;
                     return (
                       <tr
                         key={rowKey}
@@ -340,7 +327,7 @@ export function ResultsPane() {
                           const fieldSchema = schema[col.key];
                           const fieldType = fieldSchema ? fieldSchema.type : 'string';
                           return (
-                            <td key={col.key} className="px-4 py-2.5">
+                            <td key={col.key} className="px-4 py-3 align-middle text-sm">
                               {renderCell(val, fieldType, col.key)}
                             </td>
                           );

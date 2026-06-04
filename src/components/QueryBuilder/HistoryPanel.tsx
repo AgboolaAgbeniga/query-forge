@@ -6,9 +6,11 @@ import { useQueryStore } from '@/lib/store';
 import { Clock, Trash2, RotateCcw, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 
 export function HistoryPanel() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const setStoreState = useQueryStore((s) => s.setStoreState);
 
   useEffect(() => {
@@ -29,6 +31,7 @@ export function HistoryPanel() {
   const handleClear = () => {
     clearHistory();
     setHistory([]);
+    setShowClearConfirm(false);
   };
 
   const formatTime = (ts: number) => {
@@ -50,7 +53,7 @@ export function HistoryPanel() {
         </h3>
         {history.length > 0 && (
           <button
-            onClick={handleClear}
+            onClick={() => setShowClearConfirm(true)}
             className="text-xs text-zinc-400 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-1"
           >
             <Trash size={12} />
@@ -103,6 +106,15 @@ export function HistoryPanel() {
           </div>
         </AnimatePresence>
       )}
+
+      <ConfirmDialog
+        isOpen={showClearConfirm}
+        title="Clear Query History"
+        message="Are you sure you want to clear all query history? This action cannot be undone."
+        confirmLabel="Clear History"
+        onConfirm={handleClear}
+        onCancel={() => setShowClearConfirm(false)}
+      />
     </div>
   );
 }

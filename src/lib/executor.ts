@@ -14,8 +14,8 @@ type RecordValue = string | number | boolean | null | undefined;
 export function executeQuery(
   state: QueryState,
   schema: Schema,
-  data: any[]
-): { results: any[]; executionTimeMs: number } {
+  data: Record<string, unknown>[]
+): { results: Record<string, unknown>[]; executionTimeMs: number } {
   const start = performance.now();
 
   const results = data.filter((record) =>
@@ -30,7 +30,7 @@ function evaluateGroup(
   state: QueryState,
   schema: Schema,
   groupId: string,
-  record: any
+  record: Record<string, unknown>
 ): boolean {
   const group = state.groups[groupId];
   if (!group || group.children.length === 0) return true; // Empty groups match all
@@ -54,7 +54,7 @@ function evaluateGroup(
 function evaluateRule(
   rule: Rule,
   schema: Schema,
-  record: any
+  record: Record<string, unknown>
 ): boolean {
   const fieldSchema = schema[rule.field];
   if (!fieldSchema) return true;
@@ -92,17 +92,34 @@ function evaluateRule(
         .toLowerCase()
         .startsWith(String(ruleValue).toLowerCase());
 
+    case 'endsWith':
+      return String(coercedRecordValue ?? '')
+        .toLowerCase()
+        .endsWith(String(ruleValue).toLowerCase());
+
     case 'greaterThan':
       if (fieldSchema.type === 'date') {
         return new Date(String(coercedRecordValue)) > new Date(String(ruleValue));
       }
       return Number(coercedRecordValue) > Number(ruleValue);
 
+    case 'greaterThanOrEquals':
+      if (fieldSchema.type === 'date') {
+        return new Date(String(coercedRecordValue)) >= new Date(String(ruleValue));
+      }
+      return Number(coercedRecordValue) >= Number(ruleValue);
+
     case 'lessThan':
       if (fieldSchema.type === 'date') {
         return new Date(String(coercedRecordValue)) < new Date(String(ruleValue));
       }
       return Number(coercedRecordValue) < Number(ruleValue);
+
+    case 'lessThanOrEquals':
+      if (fieldSchema.type === 'date') {
+        return new Date(String(coercedRecordValue)) <= new Date(String(ruleValue));
+      }
+      return Number(coercedRecordValue) <= Number(ruleValue);
 
     case 'between': {
       const ruleValue2 = coerceValue(rule.value2, fieldSchema.type);
