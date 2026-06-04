@@ -57,7 +57,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
       style={style}
       className={cn(
         "relative flex flex-col gap-3 p-4 rounded-2xl transition-all duration-300 flashlight-card",
-        "bg-white/60 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700",
+        "bg-white/60 dark:bg-white/[0.03] border border-zinc-200 dark:border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]",
         depth === 0
           ? "shadow-[0_1px_3px_hsl(0_0%_63%/0.06),0_4px_6px_hsl(0_0%_63%/0.04)] dark:shadow-[0_1px_3px_hsl(0_0%_5%/0.3)]"
           : "ml-4 shadow-sm",
@@ -67,7 +67,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
     >
       {/* Vertical guide line for nested groups */}
       {depth > 0 && (
-        <div className="absolute -left-4 top-0 bottom-0 w-px bg-zinc-200 dark:bg-zinc-700">
+        <div className="absolute -left-4 top-0 bottom-0 w-px bg-zinc-200 dark:bg-white/10">
           <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-blue-400/0 via-blue-400/50 to-blue-400/0 animate-beam" />
         </div>
       )}
@@ -98,13 +98,13 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
           </button>
 
           {/* AND / OR toggle */}
-          <div className="flex bg-zinc-100 dark:bg-zinc-700/50 p-0.5 rounded-lg border border-zinc-200/50 dark:border-zinc-600/50">
+          <div className="flex bg-zinc-100 dark:bg-black/50 p-0.5 rounded-lg border border-zinc-200/50 dark:border-white/10">
             <button
               onClick={() => updateGroupType(id, 'AND')}
               className={cn(
                 "px-3 py-1 text-xs font-semibold rounded-md transition-all duration-200",
                 group.type === 'AND'
-                  ? "bg-white dark:bg-zinc-600 text-blue-600 dark:text-blue-400 shadow-sm"
+                  ? "bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               )}
             >
@@ -115,7 +115,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
               className={cn(
                 "px-3 py-1 text-xs font-semibold rounded-md transition-all duration-200",
                 group.type === 'OR'
-                  ? "bg-white dark:bg-zinc-600 text-blue-600 dark:text-blue-400 shadow-sm"
+                  ? "bg-white dark:bg-white/10 text-blue-600 dark:text-blue-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                   : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
               )}
             >
@@ -134,13 +134,13 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
         <div className="flex flex-wrap items-center gap-2 mt-3 sm:mt-0">
           <button
             onClick={() => addRule(id)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 hover:border-zinc-300 dark:hover:border-zinc-500 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98]"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-lg hover:bg-zinc-50 dark:hover:bg-white/10 hover:border-zinc-300 dark:hover:border-white/20 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
           >
             <Plus size={16} /> Rule
           </button>
           <button
             onClick={() => addGroup(id)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-600 hover:border-zinc-300 dark:hover:border-zinc-500 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98]"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 dark:text-zinc-200 bg-white dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-lg hover:bg-zinc-50 dark:hover:bg-white/10 hover:border-zinc-300 dark:hover:border-white/20 transition-all shadow-sm hover:shadow hover:scale-[1.02] active:scale-[0.98] shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]"
           >
             <Layers size={16} /> Group
           </button>
@@ -173,7 +173,7 @@ export const GroupNode = memo(function GroupNode({ id, depth }: GroupNodeProps) 
           >
             <SortableContext items={group.children} strategy={verticalListSortingStrategy}>
               {group.children.length === 0 ? (
-                <div className="p-8 border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-xl flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 gap-2">
+                <div className="p-8 border-2 border-dashed border-zinc-200 dark:border-white/10 rounded-xl flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 gap-2">
                   <p className="text-sm font-medium">No conditions yet</p>
                   <p className="text-xs">Add a rule or group to start building your query</p>
                 </div>

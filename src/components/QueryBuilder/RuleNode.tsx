@@ -61,7 +61,7 @@ const operatorsByFieldType: Record<string, { label: string; value: RuleOperator 
 };
 
 const inputBaseClass =
-  "px-3 py-1.5 bg-zinc-50 dark:bg-zinc-700/50 border border-zinc-200 dark:border-zinc-600 rounded-lg text-sm text-slate-700 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all hover:bg-zinc-100 dark:hover:bg-zinc-700";
+  "px-3 py-1.5 bg-zinc-50 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-lg text-sm text-slate-700 dark:text-zinc-200 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 dark:focus:border-blue-400 transition-all hover:bg-zinc-100 dark:hover:bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.02)]";
 
 export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
   const rule = useQueryStore((s) => s.rules[id]);
@@ -106,10 +106,10 @@ export const RuleNode = memo(function RuleNode({ id, depth }: RuleNodeProps) {
       style={style}
       className={cn(
         "relative flex flex-wrap sm:flex-nowrap items-center gap-3 p-3 rounded-xl shadow-sm group transition-all duration-200 flashlight-card",
-        "bg-white dark:bg-zinc-800 border",
+        "bg-white dark:bg-[#0a0a0a] border shadow-[inset_0_1px_0_rgba(255,255,255,0.5)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]",
         isDragging
           ? "opacity-50 z-50 border-blue-400 dark:border-blue-500 shadow-md scale-[1.02]"
-          : "border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-600 hover:shadow-md",
+          : "border-zinc-200 dark:border-white/10 hover:border-zinc-300 dark:hover:border-white/20 hover:shadow-md",
         error && "border-red-300 dark:border-red-500/50"
       )}
       onMouseMove={handleMouseMove}

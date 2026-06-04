@@ -93,7 +93,7 @@ const StatCounter = ({ target, label, suffix = '' }: { target: number | string; 
   }, [target]);
 
   return (
-    <div className="bg-white dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 rounded-2xl p-6 text-center shadow-md hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300">
+    <div className="bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/10 rounded-2xl p-6 text-center shadow-md dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300">
       <div className="font-heading text-3xl md:text-4xl font-extrabold text-slate-950 dark:text-white mb-1">
         {typeof target === 'string' ? target : count.toLocaleString()}{suffix}
       </div>
@@ -212,7 +212,7 @@ export default function Home() {
       </div>
 
       {/* ─── Top Nav ─── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-[var(--background)]/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-zinc-800/50">
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-[var(--background)]/80 backdrop-blur-md border-b border-zinc-200/50 dark:border-white/10">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="hero-element">
             <Link href="/" className="focus:outline-none">
@@ -237,6 +237,7 @@ export default function Home() {
       </nav>
 
       {/* ─── Hero Section ─── */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[600px] opacity-0 dark:opacity-100 pointer-events-none z-0" style={{ background: 'radial-gradient(ellipse at top, rgba(59, 130, 246, 0.15), transparent 70%)' }} />
       <section
         ref={heroRef}
         className="relative z-10 pt-36 pb-20 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center"
@@ -285,20 +286,20 @@ export default function Home() {
 
         {/* Hero Right side: Mock card preview */}
         <div className="hero-element hero-visual blur-in w-full max-w-md mx-auto" style={{ animationDelay: '0.3s' }}>
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-2xl hover:translate-y-[-6px] transition-all duration-500">
-            <div className="flex items-center justify-between mb-4 border-b border-zinc-100 dark:border-zinc-800 pb-3">
+          <div className="bg-white dark:bg-[#050505] border border-zinc-200 dark:border-white/10 rounded-3xl p-6 shadow-2xl dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] hover:translate-y-[-6px] transition-all duration-500">
+            <div className="flex items-center justify-between mb-4 border-b border-zinc-100 dark:border-white/10 pb-3">
               <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">Live Preview</span>
               <span className="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-400 text-[10px] font-bold">SQL</span>
             </div>
 
             {/* Simulated Query tree */}
             <div className="flex flex-col gap-2.5 mb-5">
-              <div className="flex gap-2 p-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
+              <div className="flex gap-2 p-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
                 <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full text-[10px]">age</span>
                 <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full text-[10px]">&gt; greaterThan</span>
                 <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">18</span>
               </div>
-              <div className="flex gap-2 p-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
+              <div className="flex gap-2 p-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
                 <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full text-[10px]">country</span>
                 <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full text-[10px]">= equals</span>
                 <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">&quot;Nigeria&quot;</span>
@@ -309,7 +310,7 @@ export default function Home() {
                 OR GROUP
               </div>
 
-              <div className="ml-4 pl-3 border-l-2 border-purple-400 flex gap-2 p-2 bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/50 dark:border-zinc-800 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
+              <div className="ml-4 pl-3 border-l-2 border-purple-400 flex gap-2 p-2 bg-zinc-50 dark:bg-white/5 border border-zinc-200/50 dark:border-white/10 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300">
                 <span className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full text-[10px]">status</span>
                 <span className="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 px-2 py-0.5 rounded-full text-[10px]">= equals</span>
                 <span className="bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">&quot;active&quot;</span>
@@ -332,7 +333,7 @@ export default function Home() {
       </section>
 
       {/* ─── Logos strip ─── */}
-      <div className="logos-section bg-white dark:bg-zinc-900/50 border-y border-zinc-200 dark:border-zinc-800 py-10 px-6">
+      <div className="logos-section bg-white dark:bg-black/50 border-y border-zinc-200 dark:border-white/5 py-10 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-6">
             Trusted in engineering workflows at

@@ -240,7 +240,7 @@ export function ResultsPane({
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className="flex gap-4 px-4 py-3 border-b border-zinc-100 dark:border-zinc-800 last:border-0"
+                className="flex gap-4 px-4 py-3 border-b border-zinc-100 dark:border-white/10 last:border-0"
               >
                 {columns.map((col) => (
                   <div
@@ -258,7 +258,7 @@ export function ResultsPane({
       {/* Empty state */}
       {!isLoading && hasExecuted && results.length === 0 && (
         <div className="surface-base rounded-xl p-12 flex flex-col items-center justify-center gap-3 text-center">
-          <div className="p-4 bg-zinc-100 dark:bg-zinc-800 rounded-2xl">
+          <div className="p-4 bg-zinc-100 dark:bg-white/10 rounded-2xl">
             <Database size={32} className="text-zinc-400 dark:text-zinc-500" />
           </div>
           <h3 className="heading text-[18px] text-slate-700 dark:text-zinc-300">
@@ -292,7 +292,7 @@ export function ResultsPane({
             <div className="overflow-x-auto custom-scrollbar">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/50">
+                  <tr className="border-b border-zinc-200 dark:border-white/10 bg-zinc-50/50 dark:bg-white/5">
                     {columns.map((col) => (
                       <th
                         key={col.key}
@@ -317,8 +317,8 @@ export function ResultsPane({
                       <tr
                         key={rowKey}
                         className={cn(
-                          'border-b border-zinc-100 dark:border-zinc-800 last:border-0 transition-colors',
-                          'hover:bg-zinc-50/80 dark:hover:bg-zinc-800/30',
+                          'border-b border-zinc-100 dark:border-white/10 last:border-0 transition-colors',
+                          'hover:bg-zinc-50/80 dark:hover:bg-white/5',
                           idx % 2 === 0 ? 'bg-white dark:bg-zinc-900' : 'bg-zinc-50/30 dark:bg-zinc-900/50'
                         )}
                       >
@@ -350,7 +350,7 @@ export function ResultsPane({
                   setPageSize(Number(e.target.value));
                   setPage(1);
                 }}
-                className="px-2 py-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="px-2 py-1 bg-white dark:bg-white/10 border border-zinc-200 dark:border-white/10 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
               >
                 {PAGE_SIZES.map((s) => (
                   <option key={s} value={s}>
@@ -368,28 +368,28 @@ export function ResultsPane({
               <button
                 onClick={() => setPage(1)}
                 disabled={page === 1}
-                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronsLeft size={16} />
               </button>
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft size={16} />
               </button>
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight size={16} />
               </button>
               <button
                 onClick={() => setPage(totalPages)}
                 disabled={page === totalPages}
-                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronsRight size={16} />
               </button>

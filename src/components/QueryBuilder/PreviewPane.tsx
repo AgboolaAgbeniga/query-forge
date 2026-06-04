@@ -39,17 +39,17 @@ export function PreviewPane() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-slate-900 dark:bg-zinc-950 rounded-2xl border border-zinc-800 dark:border-zinc-800 shadow-2xl overflow-hidden text-slate-300">
+    <div className="flex flex-col h-full bg-slate-900 dark:bg-[#0a0a0a] rounded-2xl border border-zinc-800 dark:border-white/10 shadow-2xl overflow-hidden text-slate-300">
       {/* Tab bar */}
-      <div className="flex items-center justify-between gap-2 border-b border-zinc-800 dark:border-zinc-800 p-2 bg-slate-950 dark:bg-black/50 flex-wrap">
+      <div className="flex items-center justify-between gap-2 border-b border-zinc-800 dark:border-white/10 p-2 bg-slate-950 dark:bg-black/50 flex-wrap">
         <div className="flex items-center gap-1 min-w-0 flex-shrink">
           <button
             onClick={() => setActiveTab('sql')}
             className={cn(
               "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
               activeTab === 'sql'
-                ? "bg-slate-800 dark:bg-zinc-800 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-zinc-800/50"
+                ? "bg-slate-800 dark:bg-white/10 text-white shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-white/10"
             )}
           >
             <Database size={14} />
@@ -60,8 +60,8 @@ export function PreviewPane() {
             className={cn(
               "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
               activeTab === 'mongo'
-                ? "bg-slate-800 dark:bg-zinc-800 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-zinc-800/50"
+                ? "bg-slate-800 dark:bg-white/10 text-white shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-white/10"
             )}
           >
             <Code2 size={14} />
@@ -72,8 +72,8 @@ export function PreviewPane() {
             className={cn(
               "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200",
               activeTab === 'graphql'
-                ? "bg-slate-800 dark:bg-zinc-800 text-white shadow-sm"
-                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-zinc-800/50"
+                ? "bg-slate-800 dark:bg-white/10 text-white shadow-sm"
+                : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 dark:hover:bg-white/10"
             )}
           >
             <Braces size={14} />
@@ -107,7 +107,7 @@ export function PreviewPane() {
       </div>
 
       {/* Status bar */}
-      <div className="flex items-center justify-between px-4 py-2 border-t border-zinc-800 dark:border-zinc-800 bg-slate-950/50 dark:bg-black/30">
+      <div className="flex items-center justify-between px-4 py-2 border-t border-zinc-800 dark:border-white/10 bg-slate-950/50 dark:bg-black/30">
         <span className="text-[11px] text-zinc-500 font-mono">
           {activeTab === 'sql' ? 'SQL' : activeTab === 'mongo' ? 'MongoDB' : 'GraphQL'} • {activeQuery.length} chars
         </span>
